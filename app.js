@@ -628,7 +628,8 @@ async function generateAI() {
       currentSalary: document.getElementById('neg-current').value,
       strengths: document.getElementById('neg-strengths').value
     }
-  }
+
+  } else if (currentAIType === 'report') {
     const totalRevenue = deals.reduce((s, d) => s + (d.deal_value || 0), 0)
     const totalExpected = deals.reduce((s, d) => s + (d.expected_commission || 0), 0)
     const totalReceived = deals.reduce((s, d) => s + (d.amount_received || 0), 0)
