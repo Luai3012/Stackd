@@ -515,7 +515,7 @@ async function generateAI() {
     // Show result
     loading.style.display = 'none'
     result.style.display = 'block'
-    document.getElementById('ai-result-text').textContent = json.result
+    document.getElementById('ai-result-text').innerHTML = formatAIResult(json.result, currentAIType)
 
   } catch (err) {
     loading.style.display = 'none'
@@ -529,12 +529,44 @@ function regenerateAI() {
   document.getElementById('ai-generate-btn').style.display = 'block'
 }
 
+// Converts plain AI text into clean formatted HTML
+function formatAIResult(text, type) {
+  if (!text) return ''
+
+  let html = text
+
+  // Convert numbered section headers like "1. Executive Summary" into styled headings
+  html = html.replace(/^(\d+\.\s+)([^\n]+)/gm, (match, num, title) => {
+    return `<div class="ai-section-title">${num}${title}</div>`
+  })
+
+  // Convert markdown-style bold **text** to <strong>
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+
+  // Convert bullet points — lines starting with - or •
+  html = html.replace(/^[\-•]\s+(.+)/gm, '<li>$1</li>')
+  html = html.replace(/(<li>.*<\/li>(\n|$))+/gs, match => `<ul>${match}</ul>`)
+
+  // Convert double line breaks to paragraph breaks
+  html = html.replace(/\n\n+/g, '</p><p>')
+
+  // Convert single line breaks to <br> inside paragraphs
+  html = html.replace(/\n/g, '<br>')
+
+  // Wrap everything in a paragraph if not already wrapped
+  if (!html.startsWith('<')) html = `<p>${html}</p>`
+  html = html.replace(/<p><\/p>/g, '')
+
+  return html
+}
+
 function copyAIResult() {
-  const text = document.getElementById('ai-result-text').textContent
+  // Copy plain text version for pasting into email
+  const el = document.getElementById('ai-result-text')
+  const text = el.innerText || el.textContent
   navigator.clipboard.writeText(text).then(() => {
     showToast('Copied to clipboard!')
   }).catch(() => {
-    // Fallback for older browsers
     const textarea = document.createElement('textarea')
     textarea.value = text
     document.body.appendChild(textarea)
@@ -546,8 +578,10 @@ function copyAIResult() {
 }
 
 function printAIResult() {
-  const text = document.getElementById('ai-result-text').textContent
+  const el = document.getElementById('ai-result-text')
+  const html = el.innerHTML
   const title = document.getElementById('ai-modal-title').textContent
+  const user = document.getElementById('nav-user').textContent || 'Stackd User'
   const win = window.open('', '_blank')
   win.document.write(`
     <!DOCTYPE html>
@@ -555,22 +589,77 @@ function printAIResult() {
     <head>
       <title>${title} — Stackd</title>
       <style>
-        body { font-family: -apple-system, sans-serif; max-width: 700px; margin: 3rem auto; padding: 0 2rem; color: #1a1a1a; line-height: 1.75; }
-        h1 { font-size: 22px; font-weight: 600; margin-bottom: 0.5rem; }
-        .meta { font-size: 13px; color: #888; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee; }
-        pre { white-space: pre-wrap; font-family: inherit; font-size: 14px; }
-        @media print { body { margin: 1rem; } }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          max-width: 720px;
+          margin: 0 auto;
+          padding: 3rem 2rem;
+          color: #1a1a1a;
+          line-height: 1.75;
+          font-size: 14px;
+        }
+        .report-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          margin-bottom: 2rem;
+          padding-bottom: 1.5rem;
+          border-bottom: 2px solid #1D9E75;
+        }
+        .report-logo { font-size: 20px; font-weight: 600; letter-spacing: -0.5px; color: #1a1a1a; }
+        .report-logo span { color: #1D9E75; }
+        .report-meta { text-align: right; font-size: 12px; color: #888; line-height: 1.6; }
+        .report-title { font-size: 26px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 2rem; }
+        .ai-section-title {
+          font-size: 13px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: #1D9E75;
+          margin: 1.75rem 0 0.6rem;
+          padding-bottom: 0.4rem;
+          border-bottom: 0.5px solid #E8EAED;
+        }
+        p { margin-bottom: 0.75rem; color: #3C4043; }
+        ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
+        li { margin-bottom: 0.35rem; color: #3C4043; }
+        strong { color: #1a1a1a; font-weight: 600; }
+        .report-footer {
+          margin-top: 3rem;
+          padding-top: 1rem;
+          border-top: 0.5px solid #E8EAED;
+          font-size: 11px;
+          color: #aaa;
+          display: flex;
+          justify-content: space-between;
+        }
+        @media print {
+          body { padding: 1.5rem; }
+          .report-header { margin-bottom: 1.5rem; }
+        }
       </style>
     </head>
     <body>
-      <h1>${title}</h1>
-      <div class="meta">Generated by Stackd · ${new Date().toLocaleDateString()}</div>
-      <pre>${text}</pre>
+      <div class="report-header">
+        <div class="report-logo">stack<span>d</span></div>
+        <div class="report-meta">
+          ${user}<br>
+          ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}<br>
+          getstackd.app
+        </div>
+      </div>
+      <div class="report-title">${title}</div>
+      ${html}
+      <div class="report-footer">
+        <span>Generated by Stackd AI</span>
+        <span>Confidential — for personal use only</span>
+      </div>
     </body>
     </html>
   `)
   win.document.close()
-  win.print()
+  setTimeout(() => win.print(), 500)
 }
 
 // ============================================
