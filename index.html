@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stackd — Your deals. Your numbers. Always clear.</title>
+  <meta name="description" content="Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday. Built for sales reps, BDRs, and account managers." />
+  <meta property="og:title" content="Stackd — Your deals. Your numbers. Always clear." />
+  <meta property="og:description" content="Track your commissions, detect gaps, and walk into every payout conversation prepared." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://getstackd.app" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231D9E75'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='600' fill='white'>S</text></svg>" />
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="landing.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="logo">stack<span>d</span></a>
+  <button class="nav-hamburger" id="nav-toggle" aria-label="Open menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <a href="#features" class="nav-link" onclick="closeMobileNav()">Features</a>
+    <a href="#pricing" class="nav-link" onclick="closeMobileNav()">Pricing</a>
+    <a href="support.html" class="nav-link">Support</a>
+    <div class="nav-actions">
+      <a href="app.html" class="btn btn-ghost">Sign in</a>
+      <a href="#waitlist" class="btn btn-primary" onclick="closeMobileNav()">Join waitlist</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">For sales reps, BDRs &amp; account managers</div>
+    <h1>Your deals. Your numbers.<br><em>Always clear.</em></h1>
+    <p class="hero-sub">Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday — so you always walk in prepared.</p>
+    <div class="hero-actions">
+      <a href="#waitlist" class="btn btn-primary btn-lg">Join the waitlist — it's free</a>
+      <a href="app.html" class="btn btn-outline btn-lg">Open the app</a>
+    </div>
+    <p class="hero-proof">Free to start &nbsp;·&nbsp; No credit card required &nbsp;·&nbsp; <strong>Works alongside any CRM</strong></p>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<div class="preview-wrap">
+  <div class="preview-browser">
+    <div class="preview-bar">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-amber"></div>
+      <div class="dot dot-green"></div>
+      <div class="preview-url">getstackd.app/dashboard</div>
+    </div>
+    <div class="preview-inner">
+      <div class="preview-metrics">
+        <div class="p-card"><div class="p-label">Expected</div><div class="p-val">$4,820</div><div class="p-sub positive">↑ 12% vs last month</div></div>
+        <div class="p-card"><div class="p-label">Received</div><div class="p-val">$4,480</div><div class="p-sub warning">1 payout pending</div></div>
+        <div class="p-card"><div class="p-label">Gap</div><div class="p-val negative">$340</div><div class="p-sub negative">1 disputed deal</div></div>
+      </div>
+      <div class="preview-deals">
+        <div class="p-row"><div><div class="p-name">Marriott MENA expansion</div><div class="p-client">Marriott International</div></div><div class="p-right"><span class="badge badge-closed">Closed</span><span class="gap-ok">✓</span></div></div>
+        <div class="p-row"><div><div class="p-name">Corporate travel block</div><div class="p-client">HSBC Jordan</div></div><div class="p-right"><span class="badge badge-pending">Pending</span></div></div>
+        <div class="p-row no-border"><div><div class="p-name">F&amp;B partnership Q2</div><div class="p-client">Zara Foods Group</div></div><div class="p-right"><span class="badge badge-disputed">Disputed</span><span class="gap-neg">-$320</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section section-alt" id="features">
+  <div class="section-inner">
+    <div class="eyebrow">What Stackd does</div>
+    <h2>Built for the rep, not the company.</h2>
+    <p class="section-sub">Every tool in your stack was built for your manager. Stackd is the first one built for you.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Deal tracking</div>
+        <div class="feature-desc">Log every deal with value, rate, and expected commission. Your personal source of truth, always up to date.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚠️</div>
+        <div class="feature-title">Gap detection</div>
+        <div class="feature-desc">Stackd compares what you're owed vs what you received and flags discrepancies the moment they appear.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✉️</div>
+        <div class="feature-title">AI dispute drafts</div>
+        <div class="feature-desc">One click generates a professional, measured message to your manager — factual, not emotional.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-title">Quota attainment</div>
+        <div class="feature-desc">See exactly where you stand against target at any point in the month, quarter, or year.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <div class="feature-title">Earnings trends</div>
+        <div class="feature-desc">Month-over-month charts so you can spot patterns, plan better, and show your value at review time.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💼</div>
+        <div class="feature-title">Career coach</div>
+        <div class="feature-desc">AI-powered interview prep built from your real deal history. Coming soon on the Career plan.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="eyebrow">How it works</div>
+    <h2>Up and running in minutes.</h2>
+    <p class="section-sub">No integrations. No IT approvals. No CRM access required.</p>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Set up your comp plan</div>
+        <div class="step-desc">Enter your commission rate and quota target once. Stackd remembers it and uses it on every deal.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Log your deals</div>
+        <div class="step-desc">Add each deal as you close it — value, client, and status. Takes 30 seconds per deal.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Track what you're owed</div>
+        <div class="step-desc">Stackd calculates your expected commission and watches for gaps every pay cycle.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title">Act with confidence</div>
+        <div class="step-desc">Walk into every payout conversation with your numbers, not theirs.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section section-alt" id="pricing">
+  <div class="section-inner">
+    <div class="eyebrow">Pricing</div>
+    <h2>Simple. No surprises.</h2>
+    <p class="section-sub">Start free. Upgrade when Stackd saves you more than it costs — which usually happens in month one.</p>
+    <div class="guarantee-badge">
+      <span class="guarantee-icon">🛡</span>
+      <span>7-day money back guarantee — not happy in your first week, we'll refund you in full. No questions, no hassle.</span>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0<span>/month</span></div>
+        <div class="plan-desc">Perfect for getting started and validating your numbers.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span>Up to 5 deals per month</li>
+          <li><span class="check">✓</span>Gap detection</li>
+          <li><span class="check">✓</span>Quota tracker</li>
+          <li><span class="check">✓</span>Basic dashboard</li>
+        </ul>
+        <a href="app.html" class="btn btn-outline btn-full">Get started</a>
+      </div>
+      <div class="plan-card plan-featured">
+        <div class="plan-badge">Most popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$19<span>/month</span></div>
+        <div class="plan-desc">For reps serious about tracking every dollar and growing fast.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span>Unlimited deals</li>
+          <li><span class="check">✓</span>AI dispute messages</li>
+          <li><span class="check">✓</span>Earnings trend charts</li>
+          <li><span class="check">✓</span>Export to CSV</li>
+          <li><span class="check">✓</span>Priority support</li>
+        </ul>
+        <a href="#waitlist" class="btn btn-primary btn-full">Join waitlist</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Career</div>
+        <div class="plan-price">$29<span>/month</span></div>
+        <div class="plan-desc">Everything in Pro plus AI-powered career coaching.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span>Everything in Pro</li>
+          <li><span class="check">✓</span>AI interview coach</li>
+          <li><span class="check">✓</span>STAR answer generator</li>
+          <li><span class="check">✓</span>LinkedIn profile audit</li>
+          <li><span class="check">✓</span>Salary negotiation scripts</li>
+        </ul>
+        <a href="#waitlist" class="btn btn-outline btn-full">Join waitlist</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="section waitlist-section" id="waitlist">
+  <div class="section-inner text-center">
+    <div class="eyebrow">Early access</div>
+    <h2>Be first to stack your commissions.</h2>
+    <p class="section-sub">Join the waitlist and get 3 months of Pro free when we launch.</p>
+    <div class="waitlist-form">
+      <input type="email" id="wl-email" placeholder="your@email.com" />
+      <button class="btn btn-primary" onclick="joinWaitlist()">Join</button>
+    </div>
+    <div class="waitlist-success" id="wl-success">You're on the list — we'll be in touch soon.</div>
+    <p class="waitlist-count"><strong id="wl-count">47</strong> sales reps already waiting.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">stack<span>d</span></a>
+      <p class="footer-tagline">Built for the rep.</p>
+    </div>
+    <div class="footer-links-group">
+      <div class="footer-col">
+        <div class="footer-col-title">Product</div>
+        <a href="#features" class="footer-link">Features</a>
+        <a href="#pricing" class="footer-link">Pricing</a>
+        <a href="app.html" class="footer-link">Sign in</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Company</div>
+        <a href="support.html" class="footer-link">Support</a>
+        <a href="privacy.html" class="footer-link">Privacy</a>
+        <a href="terms.html" class="footer-link">Terms</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Stackd. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- COOKIE NOTICE -->
+<div class="cookie-banner" id="cookie-banner">
+  <p>We use essential cookies to keep you signed in. <a href="privacy.html">Learn more</a></p>
+  <button class="btn btn-primary btn-sm" onclick="acceptCookies()">Got it</button>
+</div>
+
+<script>
+function toggleMobileNav() {
+  const links = document.getElementById('nav-links');
+  const toggle = document.getElementById('nav-toggle');
+  links.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('nav-links').classList.remove('open');
+  document.getElementById('nav-toggle').classList.remove('open');
+}
+function joinWaitlist() {
+  const email = document.getElementById('wl-email').value.trim();
+  if (!email || !email.includes('@')) { document.getElementById('wl-email').focus(); return; }
+  document.getElementById('wl-email').value = '';
+  document.getElementById('wl-success').style.display = 'block';
+  const n = parseInt(document.getElementById('wl-count').textContent) + 1;
+  document.getElementById('wl-count').textContent = n;
+}
+function acceptCookies() {
+  document.getElementById('cookie-banner').style.display = 'none';
+  localStorage.setItem('cookies-accepted', '1');
+}
+if (!localStorage.getItem('cookies-accepted')) {
+  document.getElementById('cookie-banner').style.display = 'flex';
+}
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+// Sticky nav shadow on scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stackd — Dashboard</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231D9E75'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='600' fill='white'>S</text></svg>" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<!-- ===================== AUTH SCREEN ===================== -->
+<div id="auth-screen" style="display:none;">
+  <div class="auth-page">
+    <div class="auth-card">
+      <a href="index.html" class="logo auth-logo">stack<span>d</span></a>
+      <p class="auth-tagline">Your deals. Your numbers. Always clear.</p>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="showAuthTab('login')">Sign in</button>
+        <button class="auth-tab" id="tab-signup" onclick="showAuthTab('signup')">Sign up</button>
+      </div>
+
+      <!-- LOGIN -->
+      <div id="form-login">
+        <div class="form-field">
+          <label class="form-label">Email</label>
+          <input type="email" id="login-email" placeholder="you@example.com" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Password</label>
+          <input type="password" id="login-password" placeholder="Your password" />
+        </div>
+        <button class="btn btn-primary btn-full" onclick="signIn()">Sign in</button>
+        <p class="auth-link" onclick="showAuthTab('forgot')">Forgot your password?</p>
+      </div>
+
+      <!-- SIGNUP -->
+      <div id="form-signup" style="display:none;">
+        <div class="form-field">
+          <label class="form-label">Full name</label>
+          <input type="text" id="signup-name" placeholder="Your name" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Email</label>
+          <input type="email" id="signup-email" placeholder="you@example.com" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Password</label>
+          <input type="password" id="signup-password" placeholder="At least 6 characters" />
+        </div>
+        <button class="btn btn-primary btn-full" onclick="signUp()">Create account</button>
+        <p class="auth-legal">By signing up you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+      </div>
+
+      <!-- FORGOT PASSWORD -->
+      <div id="form-forgot" style="display:none;">
+        <p class="auth-desc">Enter your email and we'll send you a reset link.</p>
+        <div class="form-field">
+          <label class="form-label">Email</label>
+          <input type="email" id="forgot-email" placeholder="you@example.com" />
+        </div>
+        <button class="btn btn-primary btn-full" onclick="sendPasswordReset()">Send reset link</button>
+        <p class="auth-link" onclick="showAuthTab('login')">← Back to sign in</p>
+      </div>
+
+      <p class="auth-feedback error" id="auth-error"></p>
+      <p class="auth-feedback success" id="auth-success"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== RESET SCREEN ===================== -->
+<div id="reset-screen" style="display:none;">
+  <div class="auth-page">
+    <div class="auth-card">
+      <a href="index.html" class="logo auth-logo">stack<span>d</span></a>
+      <h2 class="auth-heading">Set your new password</h2>
+      <div class="form-field">
+        <label class="form-label">New password</label>
+        <input type="password" id="new-password" placeholder="At least 6 characters" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Confirm password</label>
+        <input type="password" id="confirm-password" placeholder="Same password again" />
+      </div>
+      <button class="btn btn-primary btn-full" onclick="updatePassword()">Update password</button>
+      <p class="auth-feedback error" id="reset-error"></p>
+      <p class="auth-feedback success" id="reset-success"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== APP SCREEN ===================== -->
+<div id="app-screen" style="display:none;">
+
+  <!-- APP NAV -->
+  <nav class="nav app-nav" id="app-nav">
+    <a href="index.html" class="logo">stack<span>d</span></a>
+    <button class="nav-hamburger" id="app-nav-toggle" onclick="toggleAppNav()">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="app-nav-center" id="app-nav-links">
+      <button class="app-tab-btn active" id="nav-dashboard" onclick="showAppTab('dashboard')">Dashboard</button>
+      <button class="app-tab-btn" id="nav-settings" onclick="showAppTab('settings')">Settings</button>
+    </div>
+    <div class="app-nav-right" id="app-nav-right">
+      <span class="nav-user-name" id="nav-user"></span>
+      <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
+    </div>
+  </nav>
+
+  <!-- SETUP BANNER -->
+  <div id="setup-banner" class="setup-banner" style="display:none;">
+    <div class="setup-inner">
+      <div class="setup-text">
+        <strong>Welcome to Stackd!</strong>
+        Set up your comp plan so we can calculate your commissions automatically.
+      </div>
+      <div class="setup-fields">
+        <div class="setup-field">
+          <label class="form-label">Commission rate (%)</label>
+          <input type="number" id="setup-rate" placeholder="e.g. 8" style="width:160px;" />
+        </div>
+        <div class="setup-field">
+          <label class="form-label">Monthly quota ($)</label>
+          <input type="number" id="setup-quota" placeholder="e.g. 50000" style="width:180px;" />
+        </div>
+        <button class="btn btn-primary" onclick="saveCompPlan()">Save and continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD TAB -->
+  <div id="tab-dashboard" class="app-tab">
+    <div class="app-container">
+
+      <!-- METRICS -->
+      <div class="metrics-grid" id="metrics-grid">
+        <div class="metric-card skeleton-wrap" id="metric-expected">
+          <div class="metric-label">Expected this month</div>
+          <div class="metric-value" id="m-expected">—</div>
+          <div class="metric-sub" id="m-expected-sub"></div>
+        </div>
+        <div class="metric-card" id="metric-received">
+          <div class="metric-label">Received</div>
+          <div class="metric-value" id="m-received">—</div>
+          <div class="metric-sub" id="m-received-sub"></div>
+        </div>
+        <div class="metric-card" id="metric-gap">
+          <div class="metric-label">Gap</div>
+          <div class="metric-value" id="m-gap">—</div>
+          <div class="metric-sub" id="m-gap-sub"></div>
+        </div>
+        <div class="metric-card" id="metric-quota">
+          <div class="metric-label">Quota attainment</div>
+          <div class="metric-value" id="m-quota">—</div>
+          <div class="metric-sub" id="m-quota-sub"></div>
+        </div>
+      </div>
+
+      <!-- QUOTA BAR -->
+      <div class="quota-wrap">
+        <div class="quota-bar-track">
+          <div class="quota-bar-fill" id="quota-bar" style="width:0%"></div>
+        </div>
+        <div class="quota-labels">
+          <span id="quota-closed-label">$0 closed</span>
+          <span id="quota-target-label">Target: —</span>
+        </div>
+      </div>
+
+      <!-- ALERTS -->
+      <div id="alerts-section" style="display:none;">
+        <div class="row-header">
+          <span class="section-label">Alerts</span>
+        </div>
+        <div id="alerts-list" class="alerts-box"></div>
+      </div>
+
+      <!-- DEALS -->
+      <div class="row-header">
+        <span class="section-label">All deals</span>
+        <div class="row-header-actions">
+          <button class="btn btn-ghost btn-sm" onclick="exportCSV()">Export CSV</button>
+          <button class="btn btn-outline btn-sm" onclick="toggleAddForm()">+ Log deal</button>
+        </div>
+      </div>
+
+      <!-- ADD FORM -->
+      <div id="add-form" class="add-form" style="display:none;">
+        <div class="add-form-grid">
+          <div class="form-field">
+            <label class="form-label">Deal name <span class="required">*</span></label>
+            <input type="text" id="f-name" placeholder="e.g. Acme Corp renewal" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Client</label>
+            <input type="text" id="f-client" placeholder="Company name" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Deal value ($) <span class="required">*</span></label>
+            <input type="number" id="f-value" placeholder="0" min="0" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Commission rate (%)</label>
+            <input type="number" id="f-rate" placeholder="Uses your default" min="0" max="100" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Amount received ($)</label>
+            <input type="number" id="f-received" placeholder="0" min="0" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Status</label>
+            <select id="f-status">
+              <option value="pending">Pending</option>
+              <option value="closed">Closed</option>
+              <option value="disputed">Disputed</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Close date</label>
+            <input type="date" id="f-date" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Notes</label>
+            <input type="text" id="f-notes" placeholder="Optional context" />
+          </div>
+        </div>
+        <p class="form-error" id="form-error"></p>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="toggleAddForm()">Cancel</button>
+          <button class="btn btn-primary" id="save-deal-btn" onclick="addDeal()">Save deal</button>
+        </div>
+      </div>
+
+      <!-- DEALS TABLE -->
+      <div class="deals-table">
+        <div class="deals-head">
+          <div>Deal</div>
+          <div>Value</div>
+          <div>Expected</div>
+          <div>Received</div>
+          <div>Status</div>
+          <div>Gap</div>
+          <div></div>
+        </div>
+        <div id="deals-body">
+          <div class="loading-state"><div class="spinner"></div> Loading deals...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SETTINGS TAB -->
+  <div id="tab-settings" class="app-tab" style="display:none;">
+    <div class="app-container" style="max-width:640px;">
+
+      <div class="settings-block">
+        <div class="settings-block-title">Profile</div>
+        <div class="form-field">
+          <label class="form-label">Full name</label>
+          <input type="text" id="settings-name" placeholder="Your name" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">Email address</label>
+          <input type="email" id="settings-email" disabled />
+          <p class="field-hint">Contact support to change your email address.</p>
+        </div>
+        <div class="form-field">
+          <label class="form-label">New password <span class="hint-inline">(leave blank to keep current)</span></label>
+          <input type="password" id="settings-password" placeholder="New password" />
+        </div>
+      </div>
+
+      <div class="settings-block">
+        <div class="settings-block-title">Comp plan</div>
+        <div class="settings-two-col">
+          <div class="form-field">
+            <label class="form-label">Commission rate (%)</label>
+            <input type="number" id="settings-rate" placeholder="e.g. 8" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Quota target ($)</label>
+            <input type="number" id="settings-quota" placeholder="e.g. 50000" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Currency</label>
+          <select id="settings-currency">
+            <option value="USD">USD — US Dollar</option>
+            <option value="EUR">EUR — Euro</option>
+            <option value="GBP">GBP — British Pound</option>
+            <option value="JOD">JOD — Jordanian Dinar</option>
+            <option value="AED">AED — UAE Dirham</option>
+            <option value="SAR">SAR — Saudi Riyal</option>
+            <option value="EGP">EGP — Egyptian Pound</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="saveSettings()">Save changes</button>
+
+      <div class="settings-block danger-block">
+        <div class="settings-block-title danger-title">Account</div>
+        <p class="settings-desc">Signing out will end your current session. Your data is safely stored in the cloud and will be here when you return.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDeleteAccount()">Delete account</button>
+        </div>
+      </div>
+
+      <div class="settings-block" style="border-color:rgba(29,158,117,0.2);background:var(--green-light);">
+        <div class="settings-block-title" style="color:var(--green-dark);border-color:rgba(29,158,117,0.2);">7-day guarantee</div>
+        <p class="settings-desc" style="color:var(--green-dark);">Not happy with your subscription within the first 7 days? Email <a href="mailto:support@getstackd.app" style="color:var(--green-dark);font-weight:600;">support@getstackd.app</a> and we'll refund you in full — no questions, no hassle.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stackd — Your deals. Your numbers. Always clear.</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #1D9E75; --green-light: #E1F5EE; --green-dark: #0F6E56;
+      --gray-50: #F8F9FA; --gray-100: #F1F3F4; --gray-200: #E8EAED;
+      --gray-600: #5F6368; --gray-900: #1A1A1A;
+      --border: rgba(0,0,0,0.08); --radius: 8px; --radius-lg: 12px;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: var(--gray-900); font-size: 15px; line-height: 1.6; }
+
+    /* NAV */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: #fff; z-index: 10; }
+    .logo { font-size: 20px; font-weight: 500; letter-spacing: -0.5px; text-decoration: none; color: var(--gray-900); }
+    .logo span { color: var(--green); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-link { font-size: 14px; color: var(--gray-600); text-decoration: none; }
+    .nav-link:hover { color: var(--gray-900); }
+    .btn { padding: 8px 20px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-block; }
+    .btn-primary { background: var(--green); color: #fff; border: none; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-outline { background: transparent; color: var(--gray-900); border: 0.5px solid var(--border); }
+    .btn-outline:hover { background: var(--gray-50); }
+
+    /* HERO */
+    .hero { max-width: 760px; margin: 0 auto; padding: 5rem 2rem 4rem; text-align: center; }
+    .eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; }
+    h1 { font-size: 48px; font-weight: 500; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1.25rem; color: var(--gray-900); }
+    h1 em { font-style: normal; color: var(--green); }
+    .hero-sub { font-size: 18px; color: var(--gray-600); line-height: 1.6; max-width: 520px; margin: 0 auto 2rem; }
+    .hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 1rem; }
+    .hero-proof { font-size: 13px; color: var(--gray-600); }
+    .hero-proof strong { color: var(--gray-900); }
+
+    /* PREVIEW */
+    .preview-wrap { max-width: 780px; margin: 0 auto 5rem; padding: 0 2rem; }
+    .preview-browser { border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .preview-bar { display: flex; align-items: center; gap: 6px; padding: 10px 16px; background: var(--gray-100); border-bottom: 0.5px solid var(--border); }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .url { font-size: 12px; color: var(--gray-600); background: #fff; padding: 3px 12px; border-radius: 20px; border: 0.5px solid var(--border); margin-left: 8px; }
+    .preview-inner { padding: 1.5rem; background: var(--gray-50); }
+    .preview-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
+    .p-card { background: #fff; border-radius: var(--radius); padding: 1rem; border: 0.5px solid var(--border); }
+    .p-label { font-size: 11px; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+    .p-val { font-size: 22px; font-weight: 500; }
+    .p-sub { font-size: 11px; margin-top: 3px; }
+    .preview-deals { background: #fff; border-radius: var(--radius-lg); border: 0.5px solid var(--border); overflow: hidden; }
+    .p-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+    .p-row:last-child { border-bottom: none; }
+    .p-name { font-weight: 500; }
+    .p-client { font-size: 11px; color: var(--gray-600); }
+    .badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+    .badge-closed { background: var(--green-light); color: var(--green-dark); }
+    .badge-pending { background: #FAEEDA; color: #854F0B; }
+    .badge-disputed { background: #FCEBEB; color: #A32D2D; }
+    .gap-neg { color: #D85A30; font-size: 12px; font-weight: 500; }
+    .gap-ok { color: var(--green); font-size: 12px; }
+
+    /* FEATURES */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 900px; margin: 0 auto; }
+    h2 { font-size: 32px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
+    .section-sub { font-size: 16px; color: var(--gray-600); margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .feature { padding: 1.75rem; background: #fff; }
+    .feature-icon { font-size: 24px; margin-bottom: 0.75rem; }
+    .feature-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+    .feature-desc { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+
+    /* STEPS */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; }
+    .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; color: var(--green-dark); margin-bottom: 1rem; }
+    .step-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+    .step-desc { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+
+    /* PRICING */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .plan { background: #fff; border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem; }
+    .plan.featured { border: 2px solid var(--green); }
+    .plan-badge { font-size: 11px; font-weight: 500; background: var(--green-light); color: var(--green-dark); padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 1rem; }
+    .plan-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .plan-price { font-size: 32px; font-weight: 500; line-height: 1; margin-bottom: 4px; }
+    .plan-price span { font-size: 14px; font-weight: 400; color: var(--gray-600); }
+    .plan-desc { font-size: 13px; color: var(--gray-600); margin-bottom: 1.25rem; }
+    .plan-features { list-style: none; margin-bottom: 1.5rem; }
+    .plan-features li { font-size: 13px; color: var(--gray-600); padding: 5px 0; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; gap: 8px; }
+    .plan-features li:last-child { border-bottom: none; }
+    .check { color: var(--green); font-weight: 500; }
+    .plan-btn { width: 100%; padding: 10px; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
+    .plan-btn-primary { background: var(--green); color: #fff; border: none; }
+    .plan-btn-primary:hover { opacity: 0.9; }
+    .plan-btn-outline { background: transparent; color: var(--gray-900); border: 0.5px solid var(--border); }
+    .plan-btn-outline:hover { background: var(--gray-50); }
+
+    /* WAITLIST */
+    .waitlist-section { background: var(--gray-50); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); text-align: center; }
+    .waitlist-form { display: flex; gap: 8px; max-width: 420px; margin: 0 auto 0.75rem; }
+    .waitlist-form input { flex: 1; padding: 10px 14px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; font-family: inherit; outline: none; }
+    .waitlist-form input:focus { border-color: var(--green); }
+    .waitlist-count { font-size: 13px; color: var(--gray-600); }
+    .waitlist-count strong { color: var(--gray-900); }
+    .waitlist-success { font-size: 13px; color: var(--green-dark); margin-top: 8px; font-weight: 500; display: none; }
+
+    /* FOOTER */
+    footer { padding: 2rem; border-top: 0.5px solid var(--border); }
+    .footer-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-link { font-size: 13px; color: var(--gray-600); text-decoration: none; }
+    .footer-link:hover { color: var(--gray-900); }
+    .footer-copy { font-size: 12px; color: var(--gray-600); }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 32px; }
+      .preview-metrics { grid-template-columns: 1fr 1fr; }
+      nav { flex-wrap: wrap; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">stack<span>d</span></a>
+  <div class="nav-links">
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#pricing" class="nav-link">Pricing</a>
+    <a href="support.html" class="nav-link">Support</a>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <a href="app.html" class="btn btn-outline">Sign in</a>
+    <a href="#waitlist" class="btn btn-primary">Join waitlist</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">For sales reps, BDRs & account managers</div>
+  <h1>Your deals. Your numbers.<br><em>Always clear.</em></h1>
+  <p class="hero-sub">Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday — so you always walk in prepared.</p>
+  <div class="hero-actions">
+    <a href="#waitlist" class="btn btn-primary">Join the waitlist — it's free</a>
+    <a href="app.html" class="btn btn-outline">Sign in</a>
+  </div>
+  <p class="hero-proof">Free to start &nbsp;·&nbsp; No credit card required &nbsp;·&nbsp; <strong>Works alongside any CRM</strong></p>
+</div>
+
+<!-- DASHBOARD PREVIEW -->
+<div class="preview-wrap">
+  <div class="preview-browser">
+    <div class="preview-bar">
+      <div class="dot" style="background:#E24B4A;"></div>
+      <div class="dot" style="background:#EF9F27;"></div>
+      <div class="dot" style="background:#1D9E75;"></div>
+      <div class="url">getstackd.app/dashboard</div>
+    </div>
+    <div class="preview-inner">
+      <div class="preview-metrics">
+        <div class="p-card"><div class="p-label">Expected</div><div class="p-val">$4,820</div><div class="p-sub" style="color:#1D9E75;">↑ 12% vs last month</div></div>
+        <div class="p-card"><div class="p-label">Received</div><div class="p-val">$4,480</div><div class="p-sub" style="color:#BA7517;">1 payout pending</div></div>
+        <div class="p-card"><div class="p-label">Gap</div><div class="p-val" style="color:#D85A30;">$340</div><div class="p-sub" style="color:#D85A30;">1 disputed deal</div></div>
+      </div>
+      <div class="preview-deals">
+        <div class="p-row"><div><div class="p-name">Marriott MENA expansion</div><div class="p-client">Marriott International</div></div><div style="display:flex;align-items:center;gap:8px;"><span class="badge badge-closed">Closed</span><span class="gap-ok">✓</span></div></div>
+        <div class="p-row"><div><div class="p-name">Corporate travel block</div><div class="p-client">HSBC Jordan</div></div><div style="display:flex;align-items:center;gap:8px;"><span class="badge badge-pending">Pending</span></div></div>
+        <div class="p-row"><div><div class="p-name">F&B partnership Q2</div><div class="p-client">Zara Foods Group</div></div><div style="display:flex;align-items:center;gap:8px;"><span class="badge badge-disputed">Disputed</span><span class="gap-neg">-$320</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features" style="background:var(--gray-50);border-top:0.5px solid var(--border);">
+  <div class="section-inner">
+    <div class="eyebrow">What Stackd does</div>
+    <h2>Built for the rep, not the company.</h2>
+    <p class="section-sub">Every tool in your stack was built for your manager. Stackd is the first one built for you.</p>
+    <div class="features-grid">
+      <div class="feature"><div class="feature-icon">📊</div><div class="feature-title">Deal tracking</div><div class="feature-desc">Log every deal with value, rate, and expected commission. Your personal source of truth.</div></div>
+      <div class="feature"><div class="feature-icon">⚠️</div><div class="feature-title">Gap detection</div><div class="feature-desc">Stackd compares what you're owed vs what you received and flags discrepancies automatically.</div></div>
+      <div class="feature"><div class="feature-icon">✉️</div><div class="feature-title">AI dispute drafts</div><div class="feature-desc">One click generates a professional, measured message to your manager — factual, not emotional.</div></div>
+      <div class="feature"><div class="feature-icon">🎯</div><div class="feature-title">Quota attainment</div><div class="feature-desc">See exactly where you stand against your target at any point in the month or quarter.</div></div>
+      <div class="feature"><div class="feature-icon">📈</div><div class="feature-title">Earnings trends</div><div class="feature-desc">Month-over-month charts so you can spot patterns and show your value at review time.</div></div>
+      <div class="feature"><div class="feature-icon">💼</div><div class="feature-title">Career coach</div><div class="feature-desc">AI-powered interview prep built from your real deal history. Coming soon on Career plan.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-inner">
+    <div class="eyebrow">How it works</div>
+    <h2>Up and running in minutes.</h2>
+    <p class="section-sub">No integrations. No IT approvals. No CRM access required.</p>
+    <div class="steps">
+      <div><div class="step-num">1</div><div class="step-title">Set up your comp plan</div><div class="step-desc">Enter your commission rate and quota target once. Stackd remembers it forever.</div></div>
+      <div><div class="step-num">2</div><div class="step-title">Log your deals</div><div class="step-desc">Add each deal as you close it — value, client, and status. Takes 30 seconds.</div></div>
+      <div><div class="step-num">3</div><div class="step-title">Track what you're owed</div><div class="step-desc">Stackd calculates your expected commission and watches for gaps every pay cycle.</div></div>
+      <div><div class="step-num">4</div><div class="step-title">Act with confidence</div><div class="step-desc">Walk into every payout conversation with your numbers, not theirs.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="background:var(--gray-50);border-top:0.5px solid var(--border);">
+  <div class="section-inner">
+    <div class="eyebrow">Pricing</div>
+    <h2>Simple. No surprises.</h2>
+    <p class="section-sub">Start free. Upgrade when Stackd saves you more than it costs — which usually happens in month one.</p>
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0<span>/month</span></div>
+        <div class="plan-desc">Perfect for getting started.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span>Up to 5 deals/month</li>
+          <li><span class="check">✓</span>Gap detection</li>
+          <li><span class="check">✓</span>Quota tracker</li>
+          <li><span class="check">✓</span>Basic dashboard</li>
+        </ul>
+        <a href="#waitlist"><button class="plan-btn plan-btn-outline">Get started</button></a>
+      </div>
+      <div class="plan featured">
+        <div class="plan-badge">Most popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$19<span>/month</span></div>
+        <div class="plan-desc">For reps serious about every dollar.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span>Unlimited deals</li>
+          <li><span class="check">✓</span>AI dispute messages</li>
+          <li><span class="check">✓</span>Earnings trend charts</li>
+          <li><span class="check">✓</span>Export to CSV</li>
+          <li><span class="check">✓</span>Priority support</li>
+        </ul>
+        <a href="#waitlist"><button class="plan-btn plan-btn-primary">Join waitlist</button></a>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Career</div>
+        <div class="plan-price">$29<span>/month</span></div>
+        <div class="plan-desc">Everything in Pro plus career tools.</div>
+        <ul class="plan-features">
+          <li><span class="check">✓</span>Everything in Pro</li>
+          <li><span class="check">✓</span>AI interview coach</li>
+          <li><span class="check">✓</span>STAR answer generator</li>
+          <li><span class="check">✓</span>LinkedIn profile audit</li>
+          <li><span class="check">✓</span>Salary negotiation scripts</li>
+        </ul>
+        <a href="#waitlist"><button class="plan-btn plan-btn-outline">Join waitlist</button></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist" class="waitlist-section">
+  <div class="section-inner">
+    <div class="eyebrow">Early access</div>
+    <h2>Be first to stack your commissions.</h2>
+    <p class="section-sub">Join the waitlist and get 3 months of Pro free at launch.</p>
+    <div class="waitlist-form">
+      <input type="email" id="wl-email" placeholder="your@email.com" />
+      <button class="btn btn-primary" onclick="joinWaitlist()">Join</button>
+    </div>
+    <div class="waitlist-success" id="wl-success">You're on the list — we'll be in touch.</div>
+    <p class="waitlist-count"><strong id="wl-count">47 sales reps</strong> already waiting.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <a href="/" class="logo" style="font-size:16px;">stack<span>d</span></a>
+    <div class="footer-links">
+      <a href="support.html" class="footer-link">Support</a>
+      <a href="privacy.html" class="footer-link">Privacy</a>
+      <a href="terms.html" class="footer-link">Terms</a>
+    </div>
+    <p class="footer-copy">© 2026 Stackd. Built for the rep.</p>
+  </div>
+</footer>
+
+<script>
+function joinWaitlist() {
+  const email = document.getElementById('wl-email').value.trim()
+  if (!email || !email.includes('@')) return
+  document.getElementById('wl-email').value = ''
+  document.getElementById('wl-success').style.display = 'block'
+  const countEl = document.getElementById('wl-count')
+  const n = parseInt(countEl.textContent) + 1
+  countEl.textContent = n + ' sales reps'
+}
+</script>
+</body>
+</html>
