@@ -77,6 +77,88 @@ Write a professional performance report with the following sections:
 
 Keep the tone positive and professional. Use specific numbers throughout. This report may be used in performance reviews or job interviews. Format it cleanly with clear section headers.`
 
+  } else if (type === 'interview') {
+    prompt = `You are an expert career coach specialising in sales and business development roles. A professional is preparing for a job interview and needs help answering common interview questions tailored to their background.
+
+Job details:
+- Role applying for: ${data.role}
+- Company: ${data.company || 'the company'}
+- Job description highlights: ${data.jobDescription}
+- Candidate background: ${data.background || 'Sales and BD professional with experience in hospitality and luxury sectors'}
+- Years of experience: ${data.experience || 'several years'}
+
+Generate answers to these three most important interview questions for this role:
+1. "Tell me about yourself"
+2. "Why do you want this role?"
+3. "What is your biggest achievement in sales or BD?"
+
+For each answer:
+- Tailor it specifically to the job description provided
+- Keep each answer under 200 words
+- Make it confident, specific, and authentic
+- Use real-sounding language, not corporate buzzwords
+
+Format clearly with the question as a header followed by the answer.`
+
+  } else if (type === 'star') {
+    prompt = `You are an expert career coach. Transform the following experience into a perfect STAR format answer for a job interview.
+
+Details provided:
+- Situation: ${data.situation}
+- Role at the time: ${data.role || 'Sales / BD Professional'}
+- Target role applying for: ${data.targetRole || 'Sales or BD role'}
+
+Write a polished STAR answer with these four clearly labeled sections:
+1. Situation — set the scene concisely (2-3 sentences)
+2. Task — what was your specific responsibility (1-2 sentences)
+3. Action — what you did, step by step, focusing on YOUR actions (3-4 sentences)
+4. Result — quantified outcome where possible, what you learned (2-3 sentences)
+
+Keep the total answer under 250 words. Make it compelling and specific. Use first person. Sound natural, not rehearsed. This will be used verbatim in a job interview.`
+
+  } else if (type === 'linkedin') {
+    prompt = `You are a professional LinkedIn profile writer specialising in sales and business development professionals. Rewrite the following LinkedIn summary to be compelling, keyword-optimised, and authentic.
+
+Current summary:
+${data.currentSummary}
+
+Additional context:
+- Current role: ${data.currentRole || 'Sales / BD Professional'}
+- Target roles: ${data.targetRole || 'Sales, BD, or Account Management roles'}
+- Key achievements to highlight: ${data.achievements || 'Revenue generation, relationship building, quota attainment'}
+- Tone preference: ${data.tone || 'Professional but personable'}
+
+Write a new LinkedIn About section that:
+- Opens with a compelling hook (not "I am a...")
+- Highlights specific achievements with numbers where possible
+- Communicates what makes this person unique
+- Ends with a clear call to action
+- Is between 150-220 words
+- Uses natural, human language — not AI-sounding prose
+- Is optimised for recruiter searches in sales and BD
+
+Write only the About section text, ready to paste directly into LinkedIn.`
+
+  } else if (type === 'negotiation') {
+    prompt = `You are an expert salary negotiation coach. Write a professional salary negotiation script for a sales professional who has received a job offer.
+
+Offer details:
+- Offered salary: ${data.offeredSalary}
+- Target salary: ${data.targetSalary}
+- Role: ${data.role || 'Sales / BD role'}
+- Company: ${data.company || 'the company'}
+- Strengths to leverage: ${data.strengths || 'Strong track record, quota attainment, relevant experience'}
+- Current salary: ${data.currentSalary || 'not disclosed'}
+
+Write a negotiation script that includes:
+1. Opening — how to start the conversation confidently
+2. The ask — how to state the number clearly without apologising
+3. Justification — 2-3 specific reasons why the higher number is justified
+4. Handling pushback — what to say if they say the budget is fixed
+5. Closing — how to end the conversation positively regardless of outcome
+
+Keep it conversational and confident. No grovelling, no over-explaining. This person deserves the number they're asking for — the script should feel that way.`
+
   } else {
     return res.status(400).json({ error: 'Unknown feature type' })
   }
