@@ -27,7 +27,7 @@
     <a href="support.html" class="nav-link">Support</a>
     <div class="nav-actions">
       <a href="app.html" class="btn btn-ghost">Sign in</a>
-      <a href="#waitlist" class="btn btn-primary" onclick="closeMobileNav()">Join waitlist</a>
+      <a href="app.html" class="btn btn-primary" onclick="closeMobileNav()">Get started free</a>
     </div>
   </div>
 </nav>
@@ -39,8 +39,8 @@
     <h1>Your deals. Your numbers.<br><em>Always clear.</em></h1>
     <p class="hero-sub">Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday — so you always walk in prepared.</p>
     <div class="hero-actions">
-      <a href="#waitlist" class="btn btn-primary btn-lg">Join the waitlist — it's free</a>
-      <a href="app.html" class="btn btn-outline btn-lg">Open the app</a>
+      <a href="app.html" class="btn btn-primary btn-lg">Get started free</a>
+      <a href="#pricing" class="btn btn-outline btn-lg">See pricing</a>
     </div>
     <p class="hero-proof">Free to start &nbsp;·&nbsp; No credit card required &nbsp;·&nbsp; <strong>Works alongside any CRM</strong></p>
   </div>
@@ -163,7 +163,7 @@
           <li><span class="check">✓</span>Quota tracker</li>
           <li><span class="check">✓</span>Basic dashboard</li>
         </ul>
-        <a href="app.html" class="btn btn-outline btn-full">Get started</a>
+        <a href="app.html" class="btn btn-outline btn-full">Get started free</a>
       </div>
       <div class="plan-card plan-featured">
         <div class="plan-badge">Most popular</div>
@@ -177,7 +177,7 @@
           <li><span class="check">✓</span>Export to CSV</li>
           <li><span class="check">✓</span>Priority support</li>
         </ul>
-        <a href="#waitlist" class="btn btn-primary btn-full">Join waitlist</a>
+        <a href="app.html" class="btn btn-primary btn-full" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
       </div>
       <div class="plan-card">
         <div class="plan-name">Career</div>
@@ -190,24 +190,23 @@
           <li><span class="check">✓</span>LinkedIn profile audit</li>
           <li><span class="check">✓</span>Salary negotiation scripts</li>
         </ul>
-        <a href="#waitlist" class="btn btn-outline btn-full">Join waitlist</a>
+        <a href="app.html" class="btn btn-outline btn-full" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WAITLIST -->
+<!-- CTA -->
 <section class="section waitlist-section" id="waitlist">
   <div class="section-inner text-center">
-    <div class="eyebrow">Early access</div>
-    <h2>Be first to stack your commissions.</h2>
-    <p class="section-sub">Join the waitlist and get 3 months of Pro free when we launch.</p>
-    <div class="waitlist-form">
-      <input type="email" id="wl-email" placeholder="your@email.com" />
-      <button class="btn btn-primary" onclick="joinWaitlist()">Join</button>
+    <div class="eyebrow">Get started today</div>
+    <h2>Start stacking your commissions.</h2>
+    <p class="section-sub">Free to start. Upgrade when you're ready. No credit card required for the free plan.</p>
+    <div class="hero-actions" style="justify-content:center;">
+      <a href="app.html" class="btn btn-primary btn-lg">Create free account</a>
+      <a href="#pricing" class="btn btn-outline btn-lg">See pricing</a>
     </div>
-    <div class="waitlist-success" id="wl-success">You're on the list — we'll be in touch soon.</div>
-    <p class="waitlist-count"><strong id="wl-count">47</strong> sales reps already waiting.</p>
+    <p class="hero-proof" style="margin-top:1rem;">7-day money back guarantee on all paid plans &nbsp;·&nbsp; Cancel anytime</p>
   </div>
 </section>
 
