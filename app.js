@@ -378,7 +378,7 @@ function renderAlerts() {
           <div class="alert-title">Commission gap — "${escHtml(d.name)}"</div>
           <div class="alert-desc">You were paid $${Math.round(d.amount_received).toLocaleString()} but expected $${Math.round(d.expected_commission).toLocaleString()} — a shortfall of $${Math.round(d.gap).toLocaleString()}.</div>
           <div class="alert-actions">
-            <button class="btn-alert" onclick="draftDispute('${escHtml(d.name)}', ${Math.round(d.gap)}, ${Math.round(d.amount_received)}, ${Math.round(d.expected_commission)})">Draft dispute message</button>
+            <button class="btn-alert" onclick="openDisputeFromAlert('${d.id}')">Draft dispute email with AI</button>
           </div>
         </div>
       </div>`),
@@ -394,17 +394,191 @@ function renderAlerts() {
 }
 
 // ============================================
-// DISPUTE MESSAGE
+// AI MODAL
 // ============================================
-function draftDispute(dealName, gap, received, expected) {
-  const msg = `Hi [Manager's name],\n\nI wanted to flag a discrepancy on my commission for "${dealName}".\n\nBased on my records, my expected commission was $${expected.toLocaleString()}, but I received $${received.toLocaleString()} — a gap of $${gap.toLocaleString()}.\n\nI've double-checked this against my deal log and wanted to bring it to your attention in case it's a processing error. Could we find 10 minutes to reconcile this, or I'm happy to share my records directly?\n\nThanks,\n[Your name]`
-  const textarea = document.createElement('textarea')
-  textarea.value = msg
-  document.body.appendChild(textarea)
-  textarea.select()
-  document.execCommand('copy')
-  document.body.removeChild(textarea)
-  showToast('Dispute message copied to clipboard!')
+let currentAIType = null
+let currentAIData = null
+
+function openAIModal(type, dealData = null) {
+  currentAIType = type
+  currentAIData = dealData
+
+  // Reset modal state
+  document.getElementById('ai-loading').style.display = 'none'
+  document.getElementById('ai-result').style.display = 'none'
+  document.getElementById('ai-generate-btn').style.display = 'block'
+  document.getElementById('ai-result-text').textContent = ''
+
+  // Hide all input sections
+  ;['dispute','raise','report'].forEach(t => {
+    document.getElementById(`ai-${t}-inputs`).style.display = 'none'
+  })
+
+  // Show relevant inputs and set title
+  const titles = {
+    dispute: 'Draft dispute email',
+    raise: 'Request a raise',
+    report: 'Performance report'
+  }
+  document.getElementById('ai-modal-title').textContent = titles[type]
+  document.getElementById(`ai-${type}-inputs`).style.display = 'block'
+
+  // Show modal
+  document.getElementById('ai-modal-backdrop').style.display = 'block'
+  document.getElementById('ai-modal').style.display = 'block'
+  document.body.style.overflow = 'hidden'
+}
+
+function closeAIModal() {
+  document.getElementById('ai-modal-backdrop').style.display = 'none'
+  document.getElementById('ai-modal').style.display = 'none'
+  document.body.style.overflow = ''
+}
+
+async function generateAI() {
+  const btn = document.getElementById('ai-generate-btn')
+  const loading = document.getElementById('ai-loading')
+  const result = document.getElementById('ai-result')
+
+  // Build data payload based on type
+  let data = {}
+
+  if (currentAIType === 'dispute') {
+    // Find the most recent disputed deal if no specific deal passed
+    const deal = currentAIData || deals.find(d => d.status === 'disputed' && d.gap > 0)
+    if (!deal) { showToast('No disputed deals found.', 'error'); return }
+    data = {
+      dealName: deal.name,
+      client: deal.client,
+      expected: Math.round(deal.expected_commission),
+      received: Math.round(deal.amount_received),
+      gap: Math.round(deal.gap),
+      tone: document.getElementById('dispute-tone').value
+    }
+
+  } else if (currentAIType === 'raise') {
+    const totalRevenue = deals.reduce((s, d) => s + (d.deal_value || 0), 0)
+    const totalExpected = deals.reduce((s, d) => s + (d.expected_commission || 0), 0)
+    const quota = compPlan?.quota_target || 0
+    const attainment = quota > 0 ? Math.round((totalRevenue / quota) * 100) : 0
+    const avgDeal = deals.length > 0 ? Math.round(totalRevenue / deals.length) : 0
+    data = {
+      totalRevenue: Math.round(totalRevenue).toLocaleString(),
+      quotaAttainment: attainment,
+      dealCount: deals.length,
+      avgDealSize: avgDeal.toLocaleString(),
+      role: document.getElementById('raise-role').value || 'Sales / BD Professional',
+      timeSinceRaise: document.getElementById('raise-time').value || 'over 12 months',
+      context: document.getElementById('raise-context').value
+    }
+
+  } else if (currentAIType === 'report') {
+    const totalRevenue = deals.reduce((s, d) => s + (d.deal_value || 0), 0)
+    const totalExpected = deals.reduce((s, d) => s + (d.expected_commission || 0), 0)
+    const totalReceived = deals.reduce((s, d) => s + (d.amount_received || 0), 0)
+    const quota = compPlan?.quota_target || 0
+    const attainment = quota > 0 ? Math.round((totalRevenue / quota) * 100) : 0
+    const topDeal = deals.sort((a, b) => b.deal_value - a.deal_value)[0]
+    data = {
+      totalDeals: deals.length,
+      totalRevenue: Math.round(totalRevenue).toLocaleString(),
+      totalExpected: Math.round(totalExpected).toLocaleString(),
+      totalReceived: Math.round(totalReceived).toLocaleString(),
+      totalGap: Math.round(Math.max(totalExpected - totalReceived, 0)).toLocaleString(),
+      quotaTarget: Math.round(quota).toLocaleString(),
+      quotaAttainment: attainment,
+      disputedDeals: deals.filter(d => d.status === 'disputed').length,
+      pendingDeals: deals.filter(d => d.status === 'pending').length,
+      topDeal: topDeal ? `${topDeal.name} ($${Math.round(topDeal.deal_value).toLocaleString()})` : 'N/A',
+      period: document.getElementById('report-period').value
+    }
+  }
+
+  // Show loading
+  btn.style.display = 'none'
+  loading.style.display = 'block'
+  result.style.display = 'none'
+
+  try {
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: currentAIType, data })
+    })
+
+    const json = await response.json()
+
+    if (!response.ok || json.error) {
+      throw new Error(json.error || 'Generation failed')
+    }
+
+    // Show result
+    loading.style.display = 'none'
+    result.style.display = 'block'
+    document.getElementById('ai-result-text').textContent = json.result
+
+  } catch (err) {
+    loading.style.display = 'none'
+    btn.style.display = 'block'
+    showToast(err.message || 'Something went wrong. Please try again.', 'error')
+  }
+}
+
+function regenerateAI() {
+  document.getElementById('ai-result').style.display = 'none'
+  document.getElementById('ai-generate-btn').style.display = 'block'
+}
+
+function copyAIResult() {
+  const text = document.getElementById('ai-result-text').textContent
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Copied to clipboard!')
+  }).catch(() => {
+    // Fallback for older browsers
+    const textarea = document.createElement('textarea')
+    textarea.value = text
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textarea)
+    showToast('Copied to clipboard!')
+  })
+}
+
+function printAIResult() {
+  const text = document.getElementById('ai-result-text').textContent
+  const title = document.getElementById('ai-modal-title').textContent
+  const win = window.open('', '_blank')
+  win.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>${title} — Stackd</title>
+      <style>
+        body { font-family: -apple-system, sans-serif; max-width: 700px; margin: 3rem auto; padding: 0 2rem; color: #1a1a1a; line-height: 1.75; }
+        h1 { font-size: 22px; font-weight: 600; margin-bottom: 0.5rem; }
+        .meta { font-size: 13px; color: #888; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #eee; }
+        pre { white-space: pre-wrap; font-family: inherit; font-size: 14px; }
+        @media print { body { margin: 1rem; } }
+      </style>
+    </head>
+    <body>
+      <h1>${title}</h1>
+      <div class="meta">Generated by Stackd · ${new Date().toLocaleDateString()}</div>
+      <pre>${text}</pre>
+    </body>
+    </html>
+  `)
+  win.document.close()
+  win.print()
+}
+
+// ============================================
+// Opens AI modal with deal pre-filled from alert
+function openDisputeFromAlert(dealId) {
+  const deal = deals.find(d => d.id === dealId)
+  if (!deal) return
+  openAIModal('dispute', deal)
 }
 
 // ============================================
