@@ -239,6 +239,13 @@ if (window.location.search.includes('upgraded=true')) {
   }, 2000)
 }
 
+// Handle upgrade intent from landing page
+const upgradeIntent = localStorage.getItem('upgrade_intent')
+if (upgradeIntent) {
+  localStorage.removeItem('upgrade_intent')
+  setTimeout(() => openUpgradeModal(upgradeIntent), 1500)
+}
+
 // ============================================
 // ============================================
 async function loadCompPlan() {
