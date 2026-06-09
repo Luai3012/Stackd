@@ -191,7 +191,14 @@ function updatePlanUI() {
     }
   }
 
-  // Gate unlimited deals for free users
+  // Gate Career features for free and pro users
+  document.querySelectorAll('.career-feature').forEach(btn => {
+    if (userPlan !== 'career') {
+      btn.style.opacity = '0.5'
+      btn.title = 'Available on Career plan — $29/month'
+      btn.onclick = () => openUpgradeModal('career')
+    }
+  })
   if (userPlan === 'free' && deals.length >= 5) {
     const addBtn = document.querySelector('.btn-outline.btn-sm')
     if (addBtn && addBtn.textContent.includes('Log deal')) {
@@ -512,15 +519,20 @@ function openAIModal(type, dealData = null) {
   document.getElementById('ai-result-text').textContent = ''
 
   // Hide all input sections
-  ;['dispute','raise','report'].forEach(t => {
-    document.getElementById(`ai-${t}-inputs`).style.display = 'none'
+  ;['dispute','raise','report','interview','star','linkedin','negotiation'].forEach(t => {
+    const el = document.getElementById(`ai-${t}-inputs`)
+    if (el) el.style.display = 'none'
   })
 
   // Show relevant inputs and set title
   const titles = {
     dispute: 'Draft dispute email',
     raise: 'Request a raise',
-    report: 'Performance report'
+    report: 'Performance report',
+    interview: 'Interview coach',
+    star: 'STAR answer generator',
+    linkedin: 'LinkedIn profile audit',
+    negotiation: 'Salary negotiation script'
   }
   document.getElementById('ai-modal-title').textContent = titles[type]
   document.getElementById(`ai-${type}-inputs`).style.display = 'block'
@@ -574,7 +586,49 @@ async function generateAI() {
       context: document.getElementById('raise-context').value
     }
 
-  } else if (currentAIType === 'report') {
+  } else if (currentAIType === 'interview') {
+    const role = document.getElementById('interview-role').value
+    const jd = document.getElementById('interview-jd').value
+    if (!role || !jd) { showToast('Role and job description are required.', 'error'); return }
+    data = {
+      role,
+      company: document.getElementById('interview-company').value,
+      jobDescription: jd,
+      background: document.getElementById('interview-background').value,
+      experience: document.getElementById('interview-experience').value
+    }
+
+  } else if (currentAIType === 'star') {
+    const situation = document.getElementById('star-situation').value
+    if (!situation) { showToast('Please describe the situation.', 'error'); return }
+    data = {
+      situation,
+      role: document.getElementById('star-role').value,
+      targetRole: document.getElementById('star-target').value
+    }
+
+  } else if (currentAIType === 'linkedin') {
+    data = {
+      currentSummary: document.getElementById('linkedin-current').value || 'No existing summary provided — write from scratch.',
+      currentRole: document.getElementById('linkedin-role').value,
+      targetRole: document.getElementById('linkedin-target').value,
+      achievements: document.getElementById('linkedin-achievements').value,
+      tone: document.getElementById('linkedin-tone').value
+    }
+
+  } else if (currentAIType === 'negotiation') {
+    const offered = document.getElementById('neg-offered').value
+    const target = document.getElementById('neg-target').value
+    if (!offered || !target) { showToast('Offered salary and target are required.', 'error'); return }
+    data = {
+      offeredSalary: offered,
+      targetSalary: target,
+      role: document.getElementById('neg-role').value,
+      company: document.getElementById('neg-company').value,
+      currentSalary: document.getElementById('neg-current').value,
+      strengths: document.getElementById('neg-strengths').value
+    }
+  }
     const totalRevenue = deals.reduce((s, d) => s + (d.deal_value || 0), 0)
     const totalExpected = deals.reduce((s, d) => s + (d.expected_commission || 0), 0)
     const totalReceived = deals.reduce((s, d) => s + (d.amount_received || 0), 0)
