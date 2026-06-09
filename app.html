@@ -7,6 +7,7 @@
   <meta name="robots" content="noindex" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231D9E75'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='600' fill='white'>S</text></svg>" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <link rel="stylesheet" href="shared.css" />
   <link rel="stylesheet" href="app.css" />
 </head>
@@ -110,6 +111,7 @@
       <button class="app-tab-btn" id="nav-settings" onclick="showAppTab('settings')">Settings</button>
     </div>
     <div class="app-nav-right" id="app-nav-right">
+      <span class="nav-plan-badge" id="plan-badge">Free</span>
       <span class="nav-user-name" id="nav-user"></span>
       <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
     </div>
@@ -321,7 +323,19 @@
 
       <button class="btn btn-primary" onclick="saveSettings()">Save changes</button>
 
-      <div class="settings-block danger-block">
+      <div class="settings-block">
+        <div class="settings-block-title">Plan</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div style="font-size:15px;font-weight:600;" id="settings-plan-name">Free plan</div>
+            <div style="font-size:13px;color:var(--gray-600);margin-top:2px;" id="settings-plan-desc">Up to 5 deals per month</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-outline btn-sm" onclick="openUpgradeModal('pro')">Upgrade to Pro — $19/mo</button>
+            <button class="btn btn-primary btn-sm" onclick="openUpgradeModal('career')">Career — $29/mo</button>
+          </div>
+        </div>
+      </div>
         <div class="settings-block-title danger-title">Account</div>
         <p class="settings-desc">Signing out will end your current session. Your data is safely stored in the cloud and will be here when you return.</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
