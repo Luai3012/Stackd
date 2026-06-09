@@ -186,7 +186,7 @@
       </div>
 
       <!-- AI ACTIONS BAR -->
-      <div class="ai-actions-bar">
+      <div class="ai-actions-bar" id="ai-actions-bar">
         <span class="ai-actions-label">✦ AI</span>
         <button class="btn-ai" onclick="openAIModal('dispute')" id="btn-dispute">
           <span class="btn-ai-icon">⚠️</span> Draft dispute email
@@ -196,6 +196,18 @@
         </button>
         <button class="btn-ai" onclick="openAIModal('report')">
           <span class="btn-ai-icon">📄</span> Performance report
+        </button>
+        <button class="btn-ai career-feature" onclick="openAIModal('interview')">
+          <span class="btn-ai-icon">🎯</span> Interview coach
+        </button>
+        <button class="btn-ai career-feature" onclick="openAIModal('star')">
+          <span class="btn-ai-icon">⭐</span> STAR answer
+        </button>
+        <button class="btn-ai career-feature" onclick="openAIModal('linkedin')">
+          <span class="btn-ai-icon">💼</span> LinkedIn audit
+        </button>
+        <button class="btn-ai career-feature" onclick="openAIModal('negotiation')">
+          <span class="btn-ai-icon">💰</span> Salary negotiation
         </button>
       </div>
 
@@ -346,7 +358,7 @@
 
       <div class="settings-block" style="border-color:rgba(29,158,117,0.2);background:var(--green-light);">
         <div class="settings-block-title" style="color:var(--green-dark);border-color:rgba(29,158,117,0.2);">7-day guarantee</div>
-        <p class="settings-desc" style="color:var(--green-dark);">Not happy with your subscription within the first 7 days? Email <a href="mailto:support@wearestackd.net" style="color:var(--green-dark);font-weight:600;">support@wearestackd.net</a> and we'll refund you in full — no questions, no hassle.</p>
+        <p class="settings-desc" style="color:var(--green-dark);">Not happy with your subscription within the first 7 days? Email <a href="mailto:support@getstackd.app" style="color:var(--green-dark);font-weight:600;">support@getstackd.app</a> and we'll refund you in full — no questions, no hassle.</p>
       </div>
 
     </div>
@@ -402,6 +414,110 @@
         <option value="this year">This year</option>
         <option value="all time">All time</option>
       </select>
+    </div>
+  </div>
+
+  <div id="ai-interview-inputs" style="display:none;">
+    <p class="ai-modal-desc">Claude will write tailored interview answers based on the job you're applying for.</p>
+    <div class="ai-input-grid">
+      <div class="form-field">
+        <label class="form-label">Role you're applying for <span class="required">*</span></label>
+        <input type="text" id="interview-role" placeholder="e.g. Account Executive" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Company</label>
+        <input type="text" id="interview-company" placeholder="e.g. Salesforce" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Years of experience</label>
+        <input type="text" id="interview-experience" placeholder="e.g. 5 years" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Your background summary</label>
+        <input type="text" id="interview-background" placeholder="e.g. BD in luxury hospitality, moved into tech" />
+      </div>
+      <div class="form-field" style="grid-column:span 2;">
+        <label class="form-label">Key points from job description <span class="required">*</span></label>
+        <input type="text" id="interview-jd" placeholder="e.g. Hunter role, SaaS sales, enterprise clients, quota $1M+" />
+      </div>
+    </div>
+  </div>
+
+  <div id="ai-star-inputs" style="display:none;">
+    <p class="ai-modal-desc">Describe a situation from your career and Claude will turn it into a perfect STAR answer.</p>
+    <div class="ai-input-grid">
+      <div class="form-field">
+        <label class="form-label">Your role at the time</label>
+        <input type="text" id="star-role" placeholder="e.g. BD Associate at Marriott" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Role you're interviewing for</label>
+        <input type="text" id="star-target" placeholder="e.g. Account Executive" />
+      </div>
+      <div class="form-field" style="grid-column:span 2;">
+        <label class="form-label">Describe the situation <span class="required">*</span></label>
+        <input type="text" id="star-situation" placeholder="e.g. Lost a major corporate account, had to win them back within 90 days" />
+      </div>
+    </div>
+  </div>
+
+  <div id="ai-linkedin-inputs" style="display:none;">
+    <p class="ai-modal-desc">Claude will rewrite your LinkedIn About section to attract recruiters and hiring managers.</p>
+    <div class="ai-input-grid">
+      <div class="form-field">
+        <label class="form-label">Current role</label>
+        <input type="text" id="linkedin-role" placeholder="e.g. BD Associate, Marriott International" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Target roles</label>
+        <input type="text" id="linkedin-target" placeholder="e.g. Account Executive, SaaS sales" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Key achievements</label>
+        <input type="text" id="linkedin-achievements" placeholder="e.g. Grew corporate accounts 40%, managed $2M pipeline" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Tone</label>
+        <select id="linkedin-tone">
+          <option value="professional but personable">Professional but personable</option>
+          <option value="bold and confident">Bold and confident</option>
+          <option value="warm and approachable">Warm and approachable</option>
+        </select>
+      </div>
+      <div class="form-field" style="grid-column:span 2;">
+        <label class="form-label">Current LinkedIn summary <span class="hint-inline">(paste it here or leave blank)</span></label>
+        <input type="text" id="linkedin-current" placeholder="Paste your current About section or leave blank for a fresh start" />
+      </div>
+    </div>
+  </div>
+
+  <div id="ai-negotiation-inputs" style="display:none;">
+    <p class="ai-modal-desc">Claude will write a confident salary negotiation script based on your offer.</p>
+    <div class="ai-input-grid">
+      <div class="form-field">
+        <label class="form-label">Role offered</label>
+        <input type="text" id="neg-role" placeholder="e.g. Account Executive" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Company</label>
+        <input type="text" id="neg-company" placeholder="e.g. Salesforce" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Offered salary <span class="required">*</span></label>
+        <input type="text" id="neg-offered" placeholder="e.g. $60,000" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Your target <span class="required">*</span></label>
+        <input type="text" id="neg-target" placeholder="e.g. $70,000" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Current salary</label>
+        <input type="text" id="neg-current" placeholder="e.g. $55,000" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Your strengths to leverage</label>
+        <input type="text" id="neg-strengths" placeholder="e.g. Exceeded quota 3 years running, strong enterprise network" />
+      </div>
     </div>
   </div>
 
