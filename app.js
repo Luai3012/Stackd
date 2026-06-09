@@ -4,6 +4,11 @@
 
 const SUPABASE_URL = 'https://vklkrgzizqjxpwqskyjh.supabase.co'
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrbGtyZ3ppenFqeHB3cXNreWpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5OTg2NTUsImV4cCI6MjA5NjU3NDY1NX0.cPV8iCRxhOZ8aML1y6GGRhrvz8QDjDHw9tkqKIo709A'
+const PADDLE_CLIENT_TOKEN = 'live_056052c80b254a9355e68c3b0a5'
+const PADDLE_PRICES = {
+  pro: 'pri_01ktpq347vsgkzx5w53r1f1fph',
+  career: 'pri_01ktpq7py8m99rq5gyseg87086'
+}
 
 const { createClient } = supabase
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
@@ -11,6 +16,7 @@ const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 let currentUser = null
 let deals = []
 let compPlan = null
+let userPlan = 'free'
 
 // ============================================
 // INIT
@@ -132,6 +138,11 @@ async function loadApp() {
   showScreen('app')
   showAppTab('dashboard')
 
+  // Init Paddle
+  if (window.Paddle) {
+    Paddle.Initialize({ token: PADDLE_CLIENT_TOKEN })
+  }
+
   const { data: profile } = await db.from('profiles').select('full_name').eq('id', currentUser.id).single()
   if (profile?.full_name) {
     document.getElementById('nav-user').textContent = profile.full_name
@@ -139,12 +150,96 @@ async function loadApp() {
   }
   document.getElementById('settings-email').value = currentUser.email || ''
 
+  await loadSubscription()
   await loadCompPlan()
   await loadDeals()
 }
 
 // ============================================
-// COMP PLAN
+// SUBSCRIPTION
+// ============================================
+async function loadSubscription() {
+  const { data } = await db
+    .from('subscriptions')
+    .select('plan, status')
+    .eq('user_id', currentUser.id)
+    .single()
+
+  userPlan = data?.plan || 'free'
+  updatePlanUI()
+}
+
+function updatePlanUI() {
+  // Update plan badge in settings
+  const badge = document.getElementById('plan-badge')
+  if (badge) {
+    const labels = { free: 'Free', pro: 'Pro', career: 'Career' }
+    const colors = { free: '#9AA0A6', pro: '#1D9E75', career: '#378ADD' }
+    badge.textContent = labels[userPlan] || 'Free'
+    badge.style.background = colors[userPlan] || '#9AA0A6'
+  }
+
+  // Gate AI features for free users
+  const aiBar = document.getElementById('ai-actions-bar')
+  if (aiBar) {
+    if (userPlan === 'free') {
+      aiBar.innerHTML = `
+        <span class="ai-actions-label">✦ AI</span>
+        <span style="font-size:13px;color:var(--gray-600);">AI features are available on Pro and Career plans.</span>
+        <button class="btn btn-primary btn-sm" onclick="openUpgradeModal('pro')">Upgrade to Pro — $19/month</button>
+      `
+    }
+  }
+
+  // Gate unlimited deals for free users
+  if (userPlan === 'free' && deals.length >= 5) {
+    const addBtn = document.querySelector('.btn-outline.btn-sm')
+    if (addBtn && addBtn.textContent.includes('Log deal')) {
+      addBtn.textContent = '⚡ Upgrade to log more deals'
+      addBtn.onclick = () => openUpgradeModal('pro')
+    }
+  }
+}
+
+function openUpgradeModal(plan) {
+  if (!window.Paddle) {
+    showToast('Loading payment system...', '')
+    loadPaddleScript(() => openUpgradeModal(plan))
+    return
+  }
+
+  Paddle.Checkout.open({
+    items: [{ priceId: PADDLE_PRICES[plan], quantity: 1 }],
+    customer: { email: currentUser.email },
+    settings: {
+      displayMode: 'overlay',
+      theme: 'light',
+      successUrl: window.location.href + '?upgraded=true'
+    }
+  })
+}
+
+function loadPaddleScript(callback) {
+  if (window.Paddle) { callback(); return }
+  const script = document.createElement('script')
+  script.src = 'https://cdn.paddle.com/paddle/v2/paddle.js'
+  script.onload = () => {
+    Paddle.Initialize({ token: PADDLE_CLIENT_TOKEN })
+    callback()
+  }
+  document.head.appendChild(script)
+}
+
+// Handle post-upgrade redirect
+if (window.location.search.includes('upgraded=true')) {
+  setTimeout(async () => {
+    await loadSubscription()
+    showToast('Welcome to Stackd Pro! 🎉', 'success')
+    window.history.replaceState({}, '', window.location.pathname)
+  }, 2000)
+}
+
+// ============================================
 // ============================================
 async function loadCompPlan() {
   const { data } = await db.from('comp_plans').select('*').eq('user_id', currentUser.id).single()
