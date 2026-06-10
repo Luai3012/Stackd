@@ -560,7 +560,9 @@ function renderAlerts() {
         <div>
           <div class="alert-title">Gap — "${escHtml(d.name)}"</div>
           <div class="alert-desc">Paid $${Math.round(d.amount_received).toLocaleString()}, expected $${Math.round(d.expected_commission).toLocaleString()} — shortfall $${Math.round(d.gap).toLocaleString()}</div>
-          <button class="alert-btn" onclick="openDisputeFromAlert('${d.id}')">Draft dispute email →</button>
+          <button class="alert-btn" onclick="${userPlan==='free'?`openUpgradeModal('pro')`:`openDisputeFromAlert('${d.id}')`}">
+            ${userPlan==='free'?'Upgrade to draft dispute →':'Draft dispute email →'}
+          </button>
         </div>
       </div>`),
     ...pending.map(d=>`
@@ -909,11 +911,28 @@ async function generatePerfReport() {
 
 /* ============================================ AI WORKSPACE */
 function renderWorkspaceTab() {
-  // Career readiness based on plan and deals
   const readiness = userPlan==='career' ? Math.min(deals.length*10+50, 100) : userPlan==='pro' ? 40 : 20
   setText('career-readiness', readiness+'%')
   const bar = document.getElementById('career-bar')
   if(bar) bar.style.width = readiness+'%'
+
+  // Show upgrade banner for free users
+  const inputsEl = document.getElementById('editor-inputs')
+  if(userPlan === 'free' && inputsEl) {
+    inputsEl.innerHTML = `
+      <div class="editor-placeholder">
+        <span class="ms editor-placeholder-icon" style="color:var(--orange)">lock</span>
+        <div class="editor-placeholder-title">AI features require Pro</div>
+        <div class="editor-placeholder-sub">Upgrade to Pro to unlock AI dispute emails, raise requests, and performance reports. Career plan adds interview coaching and salary negotiation.</div>
+        <div style="display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap;justify-content:center;">
+          <button class="btn-primary" onclick="openUpgradeModal('pro')">
+            <span class="ms" style="font-size:14px;">auto_awesome</span>
+            Upgrade to Pro — $19/mo
+          </button>
+          <button class="btn-outline" onclick="openUpgradeModal('career')">Career — $29/mo</button>
+        </div>
+      </div>`
+  }
 }
 
 function selectTool(tool) {
@@ -1018,6 +1037,13 @@ function buildToolInputs(tool) {
 async function generateFromTool() {
   if(!currentTool){showToast('Select a tool first.','error');return}
 
+  // Free users cannot use AI — require Pro or Career
+  if(userPlan === 'free') {
+    openUpgradeModal('pro')
+    showToast('AI features require a Pro or Career plan.','error')
+    return
+  }
+
   // Career tools require career plan
   const careerTools = ['interview','star','linkedin','negotiation']
   if(careerTools.includes(currentTool) && userPlan!=='career'){
@@ -1106,9 +1132,16 @@ async function generateFromTool() {
   document.getElementById('editor-loading').style.display = 'flex'
 
   try {
+    // Get current session token to send with request
+    const { data: { session } } = await db.auth.getSession()
+    const token = session?.access_token || ''
+
     const response = await fetch('/api/generate', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify({type: currentTool, data})
     })
     const json = await response.json()
