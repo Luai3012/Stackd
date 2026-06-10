@@ -1305,3 +1305,84 @@ select option { background: var(--bg-3); }
   .workspace-layout { flex-direction: column; }
   .workspace-tools { width: 100%; max-height: 200px; }
 }
+
+/* ============================================
+   COMMISSION + PERFORMANCE INTERACTIVE
+============================================ */
+
+/* Filter select */
+.filter-select {
+  padding: 6px 10px;
+  background: var(--bg-3);
+  border: 0.5px solid var(--border-2);
+  border-radius: 7px;
+  font-size: 12px;
+  font-family: var(--font-b);
+  color: var(--text-2);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  width: auto;
+}
+.filter-select:focus { border-color: var(--green); }
+
+/* Accel action button */
+.accel-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0.75rem;
+  padding: 7px 12px;
+  background: var(--green);
+  color: #000;
+  border: none;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-d);
+  transition: background 0.15s;
+  width: 100%;
+  justify-content: center;
+}
+.accel-action-btn:hover { background: #00F090; }
+
+/* Raise prompt banner */
+.raise-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(0,216,127,0.06) 0%, rgba(0,216,127,0.03) 100%);
+  border: 0.5px solid rgba(0,216,127,0.2);
+  border-radius: 10px;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.raise-prompt-left { display: flex; align-items: flex-start; gap: 10px; flex: 1; }
+.raise-prompt-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.raise-prompt-sub { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+
+/* Performance top cards */
+.perf-top-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+.perf-top-card {
+  background: var(--bg-2);
+  border: 0.5px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  transition: border-color 0.2s;
+}
+.perf-top-card:hover { border-color: var(--border-2); }
+
+@media (max-width: 768px) {
+  .perf-top-cards { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .perf-top-cards { grid-template-columns: 1fr; }
+}
