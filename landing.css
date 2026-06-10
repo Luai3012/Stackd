@@ -47,24 +47,25 @@ body {
 
 /* ---- GRID CANVAS ---- */
 .grid-canvas {
-  position: fixed;
+  position: absolute;
   top: 0; left: 0;
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 0;
 }
 
-/* ---- CURSOR GLOW ---- */
+/* ---- CURSOR GLOW — brighter, follows full page ---- */
 .cursor-glow {
   position: fixed;
-  width: 480px;
-  height: 480px;
+  width: 600px;
+  height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(29,158,117,0.055) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(29,158,117,0.1) 0%, rgba(29,158,117,0.04) 40%, transparent 70%);
   pointer-events: none;
   transform: translate(-50%, -50%);
   z-index: 1;
-  transition: left 0.08s, top 0.08s;
+  mix-blend-mode: screen;
 }
 
 /* ---- NAV ---- */
@@ -173,20 +174,22 @@ body {
   border: none;
   cursor: pointer;
   border-radius: var(--radius);
-  transition: all var(--transition);
+  transition: all 0.18s cubic-bezier(0.4,0,0.2,1), transform 0.15s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s ease;
   position: relative;
   white-space: nowrap;
+  overflow: hidden;
 }
-.btn:active { transform: scale(0.97) !important; }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: scale(0.96) !important; }
 
 .btn-primary { background: var(--green); color: #000; font-weight: 600; padding: 10px 20px; font-size: 14px; }
-.btn-primary:hover { background: var(--green-bright); box-shadow: 0 0 22px rgba(29,158,117,0.35); }
+.btn-primary:hover { background: var(--green-bright); box-shadow: 0 0 28px rgba(29,158,117,0.45), 0 4px 16px rgba(29,158,117,0.2); }
 
 .btn-outline-hero { background: transparent; color: var(--text-2); padding: 10px 20px; font-size: 14px; border: 0.5px solid var(--border-bright); }
-.btn-outline-hero:hover { color: var(--text); border-color: rgba(255,255,255,0.22); }
+.btn-outline-hero:hover { color: var(--text); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.03); }
 
 .btn-ghost-cta { background: transparent; color: var(--text-2); padding: 12px 24px; font-size: 15px; border: 0.5px solid var(--border-bright); }
-.btn-ghost-cta:hover { color: var(--text); border-color: rgba(255,255,255,0.22); }
+.btn-ghost-cta:hover { color: var(--text); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.03); }
 
 .btn-plan {
   display: block;
@@ -197,27 +200,139 @@ body {
   font-size: 14px;
   border-radius: var(--radius);
   text-decoration: none;
-  transition: all var(--transition);
+  transition: all 0.18s cubic-bezier(0.4,0,0.2,1), transform 0.15s cubic-bezier(0.34,1.56,0.64,1);
   width: 100%;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
+.btn-plan:hover { transform: translateY(-2px); }
+.btn-plan:active { transform: scale(0.97) !important; }
 .btn-plan-primary { background: var(--green); color: #000; font-weight: 600; border: none; }
-.btn-plan-primary:hover { background: var(--green-bright); box-shadow: 0 0 22px rgba(29,158,117,0.35); }
+.btn-plan-primary:hover { background: var(--green-bright); box-shadow: 0 0 28px rgba(29,158,117,0.45); }
 .btn-plan-outline { background: transparent; color: var(--text-2); border: 0.5px solid var(--border-bright); }
-.btn-plan-outline:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+.btn-plan-outline:hover { color: var(--text); border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.03); }
+
+/* Nav buttons animated */
+.btn-ghost-nav {
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--text-2);
+  text-decoration: none;
+  padding: 7px 16px;
+  border-radius: var(--radius);
+  border: 0.5px solid transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.btn-ghost-nav:hover { color: var(--text); border-color: var(--border-bright); transform: translateY(-1px); }
+
+.btn-primary-nav {
+  font-size: 14px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+  padding: 7px 18px;
+  border-radius: var(--radius);
+  background: var(--green);
+  border: none;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary-nav:hover { background: var(--green-bright); transform: translateY(-1px); box-shadow: 0 0 16px rgba(29,158,117,0.4); }
+
+/* Nav links — underline sweep */
+.nav-link {
+  font-size: 14px;
+  color: var(--text-2);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  transition: color 0.15s ease, background 0.15s ease;
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.22s cubic-bezier(0.4,0,0.2,1);
+}
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.nav-link:hover::after { transform: scaleX(1); }
+
+/* Footer links — slide right */
+.footer-link {
+  font-size: 13px;
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color 0.15s ease, transform 0.15s ease;
+  display: inline-block;
+}
+.footer-link:hover { color: var(--text); transform: translateX(4px); }
 
 .btn-lg { padding: 12px 24px; font-size: 15px; }
 .btn-xl { padding: 14px 32px; font-size: 16px; border-radius: var(--radius-lg); }
 
-/* ---- SCROLL REVEAL ---- */
-.reveal-left { opacity: 0; transform: translateX(-36px); transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1); }
-.reveal-right { opacity: 0; transform: translateX(36px); transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1); }
-.reveal-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1); }
+/* ---- SCROLL REVEAL — bidirectional elevator doors ---- */
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-36px);
+  transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(36px);
+  transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1);
+}
+.reveal-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Revealed — slide in */
 .revealed { opacity: 1; transform: none; }
+
+/* Retracted — slide back out in reverse direction */
+.reveal-left.retracted { opacity: 0; transform: translateX(-36px); }
+.reveal-right.retracted { opacity: 0; transform: translateX(36px); }
+.reveal-up.retracted { opacity: 0; transform: translateY(28px); }
+
 .delay-1 { transition-delay: 0.1s; }
 .delay-2 { transition-delay: 0.2s; }
 .delay-3 { transition-delay: 0.3s; }
 .delay-4 { transition-delay: 0.4s; }
+
+/* ---- RIPPLE EFFECT ---- */
+.btn-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transform: scale(0);
+  animation: ripple-expand 0.55s cubic-bezier(0.4,0,0.2,1) forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes ripple-expand {
+  to { transform: scale(1); opacity: 0; }
+}
+
+/* Green ripple on primary buttons */
+.btn-primary .btn-ripple,
+.btn-plan-primary .btn-ripple,
+.btn-primary-nav .btn-ripple { background: rgba(255,255,255,0.2); }
 
 /* ---- EYEBROW ---- */
 .eyebrow-label {
@@ -732,11 +847,15 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal-left, .reveal-right, .reveal-up { opacity: 1; transform: none; transition: none; }
+  .reveal-left, .reveal-right, .reveal-up,
+  .reveal-left.retracted, .reveal-right.retracted, .reveal-up.retracted { opacity: 1; transform: none; transition: none; }
   .dashboard-float { animation: none; }
   .eyebrow-dot { animation: none; }
   .mock-alert { animation: none; }
   .mock-alert-indicator { animation: none; }
   .cursor-glow { display: none; }
   .grid-canvas { display: none; }
+  .btn:hover { transform: none; }
+  .btn-plan:hover { transform: none; }
+  .footer-link:hover { transform: none; }
 }
