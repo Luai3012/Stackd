@@ -88,79 +88,75 @@
     </div>
 
     <div class="hero-visual reveal" data-dir="right" data-delay="200">
-      <div class="commission-statement">
-        <div class="cs-header">
-          <div class="cs-header-left">
-            <div class="cs-label">Commission Statement</div>
-            <div class="cs-period">Q3 · October 2026</div>
+      <div class="pay-slip">
+
+        <!-- Top: who this is for -->
+        <div class="ps-header">
+          <div class="ps-header-left">
+            <div class="ps-name" id="ps-name">Luai Al-Taher</div>
+            <div class="ps-role">BD Associate · Q3 2026</div>
           </div>
-          <div class="cs-header-right">
-            <div class="cs-status-dot"></div>
-            <div class="cs-status-text">Live tracking</div>
+          <div class="ps-live">
+            <div class="ps-live-dot"></div>
+            tracking live
           </div>
         </div>
 
-        <div class="cs-amount-row">
-          <div class="cs-amount-label">Expected this month</div>
-          <div class="cs-amount" id="cs-amount">$0</div>
-          <div class="cs-amount-delta">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 9V3M3 6l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            +$820 vs last month
+        <!-- The number that matters -->
+        <div class="ps-main">
+          <div class="ps-main-label">You are owed</div>
+          <div class="ps-main-amount" id="ps-amount">$0</div>
+          <div class="ps-main-sub">
+            across <span class="ps-accent" id="ps-deals">4 deals</span> this month
           </div>
         </div>
 
-        <div class="cs-breakdown">
-          <div class="cs-breakdown-row">
-            <span class="cs-br-label">Acme Corp renewal</span>
-            <span class="cs-br-rate">10%</span>
-            <span class="cs-br-amount cs-green">+$3,200</span>
+        <!-- Breakdown lines — like a real payslip -->
+        <div class="ps-lines">
+          <div class="ps-line">
+            <div class="ps-line-left">
+              <div class="ps-line-dot green"></div>
+              <span>Acme Corp renewal</span>
+            </div>
+            <span class="ps-line-amount green">$3,200</span>
           </div>
-          <div class="cs-breakdown-row">
-            <span class="cs-br-label">Marriott MENA Q3</span>
-            <span class="cs-br-rate">8%</span>
-            <span class="cs-br-amount cs-green">+$1,480</span>
+          <div class="ps-line">
+            <div class="ps-line-left">
+              <div class="ps-line-dot green"></div>
+              <span>Marriott MENA Q3</span>
+            </div>
+            <span class="ps-line-amount green">$1,480</span>
           </div>
-          <div class="cs-breakdown-row cs-disputed-row">
-            <span class="cs-br-label">F&amp;B Partnership Q2</span>
-            <span class="cs-br-rate">10%</span>
-            <span class="cs-br-amount cs-orange">-$320 gap</span>
-          </div>
-          <div class="cs-breakdown-row cs-pending-row">
-            <span class="cs-br-label">Corporate travel block</span>
-            <span class="cs-br-rate">8%</span>
-            <span class="cs-br-amount cs-muted">$640 pending</span>
-          </div>
-        </div>
-
-        <div class="cs-gap-alert">
-          <div class="cs-gap-left">
-            <div class="cs-gap-title">Gap detected</div>
-            <div class="cs-gap-desc">F&amp;B Partnership Q2 — paid $1,360, owed $1,680</div>
-          </div>
-          <button class="cs-gap-btn">Draft dispute →</button>
-        </div>
-
-        <div class="cs-footer">
-          <div class="cs-footer-item">
-            <div class="cs-fi-label">Quota</div>
-            <div class="cs-fi-val">
-              <div class="cs-quota-bar">
-                <div class="cs-quota-fill" id="cs-quota-fill"></div>
-              </div>
-              <span class="cs-green" id="cs-quota-pct">68%</span>
+          <div class="ps-line ps-line-gap">
+            <div class="ps-line-left">
+              <div class="ps-line-dot orange"></div>
+              <span>F&amp;B Partnership Q2</span>
+            </div>
+            <div class="ps-line-right">
+              <span class="ps-line-amount orange">−$320</span>
+              <span class="ps-line-tag">gap</span>
             </div>
           </div>
-          <div class="cs-footer-divider"></div>
-          <div class="cs-footer-item">
-            <div class="cs-fi-label">Accuracy</div>
-            <div class="cs-fi-val cs-green">94%</div>
-          </div>
-          <div class="cs-footer-divider"></div>
-          <div class="cs-footer-item">
-            <div class="cs-fi-label">Deals</div>
-            <div class="cs-fi-val">4 logged</div>
+          <div class="ps-line ps-line-pending">
+            <div class="ps-line-left">
+              <div class="ps-line-dot muted"></div>
+              <span>Corporate travel block</span>
+            </div>
+            <span class="ps-line-amount muted">$640 pending</span>
           </div>
         </div>
+
+        <!-- Bottom bar: the gap truth -->
+        <div class="ps-footer">
+          <div class="ps-footer-track">
+            <div class="ps-footer-fill" id="ps-fill"></div>
+          </div>
+          <div class="ps-footer-row">
+            <span class="ps-footer-label">Quota — <span class="green" id="ps-quota-pct">68%</span> attained</span>
+            <span class="ps-footer-gap">$320 gap · <button class="ps-draft-btn">draft dispute</button></span>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -581,11 +577,10 @@ function triggerReveals(slideIndex) {
 setTimeout(() => triggerReveals(0), 200)
 
 /* ============================================
-   COMMISSION STATEMENT ANIMATION
+   PAY SLIP ANIMATION
 ============================================ */
 setTimeout(function() {
-  // Animate main amount
-  var el = document.getElementById('cs-amount')
+  var el = document.getElementById('ps-amount')
   if(el) {
     var target = 4820, duration = 1600, start = Date.now()
     ;(function update(){
@@ -595,8 +590,7 @@ setTimeout(function() {
       if(progress<1) requestAnimationFrame(update)
     })()
   }
-  // Animate quota bar
-  var fill = document.getElementById('cs-quota-fill')
+  var fill = document.getElementById('ps-fill')
   if(fill) fill.style.width = '68%'
 }, 600)
 
