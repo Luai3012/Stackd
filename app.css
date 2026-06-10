@@ -688,6 +688,7 @@ body {
   transition: all 0.15s;
 }
 .deal-delete-btn:hover { background: var(--orange-2); color: var(--orange); }
+.deal-delete-btn.edit-btn:hover { background: var(--green-2); color: var(--green); }
 .deal-delete-btn .ms { font-size: 16px; }
 
 .empty-row { padding: 0 !important; }
