@@ -10,10 +10,18 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://wearestackd.net" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231D9E75'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='600' fill='white'>S</text></svg>" />
-  <link rel="stylesheet" href="shared.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="landing.css" />
 </head>
 <body>
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursor-glow"></div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particles" class="particles-canvas"></canvas>
 
 <!-- NAV -->
 <nav class="nav" id="main-nav">
@@ -26,115 +34,241 @@
     <a href="#pricing" class="nav-link" onclick="closeMobileNav()">Pricing</a>
     <a href="support.html" class="nav-link">Support</a>
     <div class="nav-actions">
-      <a href="app.html" class="btn btn-ghost">Sign in</a>
-      <a href="app.html" class="btn btn-primary" onclick="closeMobileNav()">Get started free</a>
+      <a href="app.html" class="btn btn-ghost-nav">Sign in</a>
+      <a href="app.html" class="btn btn-primary-nav">Get started free</a>
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="eyebrow">For sales reps, BDRs &amp; account managers</div>
-    <h1>Your deals. Your numbers.<br><em>Always clear.</em></h1>
-    <p class="hero-sub">Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday — so you always walk in prepared.</p>
-    <div class="hero-actions">
-      <a href="app.html" class="btn btn-primary btn-lg">Get started free</a>
-      <a href="#pricing" class="btn btn-outline btn-lg">See pricing</a>
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow reveal-left">
+      <span class="eyebrow-dot"></span>
+      For sales reps, BDRs &amp; account managers
     </div>
-    <p class="hero-proof">Free to start &nbsp;·&nbsp; No credit card required &nbsp;·&nbsp; <strong>Works alongside any CRM</strong></p>
+    <h1 class="hero-h1 reveal-left delay-1">
+      Your deals.<br>
+      Your numbers.<br>
+      <span class="hero-accent">Always clear.</span>
+    </h1>
+    <p class="hero-sub reveal-left delay-2">
+      Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday — so you always walk in prepared.
+    </p>
+    <div class="hero-actions reveal-left delay-3">
+      <a href="app.html" class="btn btn-primary btn-lg magnetic">
+        <span>Get started free</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#features" class="btn btn-outline-hero btn-lg">See how it works</a>
+    </div>
+    <div class="hero-proof reveal-left delay-4">
+      <div class="proof-item">
+        <span class="proof-icon">🛡</span>
+        7-day guarantee
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <span class="proof-icon">⚡</span>
+        Free to start
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <span class="proof-icon">🔒</span>
+        Private & secure
+      </div>
+    </div>
+  </div>
+  <div class="hero-right reveal-right delay-2">
+    <div class="dashboard-float">
+      <div class="dashboard-glow"></div>
+      <div class="dashboard-mock">
+        <div class="mock-topbar">
+          <div class="mock-dots">
+            <span class="mock-dot dot-red"></span>
+            <span class="mock-dot dot-amber"></span>
+            <span class="mock-dot dot-green"></span>
+          </div>
+          <div class="mock-url">wearestackd.net/dashboard</div>
+        </div>
+        <div class="mock-body">
+          <div class="mock-metrics">
+            <div class="mock-metric">
+              <div class="mock-label">Expected</div>
+              <div class="mock-value positive" data-count="4820">$0</div>
+              <div class="mock-sub up">↑ 12%</div>
+            </div>
+            <div class="mock-metric">
+              <div class="mock-label">Received</div>
+              <div class="mock-value" data-count="4480">$0</div>
+              <div class="mock-sub warn">1 pending</div>
+            </div>
+            <div class="mock-metric">
+              <div class="mock-label">Gap</div>
+              <div class="mock-value danger" data-count="340">$0</div>
+              <div class="mock-sub danger">1 disputed</div>
+            </div>
+          </div>
+          <div class="mock-bar-wrap">
+            <div class="mock-bar-track">
+              <div class="mock-bar-fill" id="mock-bar"></div>
+            </div>
+            <div class="mock-bar-labels">
+              <span>$34,000 closed</span>
+              <span>Target $50,000</span>
+            </div>
+          </div>
+          <div class="mock-alert">
+            <span class="mock-alert-icon">⚠️</span>
+            <div class="mock-alert-body">
+              <div class="mock-alert-title">Commission gap — F&amp;B Partnership Q2</div>
+              <div class="mock-alert-desc">Shortfall of $320 detected. Draft dispute email →</div>
+            </div>
+          </div>
+          <div class="mock-deals">
+            <div class="mock-deal">
+              <div class="mock-deal-name">Marriott MENA expansion</div>
+              <span class="mock-badge closed">Closed</span>
+              <span class="mock-gap ok">✓</span>
+            </div>
+            <div class="mock-deal">
+              <div class="mock-deal-name">Corporate travel block</div>
+              <span class="mock-badge pending">Pending</span>
+            </div>
+            <div class="mock-deal">
+              <div class="mock-deal-name">F&amp;B partnership Q2</div>
+              <span class="mock-badge disputed">Disputed</span>
+              <span class="mock-gap neg">-$320</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- DASHBOARD PREVIEW -->
-<div class="preview-wrap">
-  <div class="preview-browser">
-    <div class="preview-bar">
-      <div class="dot dot-red"></div>
-      <div class="dot dot-amber"></div>
-      <div class="dot dot-green"></div>
-      <div class="preview-url">getstackd.app/dashboard</div>
+<!-- STAT TICKER -->
+<div class="stat-ticker reveal-up">
+  <div class="ticker-inner">
+    <div class="ticker-item">
+      <span class="ticker-num" data-count="2400000" data-prefix="$" data-suffix="">$0</span>
+      <span class="ticker-label">in gaps detected</span>
     </div>
-    <div class="preview-inner">
-      <div class="preview-metrics">
-        <div class="p-card"><div class="p-label">Expected</div><div class="p-val">$4,820</div><div class="p-sub positive">↑ 12% vs last month</div></div>
-        <div class="p-card"><div class="p-label">Received</div><div class="p-val">$4,480</div><div class="p-sub warning">1 payout pending</div></div>
-        <div class="p-card"><div class="p-label">Gap</div><div class="p-val negative">$340</div><div class="p-sub negative">1 disputed deal</div></div>
-      </div>
-      <div class="preview-deals">
-        <div class="p-row"><div><div class="p-name">Marriott MENA expansion</div><div class="p-client">Marriott International</div></div><div class="p-right"><span class="badge badge-closed">Closed</span><span class="gap-ok">✓</span></div></div>
-        <div class="p-row"><div><div class="p-name">Corporate travel block</div><div class="p-client">HSBC Jordan</div></div><div class="p-right"><span class="badge badge-pending">Pending</span></div></div>
-        <div class="p-row no-border"><div><div class="p-name">F&amp;B partnership Q2</div><div class="p-client">Zara Foods Group</div></div><div class="p-right"><span class="badge badge-disputed">Disputed</span><span class="gap-neg">-$320</span></div></div>
-      </div>
+    <div class="ticker-divider"></div>
+    <div class="ticker-item">
+      <span class="ticker-num" data-count="98" data-prefix="" data-suffix="%">0%</span>
+      <span class="ticker-label">commission accuracy</span>
+    </div>
+    <div class="ticker-divider"></div>
+    <div class="ticker-item">
+      <span class="ticker-num" data-count="30" data-prefix="" data-suffix="s">0s</span>
+      <span class="ticker-label">to log a deal</span>
+    </div>
+    <div class="ticker-divider"></div>
+    <div class="ticker-item">
+      <span class="ticker-num" data-count="3" data-prefix="" data-suffix=" AI tools">0</span>
+      <span class="ticker-label">built in</span>
     </div>
   </div>
 </div>
 
 <!-- FEATURES -->
-<section class="section section-alt" id="features">
+<section class="section features-section" id="features">
   <div class="section-inner">
-    <div class="eyebrow">What Stackd does</div>
-    <h2>Built for the rep, not the company.</h2>
-    <p class="section-sub">Every tool in your stack was built for your manager. Stackd is the first one built for you.</p>
+    <div class="section-header reveal-up">
+      <div class="eyebrow-label">What Stackd does</div>
+      <h2 class="section-h2">Built for the rep,<br><span class="text-accent">not the company.</span></h2>
+      <p class="section-sub">Every tool in your stack was built for your manager. Stackd is the first one built for you.</p>
+    </div>
     <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <div class="feature-title">Deal tracking</div>
-        <div class="feature-desc">Log every deal with value, rate, and expected commission. Your personal source of truth, always up to date.</div>
+      <div class="feature-card reveal-left delay-1">
+        <div class="feature-icon-wrap">
+          <span class="feature-icon">📊</span>
+        </div>
+        <div class="feature-content">
+          <div class="feature-title">Deal tracking</div>
+          <div class="feature-desc">Log every deal with value, rate, and expected commission. Your personal source of truth, always up to date.</div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚠️</div>
-        <div class="feature-title">Gap detection</div>
-        <div class="feature-desc">Stackd compares what you're owed vs what you received and flags discrepancies the moment they appear.</div>
+      <div class="feature-card reveal-right delay-1">
+        <div class="feature-icon-wrap">
+          <span class="feature-icon">⚠️</span>
+        </div>
+        <div class="feature-content">
+          <div class="feature-title">Gap detection</div>
+          <div class="feature-desc">Stackd compares what you're owed vs what you received and flags discrepancies the moment they appear.</div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">✉️</div>
-        <div class="feature-title">AI dispute drafts</div>
-        <div class="feature-desc">One click generates a professional, measured message to your manager — factual, not emotional.</div>
+      <div class="feature-card reveal-left delay-2">
+        <div class="feature-icon-wrap">
+          <span class="feature-icon">✉️</span>
+        </div>
+        <div class="feature-content">
+          <div class="feature-title">AI dispute emails</div>
+          <div class="feature-desc">One click generates a professional, measured message to your manager — factual, not emotional.</div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎯</div>
-        <div class="feature-title">Quota attainment</div>
-        <div class="feature-desc">See exactly where you stand against target at any point in the month, quarter, or year.</div>
+      <div class="feature-card reveal-right delay-2">
+        <div class="feature-icon-wrap">
+          <span class="feature-icon">🎯</span>
+        </div>
+        <div class="feature-content">
+          <div class="feature-title">Quota attainment</div>
+          <div class="feature-desc">See exactly where you stand against target at any point in the month, quarter, or year.</div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">📈</div>
-        <div class="feature-title">Earnings trends</div>
-        <div class="feature-desc">Month-over-month charts so you can spot patterns, plan better, and show your value at review time.</div>
+      <div class="feature-card reveal-left delay-3">
+        <div class="feature-icon-wrap">
+          <span class="feature-icon">📈</span>
+        </div>
+        <div class="feature-content">
+          <div class="feature-title">Earnings trends</div>
+          <div class="feature-desc">Month-over-month charts so you can spot patterns, plan better, and show your value at review time.</div>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">💼</div>
-        <div class="feature-title">Career coach</div>
-        <div class="feature-desc">AI-powered interview prep built from your real deal history. Coming soon on the Career plan.</div>
+      <div class="feature-card reveal-right delay-3">
+        <div class="feature-icon-wrap">
+          <span class="feature-icon">💼</span>
+        </div>
+        <div class="feature-content">
+          <div class="feature-title">Career coaching</div>
+          <div class="feature-desc">AI-powered interview prep, STAR answers, LinkedIn audit, and salary negotiation scripts. Career plan.</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section class="section">
+<section class="section steps-section">
   <div class="section-inner">
-    <div class="eyebrow">How it works</div>
-    <h2>Up and running in minutes.</h2>
-    <p class="section-sub">No integrations. No IT approvals. No CRM access required.</p>
+    <div class="section-header reveal-up">
+      <div class="eyebrow-label">How it works</div>
+      <h2 class="section-h2">Up and running<br><span class="text-accent">in minutes.</span></h2>
+      <p class="section-sub">No integrations. No IT approvals. No CRM access required.</p>
+    </div>
     <div class="steps-grid">
-      <div class="step">
-        <div class="step-num">1</div>
+      <div class="step-item reveal-up delay-1">
+        <div class="step-number">01</div>
+        <div class="step-line"></div>
         <div class="step-title">Set up your comp plan</div>
-        <div class="step-desc">Enter your commission rate and quota target once. Stackd remembers it and uses it on every deal.</div>
+        <div class="step-desc">Enter your commission rate and quota target once. Stackd uses it on every deal automatically.</div>
       </div>
-      <div class="step">
-        <div class="step-num">2</div>
+      <div class="step-item reveal-up delay-2">
+        <div class="step-number">02</div>
+        <div class="step-line"></div>
         <div class="step-title">Log your deals</div>
-        <div class="step-desc">Add each deal as you close it — value, client, and status. Takes 30 seconds per deal.</div>
+        <div class="step-desc">Add each deal as you close it — value, client, status. Takes 30 seconds per deal.</div>
       </div>
-      <div class="step">
-        <div class="step-num">3</div>
+      <div class="step-item reveal-up delay-3">
+        <div class="step-number">03</div>
+        <div class="step-line"></div>
         <div class="step-title">Track what you're owed</div>
         <div class="step-desc">Stackd calculates your expected commission and watches for gaps every pay cycle.</div>
       </div>
-      <div class="step">
-        <div class="step-num">4</div>
+      <div class="step-item reveal-up delay-4">
+        <div class="step-number">04</div>
+        <div class="step-line"></div>
         <div class="step-title">Act with confidence</div>
         <div class="step-desc">Walk into every payout conversation with your numbers, not theirs.</div>
       </div>
@@ -143,46 +277,56 @@
 </section>
 
 <!-- PRICING -->
-<section class="section section-alt" id="pricing">
+<section class="section pricing-section" id="pricing">
   <div class="section-inner">
-    <div class="eyebrow">Pricing</div>
-    <h2>Simple. No surprises.</h2>
-    <p class="section-sub">Start free. Upgrade when Stackd saves you more than it costs — which usually happens in month one.</p>
-    <div class="guarantee-badge">
-      <span class="guarantee-icon">🛡</span>
-      <span>7-day money back guarantee — not happy in your first week, we'll refund you in full. No questions, no hassle.</span>
+    <div class="section-header reveal-up">
+      <div class="eyebrow-label">Pricing</div>
+      <h2 class="section-h2">Simple.<br><span class="text-accent">No surprises.</span></h2>
+      <p class="section-sub">Start free. Upgrade when Stackd saves you more than it costs.</p>
+      <div class="guarantee-pill reveal-up delay-1">
+        <span>🛡</span>
+        7-day money back guarantee on all paid plans — no questions asked
+      </div>
     </div>
     <div class="pricing-grid">
-      <div class="plan-card">
-        <div class="plan-name">Free</div>
-        <div class="plan-price">$0<span>/month</span></div>
-        <div class="plan-desc">Perfect for getting started and validating your numbers.</div>
+      <div class="plan-card reveal-up delay-1">
+        <div class="plan-header">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">$0<span>/mo</span></div>
+        </div>
+        <div class="plan-desc">Perfect for getting started.</div>
         <ul class="plan-features">
-          <li><span class="check">✓</span>Up to 5 deals per month</li>
+          <li><span class="check">✓</span>Up to 5 deals/month</li>
           <li><span class="check">✓</span>Gap detection</li>
           <li><span class="check">✓</span>Quota tracker</li>
           <li><span class="check">✓</span>Basic dashboard</li>
         </ul>
-        <a href="app.html" class="btn btn-outline btn-full">Get started free</a>
+        <a href="app.html" class="btn btn-plan-outline magnetic">Get started</a>
       </div>
-      <div class="plan-card plan-featured">
+      <div class="plan-card plan-featured reveal-up delay-2">
+        <div class="plan-glow"></div>
         <div class="plan-badge">Most popular</div>
-        <div class="plan-name">Pro</div>
-        <div class="plan-price">$19<span>/month</span></div>
-        <div class="plan-desc">For reps serious about tracking every dollar and growing fast.</div>
+        <div class="plan-header">
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">$19<span>/mo</span></div>
+        </div>
+        <div class="plan-desc">For reps serious about every dollar.</div>
         <ul class="plan-features">
           <li><span class="check">✓</span>Unlimited deals</li>
-          <li><span class="check">✓</span>AI dispute messages</li>
-          <li><span class="check">✓</span>Earnings trend charts</li>
+          <li><span class="check">✓</span>AI dispute emails</li>
+          <li><span class="check">✓</span>AI raise requests</li>
+          <li><span class="check">✓</span>Performance reports</li>
           <li><span class="check">✓</span>Export to CSV</li>
           <li><span class="check">✓</span>Priority support</li>
         </ul>
-        <a href="app.html" class="btn btn-primary btn-full" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
+        <a href="app.html" class="btn btn-plan-primary magnetic" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
       </div>
-      <div class="plan-card">
-        <div class="plan-name">Career</div>
-        <div class="plan-price">$29<span>/month</span></div>
-        <div class="plan-desc">Everything in Pro plus AI-powered career coaching.</div>
+      <div class="plan-card reveal-up delay-3">
+        <div class="plan-header">
+          <div class="plan-name">Career</div>
+          <div class="plan-price">$29<span>/mo</span></div>
+        </div>
+        <div class="plan-desc">Everything in Pro plus career tools.</div>
         <ul class="plan-features">
           <li><span class="check">✓</span>Everything in Pro</li>
           <li><span class="check">✓</span>AI interview coach</li>
@@ -190,23 +334,27 @@
           <li><span class="check">✓</span>LinkedIn profile audit</li>
           <li><span class="check">✓</span>Salary negotiation scripts</li>
         </ul>
-        <a href="app.html" class="btn btn-outline btn-full" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
+        <a href="app.html" class="btn btn-plan-outline magnetic" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="section waitlist-section" id="waitlist">
-  <div class="section-inner text-center">
-    <div class="eyebrow">Get started today</div>
-    <h2>Start stacking your commissions.</h2>
-    <p class="section-sub">Free to start. Upgrade when you're ready. No credit card required for the free plan.</p>
-    <div class="hero-actions" style="justify-content:center;">
-      <a href="app.html" class="btn btn-primary btn-lg">Create free account</a>
-      <a href="#pricing" class="btn btn-outline btn-lg">See pricing</a>
+<section class="section cta-section" id="cta">
+  <div class="cta-inner reveal-up">
+    <div class="cta-glow"></div>
+    <div class="eyebrow-label">Get started today</div>
+    <h2 class="cta-h2">Start stacking<br>your commissions.</h2>
+    <p class="cta-sub">Free to start. Upgrade when you're ready. No credit card required.</p>
+    <div class="cta-actions">
+      <a href="app.html" class="btn btn-primary btn-xl magnetic">
+        <span>Create free account</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#pricing" class="btn btn-ghost-cta btn-xl">View pricing</a>
     </div>
-    <p class="hero-proof" style="margin-top:1rem;">7-day money back guarantee on all paid plans &nbsp;·&nbsp; Cancel anytime</p>
+    <p class="cta-proof">7-day money back guarantee &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; Built for sales professionals</p>
   </div>
 </section>
 
@@ -214,7 +362,7 @@
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <a href="index.html" class="logo">stack<span>d</span></a>
+      <a href="index.html" class="logo footer-logo">stack<span>d</span></a>
       <p class="footer-tagline">Built for the rep.</p>
     </div>
     <div class="footer-links-group">
@@ -234,34 +382,182 @@
   </div>
   <div class="footer-bottom">
     <p>© 2026 Stackd. All rights reserved.</p>
+    <p>Built with ♥ for every rep who's ever been underpaid.</p>
   </div>
 </footer>
 
 <!-- COOKIE NOTICE -->
 <div class="cookie-banner" id="cookie-banner">
   <p>We use essential cookies to keep you signed in. <a href="privacy.html">Learn more</a></p>
-  <button class="btn btn-primary btn-sm" onclick="acceptCookies()">Got it</button>
+  <button onclick="acceptCookies()">Got it</button>
 </div>
 
 <script>
+// =====================
+// CURSOR GLOW
+// =====================
+const cursorGlow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', e => {
+  cursorGlow.style.left = e.clientX + 'px';
+  cursorGlow.style.top = e.clientY + 'px';
+});
+
+// =====================
+// PARTICLES
+// =====================
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 1.5 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.4 + 0.1;
+    this.green = Math.random() > 0.85;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.green
+      ? `rgba(29,158,117,${this.opacity})`
+      : `rgba(255,255,255,${this.opacity * 0.4})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// =====================
+// SCROLL REVEAL
+// =====================
+const reveals = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+// =====================
+// COUNTER ANIMATION
+// =====================
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count);
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const start = Date.now();
+  function update() {
+    const elapsed = Date.now() - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(eased * target);
+    if (target >= 1000000) {
+      el.textContent = prefix + '$' + (current / 1000000).toFixed(1) + 'M' + (suffix && suffix !== '$' ? '' : '');
+    } else if (target >= 1000) {
+      el.textContent = prefix + '$' + current.toLocaleString();
+    } else {
+      el.textContent = prefix + current + suffix;
+    }
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  update();
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const counters = entry.target.querySelectorAll('[data-count]');
+      counters.forEach(c => animateCounter(c));
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.stat-ticker, .mock-metrics').forEach(el => counterObserver.observe(el));
+
+// =====================
+// DASHBOARD ANIMATIONS
+// =====================
+setTimeout(() => {
+  const bar = document.getElementById('mock-bar');
+  if (bar) bar.style.width = '68%';
+}, 800);
+
+// =====================
+// MAGNETIC BUTTONS
+// =====================
+document.querySelectorAll('.magnetic').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+
+// =====================
+// NAV SCROLL
+// =====================
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// =====================
+// MOBILE NAV
+// =====================
 function toggleMobileNav() {
-  const links = document.getElementById('nav-links');
-  const toggle = document.getElementById('nav-toggle');
-  links.classList.toggle('open');
-  toggle.classList.toggle('open');
+  document.getElementById('nav-links').classList.toggle('open');
+  document.getElementById('nav-toggle').classList.toggle('open');
 }
 function closeMobileNav() {
   document.getElementById('nav-links').classList.remove('open');
   document.getElementById('nav-toggle').classList.remove('open');
 }
-function joinWaitlist() {
-  const email = document.getElementById('wl-email').value.trim();
-  if (!email || !email.includes('@')) { document.getElementById('wl-email').focus(); return; }
-  document.getElementById('wl-email').value = '';
-  document.getElementById('wl-success').style.display = 'block';
-  const n = parseInt(document.getElementById('wl-count').textContent) + 1;
-  document.getElementById('wl-count').textContent = n;
-}
+
+// =====================
+// SMOOTH SCROLL
+// =====================
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+// =====================
+// COOKIE
+// =====================
 function acceptCookies() {
   document.getElementById('cookie-banner').style.display = 'none';
   localStorage.setItem('cookies-accepted', '1');
@@ -269,17 +565,6 @@ function acceptCookies() {
 if (!localStorage.getItem('cookies-accepted')) {
   document.getElementById('cookie-banner').style.display = 'flex';
 }
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
-  });
-});
-// Sticky nav shadow on scroll
-window.addEventListener('scroll', () => {
-  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
-});
 </script>
 </body>
 </html>
