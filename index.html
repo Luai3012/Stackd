@@ -1,689 +1,944 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stackd — Your deals. Your numbers. Always clear.</title>
-  <meta name="description" content="Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday." />
-  <meta property="og:title" content="Stackd — Your deals. Your numbers. Always clear." />
-  <meta property="og:description" content="The commission tracking tool built for the rep, not the manager." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://wearestackd.net" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300D87F'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='700' fill='%230A0909'>S</text></svg>" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="landing.css" />
-</head>
-<body>
-
-<!-- PERSISTENT BACKGROUND — covers everything -->
-<canvas id="bg-canvas" class="bg-canvas"></canvas>
-<div class="cursor-dot" id="cursor-dot"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
-
-<!-- NAV — fixed above slides -->
-<nav class="nav" id="main-nav">
-  <a href="index.html" class="logo">stack<span>d</span></a>
-  <button class="hamburger" id="nav-toggle" onclick="toggleNav()">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-center" id="nav-links">
-    <a href="#" class="nav-link" onclick="goToSlide(1);closeNav()">Features</a>
-    <a href="pricing.html" class="nav-link">Pricing</a>
-    <a href="support.html" class="nav-link">Support</a>
-    <a href="privacy.html" class="nav-link">Privacy</a>
-    <a href="terms.html" class="nav-link">Terms</a>
-  </div>
-  <div class="nav-right" id="nav-right">
-    <a href="app.html" class="nav-signin">Sign in</a>
-    <a href="app.html" class="nav-cta">
-      Get started
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-  </div>
-</nav>
-
-<!-- SLIDE TRACK — horizontal -->
-<div class="slide-track" id="slide-track">
-
-  <!-- ========== SLIDE 1: HERO ========== -->
-  <section class="slide" id="slide-0">
-    <div class="hero-bg-text" aria-hidden="true">STACK</div>
-    <div class="hero-content">
-      <div class="hero-tag reveal" data-dir="up">
-        <span class="hero-tag-dot"></span>
-        Commission tracking for sales professionals
-      </div>
-      <h1 class="hero-h1">
-        <span class="h1-line reveal" data-dir="left" data-delay="0">Your deals.</span>
-        <span class="h1-line reveal" data-dir="left" data-delay="100">Your numbers.</span>
-        <span class="h1-line h1-accent reveal" data-dir="left" data-delay="200">Always clear.</span>
-      </h1>
-      <p class="hero-sub reveal" data-dir="up" data-delay="300">
-        Most sales reps are underpaid and don't know it.<br>
-        Stackd shows you exactly what you're owed — and what you're missing.
-      </p>
-      <p class="hero-descriptor reveal" data-dir="up" data-delay="350">
-        Stackd is a commission and earnings tracking platform for BDRs, SDRs and sales professionals. Track performance, commission payouts, quotas, disputes and sales metrics.
-      </p>
-      <div class="hero-actions reveal" data-dir="up" data-delay="400">
-        <a href="app.html" class="cta-primary">
-          <span>Start for free</span>
-          <span class="cta-arrow">→</span>
-        </a>
-        <a href="pricing.html" class="cta-secondary">See pricing</a>
-      </div>
-      <div class="hero-proof reveal" data-dir="up" data-delay="500">
-        <div class="proof-item">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          7-day guarantee
-        </div>
-        <div class="proof-divider"></div>
-        <div class="proof-item">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
-          Free to start
-        </div>
-        <div class="proof-divider"></div>
-        <div class="proof-item">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="2" y="5" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 5V3.5a2 2 0 014 0V5" stroke="currentColor" stroke-width="1"/></svg>
-          Private &amp; secure
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-visual reveal" data-dir="right" data-delay="200">
-      <div class="pay-slip">
-
-        <!-- Top: who this is for -->
-        <div class="ps-header">
-          <div class="ps-header-left">
-            <div class="ps-name" id="ps-name">Alex M.</div>
-            <div class="ps-role">BD Associate · Q3 2026</div>
-          </div>
-          <div class="ps-live">
-            <div class="ps-live-dot"></div>
-            tracking live
-          </div>
-        </div>
-
-        <!-- The number that matters -->
-        <div class="ps-main">
-          <div class="ps-main-label">You are owed</div>
-          <div class="ps-main-amount" id="ps-amount">$0</div>
-          <div class="ps-main-sub">
-            across <span class="ps-accent" id="ps-deals">4 deals</span> this month
-          </div>
-        </div>
-
-        <!-- Breakdown lines — like a real payslip -->
-        <div class="ps-lines">
-          <div class="ps-line">
-            <div class="ps-line-left">
-              <div class="ps-line-dot green"></div>
-              <span>Acme Corp renewal</span>
-            </div>
-            <span class="ps-line-amount green">$3,200</span>
-          </div>
-          <div class="ps-line">
-            <div class="ps-line-left">
-              <div class="ps-line-dot green"></div>
-              <span>Marriott MENA Q3</span>
-            </div>
-            <span class="ps-line-amount green">$1,480</span>
-          </div>
-          <div class="ps-line ps-line-gap">
-            <div class="ps-line-left">
-              <div class="ps-line-dot orange"></div>
-              <span>F&amp;B Partnership Q2</span>
-            </div>
-            <div class="ps-line-right">
-              <span class="ps-line-amount orange">−$320</span>
-              <span class="ps-line-tag">gap</span>
-            </div>
-          </div>
-          <div class="ps-line ps-line-pending">
-            <div class="ps-line-left">
-              <div class="ps-line-dot muted"></div>
-              <span>Corporate travel block</span>
-            </div>
-            <span class="ps-line-amount muted">$640 pending</span>
-          </div>
-        </div>
-
-        <!-- Bottom bar: the gap truth -->
-        <div class="ps-footer">
-          <div class="ps-footer-track">
-            <div class="ps-footer-fill" id="ps-fill"></div>
-          </div>
-          <div class="ps-footer-row">
-            <span class="ps-footer-label">Quota — <span class="green" id="ps-quota-pct">68%</span> attained</span>
-            <span class="ps-footer-gap">$320 gap · <button class="ps-draft-btn">draft dispute</button></span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Slide indicator -->
-    <div class="slide-indicator">
-      <span class="slide-num">01</span>
-      <span class="slide-sep">/</span>
-      <span class="slide-total">04</span>
-    </div>
-  </section>
-
-  <!-- ========== SLIDE 2: FEATURES ========== -->
-  <section class="slide slide-features" id="slide-1">
-    <div class="slide-section-tag">What Stackd does</div>
-    <h2 class="slide-h2">Every tool in your stack<br>was built for <em>your manager.</em><br><span class="text-green">This one's for you.</span></h2>
-
-    <div class="features-bento">
-      <div class="fb-card fb-large reveal" data-dir="left">
-        <div class="fb-num">01</div>
-        <div class="fb-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="14" width="4" height="7" rx="1" fill="currentColor" opacity=".4"/><rect x="10" y="9" width="4" height="12" rx="1" fill="currentColor" opacity=".7"/><rect x="17" y="4" width="4" height="17" rx="1" fill="currentColor"/></svg>
-        </div>
-        <h3 class="fb-title">Deal tracking</h3>
-        <p class="fb-desc">Log every deal as you close it. Your personal source of truth that lives outside your company's systems.</p>
-        <div class="fb-stat"><span class="fb-stat-num">30s</span><span class="fb-stat-label">to log a deal</span></div>
-      </div>
-      <div class="fb-card reveal" data-dir="up" data-delay="100">
-        <div class="fb-num">02</div>
-        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        <h3 class="fb-title">Gap detection</h3>
-        <p class="fb-desc">Stackd compares what you're owed against what landed. Discrepancies surface instantly.</p>
-      </div>
-      <div class="fb-card fb-tall reveal" data-dir="up" data-delay="150">
-        <div class="fb-num">03</div>
-        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h6M8 17h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        <h3 class="fb-title">AI dispute emails</h3>
-        <p class="fb-desc">One click. Claude writes a professional dispute email that gets results — not one that gets you fired.</p>
-        <div class="fb-lines">
-          <div class="fb-line"></div><div class="fb-line short"></div><div class="fb-line medium"></div><div class="fb-line short"></div>
-        </div>
-      </div>
-      <div class="fb-card reveal" data-dir="up" data-delay="200">
-        <div class="fb-num">04</div>
-        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 5-6 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h3 class="fb-title">Quota attainment</h3>
-        <p class="fb-desc">Always know where you stand. Never be surprised at review time.</p>
-      </div>
-      <div class="fb-card fb-large reveal" data-dir="right" data-delay="100">
-        <div class="fb-num">05</div>
-        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M4 21c0-5 3.58-8 8-8s8 3 8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        <h3 class="fb-title">Career coaching</h3>
-        <p class="fb-desc">Interview prep, STAR answers, LinkedIn rewrites, salary scripts. Your deal history becomes career ammunition.</p>
-        <div class="fb-badges">
-          <span class="fb-badge">Interview coach</span>
-          <span class="fb-badge">STAR answers</span>
-          <span class="fb-badge">LinkedIn audit</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="slide-indicator"><span class="slide-num">02</span><span class="slide-sep">/</span><span class="slide-total">04</span></div>
-  </section>
-
-  <!-- ========== SLIDE 3: CALCULATOR ========== -->
-  <section class="slide slide-calculator" id="slide-2">
-    <div class="calc-slide-left reveal" data-dir="left">
-      <div class="slide-section-tag">Live calculator</div>
-      <h2 class="slide-h2">How much are you<br><span class="text-orange">actually owed?</span></h2>
-      <p class="calc-sub">Type in your numbers. See the truth in real time.</p>
-      <div class="calc-inputs">
-        <div class="calc-field">
-          <label class="calc-label">Deal value</label>
-          <div class="calc-input-wrap">
-            <span class="calc-prefix">$</span>
-            <input type="number" id="calc-value" class="calc-input" value="20000" oninput="updateCalc()">
-          </div>
-        </div>
-        <div class="calc-field">
-          <label class="calc-label">Commission rate</label>
-          <div class="calc-input-wrap">
-            <input type="number" id="calc-rate" class="calc-input" value="8" oninput="updateCalc()">
-            <span class="calc-suffix">%</span>
-          </div>
-        </div>
-        <div class="calc-field">
-          <label class="calc-label">Deals per month</label>
-          <div class="calc-input-wrap">
-            <input type="number" id="calc-deals" class="calc-input" value="4" oninput="updateCalc()">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="calc-slide-right reveal" data-dir="right">
-      <div class="calc-result-card">
-        <div class="calc-result-row">
-          <span class="calc-result-label">Monthly expected</span>
-          <span class="calc-result-val hm-green" id="calc-monthly">$6,400</span>
-        </div>
-        <div class="calc-result-row">
-          <span class="calc-result-label">Annual expected</span>
-          <span class="calc-result-val hm-green" id="calc-annual">$76,800</span>
-        </div>
-        <div class="calc-result-divider"></div>
-        <div class="calc-result-row">
-          <span class="calc-result-label">Typical gap (8%)</span>
-          <span class="calc-result-val hm-orange" id="calc-gap-month">$512</span>
-        </div>
-        <div class="calc-result-row big">
-          <span class="calc-result-label">You could be losing annually</span>
-          <span class="calc-result-val hm-orange big" id="calc-gap-year">$6,144</span>
-        </div>
-        <a href="app.html" class="calc-cta">Track it with Stackd — free</a>
-      </div>
-    </div>
-    <div class="slide-indicator"><span class="slide-num">03</span><span class="slide-sep">/</span><span class="slide-total">04</span></div>
-  </section>
-
-  <!-- ========== SLIDE 4: FINAL CTA ========== -->
-  <section class="slide slide-cta" id="slide-3">
-    <div class="final-cta-bg" aria-hidden="true">STACKD</div>
-    <div class="final-cta-content reveal" data-dir="up">
-      <div class="slide-section-tag">One last thing</div>
-      <h2 class="final-h2">Your company tracks<br>everything you do.</h2>
-      <p class="final-sub">It's time you tracked what they owe you.</p>
-      <a href="app.html" class="final-btn">
-        <span>Start tracking — it's free</span>
-        <span class="final-btn-arrow">→</span>
-      </a>
-      <p class="final-proof">No credit card &nbsp;&middot;&nbsp; 7-day guarantee &nbsp;&middot;&nbsp; Cancel anytime</p>
-      <div class="final-links">
-        <a href="pricing.html" class="final-link">Pricing →</a>
-        <a href="support.html" class="final-link">Support →</a>
-        <a href="privacy.html" class="final-link">Privacy →</a>
-        <a href="terms.html" class="final-link">Terms →</a>
-      </div>
-    </div>
-    <div class="slide-indicator"><span class="slide-num">04</span><span class="slide-sep">/</span><span class="slide-total">04</span></div>
-  </section>
-
-</div><!-- end slide-track -->
-
-<!-- SLIDE NAVIGATION ARROWS -->
-<button class="slide-nav slide-nav-prev" id="slide-prev" onclick="prevSlide()" aria-label="Previous">
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
-<button class="slide-nav slide-nav-next" id="slide-next" onclick="nextSlide()" aria-label="Next">
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
-
-<!-- SLIDE DOTS -->
-<div class="slide-dots" id="slide-dots">
-  <button class="slide-dot active" onclick="goToSlide(0)"></button>
-  <button class="slide-dot" onclick="goToSlide(1)"></button>
-  <button class="slide-dot" onclick="goToSlide(2)"></button>
-  <button class="slide-dot" onclick="goToSlide(3)"></button>
-</div>
-
-<!-- FOOTER — shown on last slide -->
-<footer class="footer" id="page-footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="index.html" class="logo">stack<span>d</span></a>
-      <p class="footer-tagline">Built for the rep.</p>
-      <p class="footer-made">Made with honesty, in Amman.</p>
-    </div>
-    <div class="footer-cols">
-      <div class="footer-col">
-        <div class="footer-col-title">Product</div>
-        <a href="#" onclick="goToSlide(1)" class="footer-link">Features</a>
-        <a href="pricing.html" class="footer-link">Pricing</a>
-        <a href="#" onclick="goToSlide(2)" class="footer-link">Calculator</a>
-        <a href="app.html" class="footer-link">Sign in</a>
-      </div>
-      <div class="footer-col">
-        <div class="footer-col-title">Company</div>
-        <a href="support.html" class="footer-link">Support</a>
-        <a href="privacy.html" class="footer-link">Privacy</a>
-        <a href="terms.html" class="footer-link">Terms</a>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>&copy; 2026 Stackd. All rights reserved.</p>
-    <p>Every rep deserves to know their number.</p>
-  </div>
-</footer>
-
-<div class="cookie-bar" id="cookie-bar">
-  <p>Essential cookies only. <a href="privacy.html">Privacy policy</a></p>
-  <button onclick="acceptCookies()">Accept</button>
-</div>
-
-<script>
 /* ============================================
-   SLIDE SYSTEM — defined globally first so
-   onclick handlers always work
+   STACKD LANDING v6 — Horizontal Slider
+   Syne · Inter · JetBrains Mono
+   Full-viewport slides, background everywhere
 ============================================ */
-let currentSlide = 0
-const totalSlides = 4
 
-function goToSlide(index, animate) {
-  if(animate===undefined) animate=true
-  const track = document.getElementById('slide-track')
-  const footer = document.getElementById('page-footer')
-  if(!track) return
-  currentSlide = Math.max(0, Math.min(index, totalSlides-1))
-  track.style.transition = animate ? 'transform 0.75s cubic-bezier(0.77,0,0.175,1)' : 'none'
-  track.style.transform = 'translateX(-' + (currentSlide * 100) + 'vw)'
-  document.querySelectorAll('.slide-dot').forEach(function(d,i){ d.classList.toggle('active', i===currentSlide) })
-  var prev = document.getElementById('slide-prev')
-  var next = document.getElementById('slide-next')
-  if(prev){ prev.style.opacity = currentSlide===0?'0':'1'; prev.style.pointerEvents = currentSlide===0?'none':'auto' }
-  if(next){ next.style.opacity = currentSlide===totalSlides-1?'0':'1'; next.style.pointerEvents = currentSlide===totalSlides-1?'none':'auto' }
-  if(footer) footer.style.display = currentSlide===totalSlides-1 ? 'block' : 'none'
-  var nav = document.getElementById('main-nav')
-  if(nav) nav.classList.toggle('scrolled', currentSlide>0)
-  setTimeout(function(){ triggerReveals(currentSlide) }, animate ? 400 : 50)
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0A0909;
+  --bg-2:     #0F0E0E;
+  --bg-3:     #141313;
+  --bg-4:     #1A1919;
+  --border:   rgba(255,255,255,0.055);
+  --border-2: rgba(255,255,255,0.11);
+  --border-g: rgba(0,216,127,0.25);
+  --green:    #00D87F;
+  --green-2:  rgba(0,216,127,0.12);
+  --green-3:  rgba(0,216,127,0.06);
+  --orange:   #FF6B35;
+  --orange-2: rgba(255,107,53,0.12);
+  --violet:   #A78BFA;
+  --violet-2: rgba(167,139,250,0.12);
+  --text:     #F0F0F0;
+  --text-2:   #7A7878;
+  --text-3:   #3A3838;
+  --font-d:   'DM Sans', sans-serif;
+  --font-b:   'Inter', sans-serif;
+  --font-m:   'JetBrains Mono', monospace;
+  --ease:     cubic-bezier(0.4,0,0.2,1);
+  --spring:   cubic-bezier(0.34,1.56,0.64,1);
 }
 
-function nextSlide() { goToSlide(currentSlide+1) }
-function prevSlide() { goToSlide(currentSlide-1) }
-
-function toggleNav() {
-  document.getElementById('nav-links').classList.toggle('open')
-  document.getElementById('nav-right').classList.toggle('open')
-  document.getElementById('nav-toggle').classList.toggle('open')
-}
-function closeNav() {
-  document.getElementById('nav-links').classList.remove('open')
-  document.getElementById('nav-right').classList.remove('open')
-  document.getElementById('nav-toggle').classList.remove('open')
-}
-function acceptCookies() {
-  document.getElementById('cookie-bar').style.display='none'
-  localStorage.setItem('stackd-cookies','1')
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  cursor: none;
 }
 
 /* ============================================
-   CUSTOM CURSOR
+   BACKGROUND CANVAS — fixed, always visible
 ============================================ */
-const dot = document.getElementById('cursor-dot')
-const ring = document.getElementById('cursor-ring')
-let mx = window.innerWidth/2, my = window.innerHeight/2
-let rx = mx, ry = my
+.bg-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
 
-if(dot && ring) {
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY })
-  function animateCursor() {
-    dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`
-    rx += (mx-rx)*0.1; ry += (my-ry)*0.1
-    ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`
-    requestAnimationFrame(animateCursor)
+/* ============================================
+   CURSOR
+============================================ */
+.cursor-dot {
+  position: fixed;
+  width: 6px; height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.2s, height 0.2s, background 0.2s;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(0,216,127,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: width 0.3s var(--spring), height 0.3s var(--spring), border-color 0.2s;
+}
+.cursor-dot.dot-hover { width: 10px; height: 10px; background: var(--orange); }
+.cursor-ring.ring-hover { width: 52px; height: 52px; border-color: rgba(0,216,127,0.2); }
+
+/* ============================================
+   NAV
+============================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2.5rem;
+  z-index: 100;
+  transition: background 0.3s, border-color 0.3s;
+  border-bottom: 0.5px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(10,9,9,0.9);
+  backdrop-filter: blur(28px);
+  border-bottom-color: var(--border);
+}
+
+.logo {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+  color: var(--text);
+}
+.logo span { color: var(--green); }
+
+.nav-center { display: flex; align-items: center; gap: 0.2rem; }
+
+.nav-link {
+  font-size: 14px;
+  color: var(--text-2);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  cursor: none;
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 3px; left: 14px; right: 14px;
+  height: 1px;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s var(--ease);
+}
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.nav-link:hover::after { transform: scaleX(1); }
+
+.nav-right { display: flex; align-items: center; gap: 10px; }
+
+.nav-signin {
+  font-size: 14px;
+  color: var(--text-2);
+  text-decoration: none;
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: 0.5px solid transparent;
+  transition: all 0.15s;
+  cursor: none;
+}
+.nav-signin:hover { color: var(--text); border-color: var(--border-2); }
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-family: var(--font-d);
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  background: var(--green);
+  transition: background 0.15s, box-shadow 0.15s, transform 0.15s var(--spring);
+  cursor: none;
+  position: relative;
+  overflow: hidden;
+}
+.nav-cta:hover { background: #00F090; box-shadow: 0 0 24px rgba(0,216,127,0.4); transform: translateY(-1px); }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: none;
+  padding: 6px;
+}
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); border-radius: 2px; transition: all 0.2s; }
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ============================================
+   SLIDE SYSTEM
+============================================ */
+.slide-track {
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  display: flex;
+  width: 400vw;
+  will-change: transform;
+  z-index: 1;
+}
+
+.slide {
+  flex-shrink: 0;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 80px 5vw 80px;
+}
+
+/* ============================================
+   SLIDE NAVIGATION
+============================================ */
+.slide-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(10,9,9,0.7);
+  border: 0.5px solid var(--border-2);
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: none;
+  backdrop-filter: blur(12px);
+  transition: all 0.2s var(--spring);
+}
+.slide-nav:hover { border-color: var(--green); color: var(--green); transform: translateY(-50%) scale(1.1); box-shadow: 0 0 20px rgba(0,216,127,0.2); }
+.slide-nav-prev { left: 1.5rem; }
+.slide-nav-next { right: 1.5rem; }
+
+.slide-dots {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+}
+
+.slide-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--text-3);
+  border: none;
+  cursor: none;
+  transition: all 0.3s var(--spring);
+  padding: 0;
+}
+.slide-dot.active { width: 24px; border-radius: 99px; background: var(--green); }
+
+.slide-indicator {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-m);
+  font-size: 11px;
+  color: var(--text-3);
+}
+.slide-num { color: var(--text-2); font-weight: 700; }
+.slide-sep { color: var(--text-3); }
+
+/* ============================================
+   REVEAL ANIMATIONS — triggered per slide
+============================================ */
+.reveal[data-dir="left"]  { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal[data-dir="right"] { opacity: 0; transform: translateX(40px);  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal[data-dir="up"]    { opacity: 0; transform: translateY(30px);  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal.visible           { opacity: 1; transform: none; }
+
+/* ============================================
+   RIPPLE
+============================================ */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  transform: scale(0);
+  animation: ripple 0.65s var(--ease) forwards;
+  pointer-events: none;
+}
+@keyframes ripple { to { transform: scale(1); opacity: 0; } }
+
+/* ============================================
+   SHARED SECTION ELEMENTS
+============================================ */
+.slide-section-tag {
+  font-family: var(--font-m);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.slide-section-tag::before { content: ''; width: 20px; height: 1px; background: var(--green); display: block; }
+
+.slide-h2 {
+  font-family: var(--font-d);
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+.slide-h2 em { font-style: normal; color: var(--orange); }
+.text-green { color: var(--green); }
+.text-orange { color: var(--orange); }
+
+/* ============================================
+   SLIDE 1 — HERO
+============================================ */
+.slide:first-child {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-bg-text {
+  position: absolute;
+  bottom: -60px; left: -40px;
+  font-family: var(--font-d);
+  font-size: clamp(120px, 18vw, 220px);
+  font-weight: 800;
+  color: rgba(255,255,255,0.016);
+  letter-spacing: -8px;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-m);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-bottom: 2rem;
+  border: 0.5px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: var(--bg-2);
+}
+.hero-tag-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.3;} }
+
+.hero-h1 { display: flex; flex-direction: column; margin-bottom: 1.75rem; }
+.h1-line {
+  font-family: var(--font-d);
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 800;
+  letter-spacing: -2.5px;
+  line-height: 1.02;
+  display: block;
+}
+.h1-accent { color: var(--green); }
+
+.hero-sub { font-size: 16px; color: var(--text-2); line-height: 1.75; margin-bottom: 1rem; max-width: 460px; }
+
+.hero-descriptor {
+  font-size: 12px;
+  color: var(--text-3);
+  line-height: 1.7;
+  max-width: 460px;
+  margin-bottom: 2.25rem;
+  padding: 10px 14px;
+  background: var(--bg-3);
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-b);
+}
+
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 2rem; }
+
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+  padding: 13px 26px;
+  border-radius: 8px;
+  background: var(--green);
+  transition: background 0.15s, box-shadow 0.15s, transform 0.15s var(--spring);
+  position: relative; overflow: hidden; cursor: none;
+}
+.cta-primary:hover { background: #00F090; box-shadow: 0 0 40px rgba(0,216,127,0.45); transform: translateY(-2px); }
+.cta-arrow { transition: transform 0.2s var(--spring); }
+.cta-primary:hover .cta-arrow { transform: translateX(4px); }
+
+.cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+  color: var(--text-2);
+  text-decoration: none;
+  padding: 13px 22px;
+  border-radius: 8px;
+  border: 0.5px solid var(--border-2);
+  transition: all 0.15s;
+  cursor: none; position: relative; overflow: hidden;
+}
+.cta-secondary:hover { color: var(--text); border-color: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+.hero-proof { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.proof-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-3); }
+.proof-item svg { color: var(--green); opacity: 0.7; }
+.proof-divider { width: 1px; height: 12px; background: var(--border-2); }
+
+/* hero visual */
+.hero-visual { position: relative; z-index: 1; }
+
+/* ============================================
+   PAY SLIP — hero visual
+   Reads like a real payslip, not a SaaS template
+============================================ */
+.pay-slip {
+  background: var(--bg-2);
+  border: 0.5px solid rgba(255,255,255,0.09);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 48px 96px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(255,255,255,0.04) inset;
+  animation: float 7s ease-in-out infinite;
+  max-width: 400px;
+  margin-left: auto;
+}
+@keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
+
+.ps-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 0.5px solid var(--border);
+}
+.ps-name { font-family: var(--font-d); font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+.ps-role { font-family: var(--font-m); font-size: 10px; color: var(--text-3); margin-top: 3px; letter-spacing: 0.5px; }
+.ps-live {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--green);
+  letter-spacing: 0.5px;
+}
+.ps-live-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+/* The number — big, proud, honest */
+.ps-main {
+  padding: 1.75rem 1.5rem 1.25rem;
+  border-bottom: 0.5px solid var(--border);
+}
+.ps-main-label {
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 8px;
+}
+.ps-main-amount {
+  font-family: var(--font-d);
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -3px;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.ps-main-sub {
+  font-size: 13px;
+  color: var(--text-2);
+}
+.ps-accent { color: var(--green); font-weight: 600; }
+
+/* Deal lines */
+.ps-lines {
+  padding: 0.75rem 1.5rem;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+.ps-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 0.5px solid var(--border);
+  font-size: 12px;
+  gap: 8px;
+}
+.ps-line:last-child { border-bottom: none; }
+.ps-line-pending { opacity: 0.5; }
+
+.ps-line-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ps-line-right { display: flex; align-items: center; gap: 6px; }
+
+.ps-line-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ps-line-dot.green { background: var(--green); }
+.ps-line-dot.orange { background: var(--orange); }
+.ps-line-dot.muted { background: var(--text-3); }
+
+.ps-line-amount {
+  font-family: var(--font-m);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.ps-line-amount.green { color: var(--green); background: none; }
+.ps-line-amount.orange { color: var(--orange); background: none; }
+.ps-line-amount.muted { color: var(--text-3); }
+
+.ps-line-tag {
+  font-family: var(--font-m);
+  font-size: 9px;
+  padding: 2px 6px;
+  background: rgba(255,107,53,0.1);
+  color: var(--orange);
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* Footer — quota + gap */
+.ps-footer {
+  padding: 1rem 1.5rem;
+}
+.ps-footer-track {
+  height: 3px;
+  background: var(--bg-4);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.ps-footer-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--green), #00F090);
+  border-radius: 99px;
+  transition: width 1.2s var(--ease);
+}
+.ps-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+.ps-footer-label { font-family: var(--font-m); color: var(--text-3); font-size: 10px; }
+.ps-footer-label .green { color: var(--green); background: none; }
+.ps-footer-gap { font-family: var(--font-m); font-size: 10px; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+.ps-draft-btn {
+  background: none;
+  border: none;
+  color: var(--orange);
+  font-family: var(--font-m);
+  font-size: 10px;
+  cursor: none;
+  padding: 0;
+  transition: opacity 0.15s;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ps-draft-btn:hover { opacity: 0.75; }
+
+
+/* ============================================
+   SLIDE 2 — FEATURES
+============================================ */
+.slide-features {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  grid-template-rows: auto 1fr;
+  gap: 2rem 4rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.slide-features .slide-section-tag { grid-column: 1; align-self: end; }
+.slide-features .slide-h2 { grid-column: 1; margin-bottom: 0; }
+.features-bento { grid-column: 2; grid-row: 1 / 3; display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto auto; gap: 10px; align-self: center; }
+
+.fb-card {
+  background: var(--bg-2);
+  border: 0.5px solid var(--border-2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.2s, transform 0.2s var(--spring);
+  position: relative;
+  overflow: hidden;
+}
+.fb-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-4px); }
+.fb-card.fb-large { grid-column: span 2; }
+.fb-card.fb-tall { }
+
+.fb-num { font-family: var(--font-m); font-size: 10px; letter-spacing: 2px; color: var(--text-3); }
+.fb-icon { color: var(--green); }
+.fb-title { font-family: var(--font-d); font-size: 17px; font-weight: 700; letter-spacing: -0.5px; }
+.fb-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; flex: 1; }
+.fb-stat { display: flex; align-items: baseline; gap: 8px; margin-top: auto; }
+.fb-stat-num { font-family: var(--font-m); font-size: 30px; font-weight: 700; color: var(--green); }
+.fb-stat-label { font-size: 12px; color: var(--text-2); }
+.fb-lines { display: flex; flex-direction: column; gap: 5px; margin-top: 0.5rem; }
+.fb-line { height: 5px; background: var(--bg-4); border-radius: 99px; width: 100%; }
+.fb-line.short { width: 55%; }
+.fb-line.medium { width: 75%; }
+.fb-badges { display: flex; gap: 5px; flex-wrap: wrap; margin-top: auto; }
+.fb-badge { font-size: 11px; padding: 3px 9px; border-radius: 20px; background: var(--violet-2); color: var(--violet); border: 0.5px solid rgba(167,139,250,0.2); }
+
+/* ============================================
+   SLIDE 3 — CALCULATOR
+============================================ */
+.slide-calculator {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.calc-slide-left .slide-section-tag { margin-bottom: 0.75rem; }
+.calc-sub { font-size: 16px; color: var(--text-2); margin-bottom: 2rem; }
+.calc-inputs { display: flex; flex-direction: column; gap: 1.1rem; }
+.calc-field { display: flex; flex-direction: column; gap: 5px; }
+.calc-label { font-family: var(--font-m); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-2); }
+.calc-input-wrap { display: flex; align-items: center; background: var(--bg-3); border: 0.5px solid var(--border-2); border-radius: 8px; overflow: hidden; transition: border-color 0.15s, box-shadow 0.15s; }
+.calc-input-wrap:focus-within { border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,216,127,0.08); }
+.calc-prefix, .calc-suffix { padding: 11px 12px; font-family: var(--font-m); font-size: 14px; color: var(--text-2); background: var(--bg-4); line-height: 1; }
+.calc-prefix { border-right: 0.5px solid var(--border); }
+.calc-suffix { border-left: 0.5px solid var(--border); }
+.calc-input { flex: 1; background: transparent; border: none; outline: none; font-family: var(--font-m); font-size: 15px; color: var(--text); padding: 11px 12px; }
+
+.calc-result-card { background: var(--bg-3); border: 0.5px solid var(--border-2); border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; }
+.calc-result-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(0,216,127,0.07) 0%, transparent 70%); pointer-events: none; }
+
+.calc-result-row { display: flex; align-items: baseline; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--border); }
+.calc-result-row:last-of-type { border-bottom: none; }
+.calc-result-row.big { padding: 14px 0; }
+.calc-result-label { font-size: 13px; color: var(--text-2); }
+.calc-result-val { font-family: var(--font-m); font-size: 20px; font-weight: 700; background: none; }
+.calc-result-val.hm-green { color: var(--green); background: none; }
+.calc-result-val.hm-orange { color: var(--orange); background: none; }
+.calc-result-val.big { font-size: 32px; }
+.calc-result-divider { height: 0.5px; background: var(--border-2); margin: 0.5rem 0; }
+
+.calc-cta {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+  padding: 13px;
+  border-radius: 8px;
+  background: var(--green);
+  transition: background 0.15s, box-shadow 0.15s, transform 0.15s var(--spring);
+  cursor: none;
+  position: relative;
+  overflow: hidden;
+}
+.calc-cta:hover { background: #00F090; box-shadow: 0 0 28px rgba(0,216,127,0.4); transform: translateY(-2px); }
+
+/* ============================================
+   SLIDE 4 — FINAL CTA
+============================================ */
+.slide-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.final-cta-bg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-d);
+  font-size: clamp(100px, 18vw, 240px);
+  font-weight: 800;
+  color: rgba(255,255,255,0.014);
+  letter-spacing: -10px;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.final-cta-content { position: relative; z-index: 1; text-align: center; max-width: 680px; }
+
+.final-h2 {
+  font-family: var(--font-d);
+  font-size: clamp(38px, 5.5vw, 68px);
+  font-weight: 800;
+  letter-spacing: -2.5px;
+  line-height: 1.05;
+  margin: 0.75rem 0 1rem;
+}
+
+.final-sub { font-size: 20px; color: var(--text-2); margin-bottom: 2.5rem; font-style: italic; }
+
+.final-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-d);
+  font-size: 17px;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+  padding: 16px 38px;
+  border-radius: 10px;
+  background: var(--green);
+  margin-bottom: 1.5rem;
+  cursor: none;
+  position: relative; overflow: hidden;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.15s var(--spring);
+}
+.final-btn:hover { background: #00F090; box-shadow: 0 0 60px rgba(0,216,127,0.5); transform: translateY(-3px); }
+.final-btn-arrow { transition: transform 0.2s var(--spring); }
+.final-btn:hover .final-btn-arrow { transform: translateX(5px); }
+
+.final-proof {
+  font-family: var(--font-m);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--text-2);
+  margin-bottom: 1.5rem;
+  background: rgba(0,216,127,0.06);
+  border: 0.5px solid rgba(0,216,127,0.18);
+  border-radius: 8px;
+  padding: 10px 18px;
+  display: inline-block;
+}
+
+.final-links { display: flex; gap: 1.5rem; justify-content: center; }
+.final-link { font-size: 14px; color: var(--text-2); text-decoration: none; font-family: var(--font-m); transition: color 0.15s; cursor: none; }
+.final-link:hover { color: var(--green); }
+
+/* ============================================
+   FOOTER — shown on last slide
+============================================ */
+.footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(10,9,9,0.92);
+  backdrop-filter: blur(20px);
+  border-top: 0.5px solid var(--border);
+  z-index: 50;
+  padding: 1.5rem 2.5rem 1rem;
+  display: none;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.footer-brand { display: flex; flex-direction: column; gap: 0.3rem; }
+.footer-tagline { font-size: 12px; color: var(--text-3); }
+.footer-made { font-family: var(--font-m); font-size: 10px; color: var(--text-3); letter-spacing: 0.5px; }
+.footer-cols { display: flex; gap: 3rem; }
+.footer-col { display: flex; flex-direction: column; gap: 0.5rem; }
+.footer-col-title { font-family: var(--font-m); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-2); margin-bottom: 0.2rem; }
+.footer-link { font-size: 12px; color: var(--text-3); text-decoration: none; transition: color 0.15s, transform 0.15s; display: inline-block; cursor: none; }
+.footer-link:hover { color: var(--text); transform: translateX(3px); }
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 0.75rem auto 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.footer-bottom p { font-family: var(--font-m); font-size: 10px; color: var(--text-3); }
+
+/* ============================================
+   COOKIE BAR
+============================================ */
+.cookie-bar {
+  display: none;
+  position: fixed;
+  bottom: 1.5rem; left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-3);
+  border: 0.5px solid var(--border-2);
+  color: var(--text-2);
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  align-items: center;
+  gap: 16px;
+  z-index: 999;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  white-space: nowrap;
+}
+.cookie-bar a { color: var(--green); text-decoration: none; }
+.cookie-bar button { background: var(--green); color: #000; border: none; padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: none; font-family: var(--font-d); }
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 900px) {
+  .slide:first-child {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-top: 80px;
+    padding-bottom: 60px;
+    align-items: start;
+    overflow-y: auto;
   }
-  animateCursor()
-  document.querySelectorAll('a,button,input').forEach(el => {
-    el.addEventListener('mouseenter', () => { ring.classList.add('ring-hover'); dot.classList.add('dot-hover') })
-    el.addEventListener('mouseleave', () => { ring.classList.remove('ring-hover'); dot.classList.remove('dot-hover') })
-  })
+  .hero-visual { order: -1; }
+  .pay-slip { max-width: 100%; margin: 0; }
+  .hero-bg-text { display: none; }
+  .slide-features { grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 1.5rem 2rem; }
+  .slide-features .slide-section-tag,
+  .slide-features .slide-h2 { grid-column: 1; }
+  .features-bento { grid-column: 1; grid-row: auto; grid-template-columns: 1fr 1fr; }
+  .slide-calculator { grid-template-columns: 1fr; gap: 2rem; padding-top: 80px; overflow-y: auto; }
+  .ps-main-amount { font-size: 38px; }
 }
 
-try {
-
-/* ============================================
-   CANVAS — grid + particles — FULL PAGE
-============================================ */
-const canvas = document.getElementById('bg-canvas')
-const ctx = canvas.getContext('2d')
-let W = window.innerWidth
-let H = window.innerHeight
-
-function resizeCanvas() {
-  W = canvas.width = window.innerWidth
-  H = canvas.height = window.innerHeight
-}
-resizeCanvas()
-window.addEventListener('resize', () => { resizeCanvas(); updateSlideLayout() })
-
-const PTS = 140
-const pts = Array.from({length:PTS}, () => ({
-  x: Math.random()*W*4, y: Math.random()*H,
-  vx: (Math.random()-0.5)*0.35, vy: -(Math.random()*0.4+0.1),
-  r: Math.random()*1.6+0.3, a: Math.random(),
-  phase: Math.random()*Math.PI*2,
-  green: Math.random()>0.65,
-  orange: Math.random()>0.92
-}))
-
-const FLOW_LINES = Array.from({length:5}, (_,i) => ({
-  y: H * (0.15 + i*0.18),
-  amp: 30+Math.random()*50,
-  speed: 0.0003+Math.random()*0.0004,
-  phase: i*Math.PI*0.4,
-  green: i%3===0
-}))
-
-let t = 0
-
-function drawBg() {
-  ctx.clearRect(0,0,W,H)
-  t += 0.01
-
-  const cell = 54
-
-  // Grid — full viewport always
-  ctx.lineWidth = 0.5
-  for(let x=0; x<W; x+=cell) {
-    ctx.strokeStyle = x%(cell*4)===0 ? 'rgba(0,216,127,0.055)' : 'rgba(255,255,255,0.042)'
-    ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke()
+@media (max-width: 640px) {
+  .nav { padding: 0 1.25rem; }
+  .hamburger { display: flex; }
+  .nav-center, .nav-right {
+    display: none;
+    position: fixed;
+    top: 62px; left: 0; right: 0;
+    background: rgba(10,9,9,0.97);
+    backdrop-filter: blur(28px);
+    border-bottom: 0.5px solid var(--border);
+    flex-direction: column;
+    padding: 1rem 1.25rem;
+    gap: 4px;
+    z-index: 99;
+    max-height: calc(100vh - 62px);
+    overflow-y: auto;
   }
-  for(let y=0; y<H; y+=cell) {
-    ctx.strokeStyle = y%(cell*4)===0 ? 'rgba(0,216,127,0.055)' : 'rgba(255,255,255,0.042)'
-    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke()
+  .nav-center.open, .nav-right.open { display: flex; }
+  .nav-right { top: auto; border-top: 0.5px solid var(--border); }
+  .nav-link, .nav-signin { padding: 10px 12px; font-size: 15px; }
+  .nav-cta { justify-content: center; margin-top: 4px; }
+
+  /* All slides scroll vertically on mobile */
+  .slide-track { overflow-y: visible; }
+  .slide {
+    padding: 76px 1.25rem 5rem;
+    height: auto;
+    min-height: 100svh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
+  .slide:first-child { grid-template-columns: 1fr; }
 
-  // Intersection dots
-  for(let x=0; x<W; x+=cell*4) {
-    for(let y=0; y<H; y+=cell*4) {
-      ctx.beginPath(); ctx.arc(x,y,1.6,0,Math.PI*2)
-      ctx.fillStyle='rgba(0,216,127,0.09)'; ctx.fill()
-    }
-  }
+  /* Hero */
+  .hero-h1 .h1-line { font-size: 36px; letter-spacing: -1.5px; }
+  .hero-sub { font-size: 14px; }
+  .hero-descriptor { font-size: 11px; }
+  .hero-actions { flex-direction: column; }
+  .cta-primary, .cta-secondary { justify-content: center; width: 100%; }
+  .pay-slip { max-width: 100%; }
+  .ps-main-amount { font-size: 36px; letter-spacing: -2px; }
 
-  // Flowing lines
-  FLOW_LINES.forEach(line => {
-    ctx.beginPath()
-    for(let x=0; x<=W; x+=16) {
-      const y = line.y + Math.sin(x*0.006 + t*line.speed*1000 + line.phase)*line.amp
-      x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y)
-    }
-    ctx.strokeStyle = line.green ? 'rgba(0,216,127,0.045)' : 'rgba(255,107,53,0.03)'
-    ctx.lineWidth = 1; ctx.stroke()
-  })
+  /* Features */
+  .features-bento { grid-template-columns: 1fr; }
+  .fb-card.fb-large { grid-column: span 1; }
+  .slide-h2 { font-size: 28px; letter-spacing: -1px; }
 
-  // Particles — distributed across current slide viewport
-  const slideOffset = currentSlide * W
-  pts.forEach(p => {
-    // Map particle x to current viewport
-    const screenX = ((p.x - slideOffset) % (W*4) + W*4) % (W*4)
-    if(screenX < 0 || screenX > W) { p.x += p.vx; p.y += p.vy; return }
-    p.x += p.vx; p.y += p.vy; p.phase += 0.015
-    if(p.y < -10) { p.y = H+10 }
-    if(p.y > H+10) { p.y = -10 }
-    const opacity = (Math.sin(p.phase)*0.2+0.3)*p.a
-    ctx.beginPath(); ctx.arc(screenX,p.y,p.r,0,Math.PI*2)
-    ctx.fillStyle = p.orange ? `rgba(255,107,53,${opacity})`
-      : p.green ? `rgba(0,216,127,${opacity})` : `rgba(255,255,255,${opacity*0.4})`
-    ctx.fill()
-  })
+  /* Slide nav */
+  .slide-nav-prev { left: 0.5rem; }
+  .slide-nav-next { right: 0.5rem; }
+  .slide-nav { width: 40px; height: 40px; }
 
-  // Subtle vignette edges
-  const grad = ctx.createRadialGradient(W/2,H/2,H*0.08,W/2,H/2,H*0.85)
-  grad.addColorStop(0,'rgba(10,9,9,0)')
-  grad.addColorStop(0.7,'rgba(10,9,9,0.25)')
-  grad.addColorStop(1,'rgba(10,9,9,0.88)')
-  ctx.fillStyle=grad; ctx.fillRect(0,0,W,H)
+  /* Final CTA */
+  .final-h2 { font-size: 32px; letter-spacing: -1.5px; }
+  .final-sub { font-size: 16px; }
+  .final-btn { font-size: 15px; padding: 14px 28px; }
+  .final-links { flex-wrap: wrap; gap: 1rem; justify-content: center; }
 
-  requestAnimationFrame(drawBg)
-}
-drawBg()
-
-
-/* ============================================
-   INIT SLIDE LAYOUT + EVENTS
-============================================ */
-;(function(){
-  var track = document.getElementById('slide-track')
-  if(!track) return
-  track.style.width = '400vw'
-  track.style.height = '100vh'
-  track.querySelectorAll('.slide').forEach(function(s){
-    s.style.width = '100vw'
-    s.style.minHeight = '100vh'
-  })
-  goToSlide(0, false)
-
-  document.addEventListener('keydown', function(e){
-    if(e.key==='ArrowRight'||e.key==='ArrowDown') nextSlide()
-    if(e.key==='ArrowLeft'||e.key==='ArrowUp') prevSlide()
-  })
-
-  var touchStartX = 0
-  document.addEventListener('touchstart', function(e){ touchStartX=e.touches[0].clientX },{passive:true})
-  document.addEventListener('touchend', function(e){
-    var diff = touchStartX - e.changedTouches[0].clientX
-    if(Math.abs(diff)>60) diff>0 ? nextSlide() : prevSlide()
-  },{passive:true})
-
-  var wheelLocked = false
-  document.addEventListener('wheel', function(e){
-    if(wheelLocked) return
-    wheelLocked = true
-    setTimeout(function(){wheelLocked=false},900)
-    if(e.deltaY>30) nextSlide()
-    else if(e.deltaY<-30) prevSlide()
-  },{passive:true})
-
-  window.addEventListener('resize', function(){ goToSlide(currentSlide, false) })
-})()
-
-/* ============================================
-   REVEAL SYSTEM
-============================================ */
-const revealed = new Set()
-
-function triggerReveals(slideIndex) {
-  const slide = document.getElementById('slide-'+slideIndex)
-  if(!slide) return
-  slide.querySelectorAll('.reveal').forEach((el, i) => {
-    const key = slideIndex+'-'+i
-    if(revealed.has(key)) return
-    const delay = parseInt(el.dataset.delay||0)
-    setTimeout(() => {
-      el.classList.add('visible')
-      revealed.add(key)
-    }, delay)
-  })
+  /* Footer */
+  body { cursor: auto; }
+  .cursor-dot, .cursor-ring { display: none; }
+  .footer { padding: 1rem 1.25rem 0.75rem; }
+  .footer-inner { flex-direction: column; gap: 1rem; }
+  .footer-cols { gap: 1.5rem; }
+  .cookie-bar { width: calc(100% - 2rem); white-space: normal; flex-wrap: wrap; }
 }
 
-// Trigger first slide immediately
-setTimeout(() => triggerReveals(0), 200)
-
-/* ============================================
-   PAY SLIP ANIMATION
-============================================ */
-setTimeout(function() {
-  var el = document.getElementById('ps-amount')
-  if(el) {
-    var target = 4820, duration = 1600, start = Date.now()
-    ;(function update(){
-      var progress = Math.min((Date.now()-start)/duration, 1)
-      var eased = 1-Math.pow(1-progress, 3)
-      el.textContent = '$'+Math.round(eased*target).toLocaleString()
-      if(progress<1) requestAnimationFrame(update)
-    })()
-  }
-  var fill = document.getElementById('ps-fill')
-  if(fill) fill.style.width = '68%'
-}, 600)
-
-/* ============================================
-   COUNTER ANIMATION
-============================================ */
-function animateCounter(el) {
-  const target = parseInt(el.dataset.count)
-  const duration = 1600
-  const start = Date.now()
-  function update() {
-    const progress = Math.min((Date.now()-start)/duration, 1)
-    const eased = 1-Math.pow(1-progress, 3)
-    const current = Math.floor(eased*target)
-    el.textContent = '$'+current.toLocaleString()
-    if(progress<1) requestAnimationFrame(update)
-  }
-  update()
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; animation: none; }
+  .cursor-dot, .cursor-ring, .bg-canvas { display: none; }
+  body { cursor: auto; }
 }
-
-// Trigger counters when slide 0 reveals
-setTimeout(() => {
-  document.querySelectorAll('[data-count]').forEach(el => animateCounter(el))
-}, 600)
-
-/* ============================================
-   LIVE CALCULATOR
-============================================ */
-function updateCalc() {
-  const val = parseFloat(document.getElementById('calc-value')?.value)||0
-  const rate = parseFloat(document.getElementById('calc-rate')?.value)||0
-  const deals = parseFloat(document.getElementById('calc-deals')?.value)||0
-  const monthly = val*(rate/100)*deals
-  const annual = monthly*12
-  const gapM = monthly*0.08
-  const gapY = gapM*12
-  animNum('calc-monthly', monthly)
-  animNum('calc-annual', annual)
-  animNum('calc-gap-month', gapM)
-  animNum('calc-gap-year', gapY)
-}
-
-function animNum(id, target) {
-  const el = document.getElementById(id)
-  if(!el) return
-  const start = parseFloat(el.dataset.current||0)
-  el.dataset.current = target
-  const duration = 350
-  const startTime = Date.now()
-  function update() {
-    const progress = Math.min((Date.now()-startTime)/duration, 1)
-    const eased = 1-Math.pow(1-progress, 3)
-    el.textContent = '$'+Math.round(start+(target-start)*eased).toLocaleString()
-    if(progress<1) requestAnimationFrame(update)
-  }
-  update()
-}
-
-updateCalc()
-
-/* ============================================
-   BUTTON RIPPLE
-============================================ */
-document.addEventListener('click', e => {
-  const btn = e.target.closest('a,button')
-  if(!btn) return
-  const pos = window.getComputedStyle(btn).position
-  if(pos==='static') btn.style.position='relative'
-  btn.style.overflow='hidden'
-  const r = document.createElement('span')
-  r.className='ripple'
-  const rect = btn.getBoundingClientRect()
-  const size = Math.max(rect.width,rect.height)*2.2
-  r.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`
-  btn.appendChild(r)
-  setTimeout(()=>r.remove(), 700)
-})
-
-/* ============================================
-   COOKIE + NAV
-============================================ */
-if(!localStorage.getItem('stackd-cookies')) {
-  document.getElementById('cookie-bar').style.display='flex'
-}
-
-} catch(e) { console.error('Stackd landing error:', e) }
-</script>
-</body>
-</html>
