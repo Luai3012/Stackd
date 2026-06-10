@@ -449,8 +449,8 @@
         </div>
         <div class="accel-card">
           <div class="accel-header">
-            <span class="ms accel-icon">star</span>
-            <span class="accel-tag pending">In Progress</span>
+            <span class="ms accel-icon">warning</span>
+            <span class="accel-tag pending" id="dispute-tag">In Progress</span>
           </div>
           <div class="accel-name">Dispute Recovery</div>
           <div class="accel-value">Gap protection</div>
@@ -462,6 +462,10 @@
             </div>
             <div class="accel-bar"><div class="accel-bar-fill orange" id="dispute-fill" style="width:0%"></div></div>
           </div>
+          <button class="accel-action-btn" id="dispute-action-btn" onclick="goToBulkDispute()" style="display:none;">
+            <span class="ms" style="font-size:14px;">auto_fix_high</span>
+            Draft all disputes
+          </button>
         </div>
         <div class="accel-card accel-locked">
           <div class="accel-header">
@@ -477,7 +481,20 @@
       <!-- COMMISSION TABLE -->
       <div class="section-title-row" style="margin-top:1.5rem;">
         <span class="section-title">Full deal breakdown</span>
-        <button class="bento-btn" onclick="exportCSV()"><span class="ms">download</span> Export CSV</button>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select id="commission-filter" class="filter-select" onchange="renderCommissionTab()">
+            <option value="all">All deals</option>
+            <option value="closed">Closed</option>
+            <option value="pending">Pending</option>
+            <option value="disputed">Disputed</option>
+          </select>
+          <button class="bento-btn" onclick="toggleAddForm();showTab('dashboard')">
+            <span class="ms">add</span> Log deal
+          </button>
+          <button class="bento-btn" onclick="exportCSV()">
+            <span class="ms">download</span> Export CSV
+          </button>
+        </div>
       </div>
       <div class="bento-card" style="padding:0;">
         <div class="deals-table-wrap">
@@ -490,15 +507,31 @@
                 <th>Multiplier</th>
                 <th class="text-right">Total payout</th>
                 <th class="text-center">Status</th>
+                <th class="text-center">Action</th>
               </tr>
             </thead>
             <tbody id="commission-tbody">
-              <tr><td colspan="6" class="empty-row">
+              <tr><td colspan="7" class="empty-row">
                 <div class="empty-state"><span class="ms empty-icon">payments</span><div class="empty-title">No deals yet</div></div>
               </td></tr>
             </tbody>
           </table>
         </div>
+      </div>
+
+      <!-- RAISE REQUEST PROMPT -->
+      <div class="raise-prompt" id="raise-prompt" style="display:none;">
+        <div class="raise-prompt-left">
+          <span class="ms" style="color:var(--green);font-size:18px;">trending_up</span>
+          <div>
+            <div class="raise-prompt-title">You've been performing well</div>
+            <div class="raise-prompt-sub" id="raise-prompt-sub">Use your commission data to request a raise.</div>
+          </div>
+        </div>
+        <button class="btn-primary btn-sm" onclick="goToRaiseRequest()">
+          <span class="ms">auto_awesome</span>
+          Draft raise request
+        </button>
       </div>
     </div>
 
@@ -507,23 +540,39 @@
       <div class="page-header">
         <div>
           <h1 class="page-title">Performance</h1>
-          <p class="page-sub">Your pipeline waterfall and activity trends.</p>
+          <p class="page-sub">Your pipeline breakdown and earnings trends.</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select id="perf-period" class="filter-select" onchange="renderPerformanceTab()">
+            <option value="all">All time</option>
+            <option value="month">This month</option>
+            <option value="quarter">This quarter</option>
+          </select>
+          <button class="bento-btn primary" onclick="generatePerfReport()">
+            <span class="ms">auto_awesome</span> AI Report
+          </button>
         </div>
       </div>
+
+      <!-- TOP STAT CARDS -->
+      <div class="perf-top-cards" id="perf-top-cards">
+        <!-- rendered by JS -->
+      </div>
+
       <div class="bento-grid">
+        <!-- WATERFALL -->
         <div class="bento-card bento-large">
           <div class="bento-header">
             <div class="bento-title">Pipeline Waterfall</div>
+            <div style="font-size:11px;color:var(--text-3);font-family:var(--font-m);">click a bar to filter</div>
           </div>
           <div class="waterfall-chart" id="waterfall-chart">
-            <div class="waterfall-bars" id="waterfall-bars">
-              <!-- rendered by JS -->
-            </div>
-            <div class="waterfall-labels" id="waterfall-labels">
-              <!-- rendered by JS -->
-            </div>
+            <div class="waterfall-bars" id="waterfall-bars"></div>
+            <div class="waterfall-labels" id="waterfall-labels"></div>
           </div>
         </div>
+
+        <!-- KEY STATS -->
         <div class="bento-card bento-small">
           <div class="bento-header">
             <div class="bento-title">
@@ -531,8 +580,42 @@
               Key Stats
             </div>
           </div>
-          <div class="perf-stats" id="perf-stats">
-            <!-- rendered by JS -->
+          <div class="perf-stats" id="perf-stats"></div>
+        </div>
+
+        <!-- DEALS FILTERED BY STAGE -->
+        <div class="bento-card bento-large" id="perf-filtered-card" style="display:none;">
+          <div class="bento-header">
+            <div class="bento-title" id="perf-filtered-title">Filtered Deals</div>
+            <button class="bento-btn" onclick="clearPerfFilter()">
+              <span class="ms">close</span> Clear filter
+            </button>
+          </div>
+          <div class="deals-table-wrap">
+            <table class="deals-table">
+              <thead>
+                <tr>
+                  <th>Deal</th><th>Amount</th><th>Commission</th><th class="text-center">Status</th><th class="text-right">Gap</th>
+                </tr>
+              </thead>
+              <tbody id="perf-filtered-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- MONTHLY BREAKDOWN -->
+        <div class="bento-card bento-small">
+          <div class="bento-header">
+            <div class="bento-title">
+              <span class="ms bento-title-icon">calendar_month</span>
+              This Month
+            </div>
+          </div>
+          <div class="perf-stats" id="perf-month-stats"></div>
+          <div style="padding:0.75rem 1rem 1rem;">
+            <button class="btn-outline btn-sm" style="width:100%;" onclick="showTab('dashboard');setTimeout(()=>toggleAddForm(),100)">
+              <span class="ms">add</span> Log a deal
+            </button>
           </div>
         </div>
       </div>
