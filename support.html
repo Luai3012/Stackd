@@ -6,21 +6,25 @@
   <title>Support — Stackd</title>
   <meta name="description" content="Get help with Stackd. FAQs, guides, and contact information." />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231D9E75'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='600' fill='white'>S</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="shared.css" />
   <style>
     .page { max-width: 720px; margin: 0 auto; padding: 4rem 2rem; }
-    .page-title { font-size: 36px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
-    .page-sub { font-size: 16px; color: var(--gray-600); margin-bottom: 3rem; }
+    .page-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
+    .page-title { font-family: var(--font-display); font-size: 40px; font-weight: 700; letter-spacing: -1px; margin-bottom: 0.5rem; }
+    .page-sub { font-size: 16px; color: var(--text-2); margin-bottom: 3rem; }
     .faq-group { margin-bottom: 2.5rem; }
-    .faq-group-title { font-size: 16px; font-weight: 700; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--border); }
+    .faq-group-title { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--border); color: var(--text); }
     .faq-item { margin-bottom: 1.5rem; }
-    .faq-q { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-    .faq-a { font-size: 14px; color: var(--gray-600); line-height: 1.7; }
-    .contact-card { background: var(--gray-50); border: 0.5px solid var(--border-mid); border-radius: var(--radius-xl); padding: 2.5rem; text-align: center; margin-top: 3rem; }
-    .contact-card h2 { font-size: 22px; margin-bottom: 0.5rem; }
-    .contact-card p { font-size: 14px; color: var(--gray-600); margin-bottom: 1.5rem; }
-    a { color: var(--green); }
-    @media(max-width:768px){ .page { padding: 2rem 1.25rem; } }
+    .faq-q { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .faq-a { font-size: 14px; color: var(--text-2); line-height: 1.7; }
+    .faq-a a { color: var(--green); text-decoration: none; }
+    .contact-card { background: var(--surface); border: 0.5px solid var(--border-green); border-radius: var(--radius-xl); padding: 2.5rem; text-align: center; margin-top: 3rem; }
+    .contact-card h2 { font-family: var(--font-display); font-size: 22px; font-weight: 600; margin-bottom: 0.5rem; }
+    .contact-card p { font-size: 14px; color: var(--text-2); margin-bottom: 1.5rem; }
+    @media(max-width:768px){ .page { padding: 2rem 1.25rem; } .page-title { font-size: 28px; } }
   </style>
 </head>
 <body>
@@ -34,13 +38,13 @@
     <a href="support.html" class="nav-link active">Support</a>
     <div class="nav-actions">
       <a href="app.html" class="btn btn-ghost">Sign in</a>
-      <a href="index.html#waitlist" class="btn btn-primary">Join waitlist</a>
+      <a href="app.html" class="btn btn-primary">Get started</a>
     </div>
   </div>
 </nav>
 
 <div class="page">
-  <div class="eyebrow">Help center</div>
+  <div class="page-eyebrow">Help center</div>
   <h1 class="page-title">Support</h1>
   <p class="page-sub">Find answers to common questions or reach out to us directly.</p>
 
@@ -52,11 +56,11 @@
     </div>
     <div class="faq-item">
       <div class="faq-q">What is a comp plan and why do I need one?</div>
-      <div class="faq-a">Your comp plan stores your commission rate and quota target. Stackd uses these to automatically calculate what you should be earning on every deal you log, and to track your progress toward your target. You only need to set it up once — it applies to every deal after that.</div>
+      <div class="faq-a">Your comp plan stores your commission rate and quota target. Stackd uses these to automatically calculate what you should be earning on every deal you log. You only need to set it up once.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Can I use Stackd alongside my company's CRM?</div>
-      <div class="faq-a">Absolutely — that's exactly how it's designed. Stackd is your personal record, completely separate from your company's systems. You log your own deals manually, which means no IT approvals, no integrations, and no access issues.</div>
+      <div class="faq-a">Absolutely — that's exactly how it's designed. Stackd is your personal record, completely separate from your company's systems. No IT approvals, no integrations, no access issues.</div>
     </div>
   </div>
 
@@ -64,19 +68,15 @@
     <div class="faq-group-title">Deals and commissions</div>
     <div class="faq-item">
       <div class="faq-q">How does Stackd calculate my expected commission?</div>
-      <div class="faq-a">Simple: deal value × your commission rate. If you close a $20,000 deal at 8%, Stackd records your expected commission as $1,600. This is calculated automatically the moment you log the deal, using your default rate unless you enter a different one for that specific deal.</div>
+      <div class="faq-a">Simple: deal value × your commission rate. If you close a $20,000 deal at 8%, Stackd records your expected commission as $1,600 — calculated automatically the moment you log the deal.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">What does "disputed" status mean?</div>
-      <div class="faq-a">When you mark a deal as disputed, Stackd surfaces it in your alerts section and calculates the gap between what you expected and what you received. You can then use the "Draft dispute message" feature to generate a professional email to send to your manager.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Can I edit a deal after saving it?</div>
-      <div class="faq-a">You can delete deals using the ✕ button on any deal row. Full inline deal editing is coming in an upcoming update — for now, delete and re-log if you need to make a change.</div>
+      <div class="faq-a">When you mark a deal as disputed, Stackd surfaces it in your alerts and gives you the option to draft a professional dispute message to send to your manager.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">How do I export my deals?</div>
-      <div class="faq-a">Click "Export CSV" on your dashboard. This downloads a spreadsheet of all your deals including expected commission, amount received, and gaps — useful for your own records or conversations with your manager.</div>
+      <div class="faq-a">Click "Export CSV" on your dashboard. This downloads a spreadsheet of all your deals including expected commission, amount received, and gaps.</div>
     </div>
   </div>
 
@@ -84,15 +84,11 @@
     <div class="faq-group-title">Privacy and security</div>
     <div class="faq-item">
       <div class="faq-q">Can my employer see my Stackd data?</div>
-      <div class="faq-a">No. Stackd is a personal app and your data is completely private to your account. We never share user data with employers or third parties. Your data is protected by row-level security — meaning at the database level, no other user can access your records.</div>
+      <div class="faq-a">No. Stackd is a personal app and your data is completely private to your account. We never share user data with employers or third parties. Row-level security ensures no other user can access your records.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">How do I reset my password?</div>
-      <div class="faq-a">On the sign-in screen, click "Forgot your password?", enter your email, and we'll send you a reset link. Click the link and you'll be taken to a page to set a new password.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Where is my data stored?</div>
-      <div class="faq-a">Your data is stored securely on Supabase infrastructure in the EU West region, with encryption at rest and in transit. See our <a href="privacy.html">Privacy Policy</a> for full details.</div>
+      <div class="faq-a">On the sign-in screen, click "Forgot your password?", enter your email, and we'll send you a reset link.</div>
     </div>
   </div>
 
@@ -100,25 +96,25 @@
     <div class="faq-group-title">Billing</div>
     <div class="faq-item">
       <div class="faq-q">Is Stackd free to start?</div>
-      <div class="faq-a">Yes. The Free plan lets you log up to 5 deals per month with full gap detection and quota tracking — no credit card required. You only upgrade when you want unlimited deals or the AI dispute and career coaching features.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">Can I cancel anytime?</div>
-      <div class="faq-a">Yes — no long-term contracts. Cancel at any time from your settings. You'll retain access until the end of your current billing period and won't be charged again.</div>
+      <div class="faq-a">Yes. The Free plan lets you log up to 5 deals per month with full gap detection and quota tracking — no credit card required.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">What is the refund policy?</div>
-      <div class="faq-a">We offer a 7-day money back guarantee on all paid plans. If you subscribe and decide Stackd isn't right for you within the first 7 days, email us at <="mailto:support@wearestackd.net">support@wearestackd.net</a> and we'll refund you in full — no questions, no hassle. After 7 days, subscriptions are non-refundable but you can cancel to stop future charges at any time.</div>
+      <div class="faq-a">We offer a 7-day money back guarantee on all paid plans. Email <a href="mailto:support@wearestackd.net">support@wearestackd.net</a> within 7 days and we'll refund you in full — no questions asked.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I cancel anytime?</div>
+      <div class="faq-a">Yes — no long-term contracts. Cancel at any time from your settings. You'll retain access until the end of your current billing period.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">What happens to my data if I cancel?</div>
-      <div class="faq-a">Your data stays in your account until you actively delete it. Cancelling your subscription downgrades you to the Free plan — your deals and history remain accessible, you just lose access to Pro features like unlimited deals and AI dispute messages.</div>
+      <div class="faq-a">Your data stays in your account until you actively delete it. Cancelling downgrades you to the Free plan — your deals and history remain accessible.</div>
     </div>
   </div>
 
   <div class="contact-card">
     <h2>Still have a question?</h2>
-    <p>We're a small team and we respond to every message personally — usually within 24 hours.</p>
+    <p>We respond to every message personally — usually within 24 hours.</p>
     <a href="mailto:support@wearestackd.net" class="btn btn-primary">Email support</a>
   </div>
 </div>
@@ -144,7 +140,10 @@
       </div>
     </div>
   </div>
-  <div class="footer-bottom"><p>© 2026 Stackd. All rights reserved.</p></div>
+  <div class="footer-bottom">
+    <p>© 2026 Stackd. All rights reserved.</p>
+    <p>Built with ♥ for every rep who's ever been underpaid.</p>
+  </div>
 </footer>
 
 <script>
