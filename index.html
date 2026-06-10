@@ -88,51 +88,77 @@
     </div>
 
     <div class="hero-visual reveal" data-dir="right" data-delay="200">
-      <div class="hero-card-stack">
-        <div class="hcard hcard-back"></div>
-        <div class="hcard hcard-mid"></div>
-        <div class="hcard hcard-front">
-          <div class="hcard-header">
-            <div class="hcard-dots">
-              <span class="hd red"></span><span class="hd amber"></span><span class="hd green"></span>
-            </div>
-            <span class="hcard-title">wearestackd.net/dashboard</span>
+      <div class="commission-statement">
+        <div class="cs-header">
+          <div class="cs-header-left">
+            <div class="cs-label">Commission Statement</div>
+            <div class="cs-period">Q3 · October 2026</div>
           </div>
-          <div class="hcard-body">
-            <div class="hcard-metrics">
-              <div class="hmetric">
-                <div class="hmetric-label">Expected</div>
-                <div class="hmetric-val hm-green" data-count="4820">$0</div>
-                <div class="hmetric-delta up">+12%</div>
+          <div class="cs-header-right">
+            <div class="cs-status-dot"></div>
+            <div class="cs-status-text">Live tracking</div>
+          </div>
+        </div>
+
+        <div class="cs-amount-row">
+          <div class="cs-amount-label">Expected this month</div>
+          <div class="cs-amount" id="cs-amount">$0</div>
+          <div class="cs-amount-delta">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 9V3M3 6l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            +$820 vs last month
+          </div>
+        </div>
+
+        <div class="cs-breakdown">
+          <div class="cs-breakdown-row">
+            <span class="cs-br-label">Acme Corp renewal</span>
+            <span class="cs-br-rate">10%</span>
+            <span class="cs-br-amount cs-green">+$3,200</span>
+          </div>
+          <div class="cs-breakdown-row">
+            <span class="cs-br-label">Marriott MENA Q3</span>
+            <span class="cs-br-rate">8%</span>
+            <span class="cs-br-amount cs-green">+$1,480</span>
+          </div>
+          <div class="cs-breakdown-row cs-disputed-row">
+            <span class="cs-br-label">F&amp;B Partnership Q2</span>
+            <span class="cs-br-rate">10%</span>
+            <span class="cs-br-amount cs-orange">-$320 gap</span>
+          </div>
+          <div class="cs-breakdown-row cs-pending-row">
+            <span class="cs-br-label">Corporate travel block</span>
+            <span class="cs-br-rate">8%</span>
+            <span class="cs-br-amount cs-muted">$640 pending</span>
+          </div>
+        </div>
+
+        <div class="cs-gap-alert">
+          <div class="cs-gap-left">
+            <div class="cs-gap-title">Gap detected</div>
+            <div class="cs-gap-desc">F&amp;B Partnership Q2 — paid $1,360, owed $1,680</div>
+          </div>
+          <button class="cs-gap-btn">Draft dispute →</button>
+        </div>
+
+        <div class="cs-footer">
+          <div class="cs-footer-item">
+            <div class="cs-fi-label">Quota</div>
+            <div class="cs-fi-val">
+              <div class="cs-quota-bar">
+                <div class="cs-quota-fill" id="cs-quota-fill"></div>
               </div>
-              <div class="hmetric">
-                <div class="hmetric-label">Received</div>
-                <div class="hmetric-val" data-count="4480">$0</div>
-                <div class="hmetric-delta warn">1 pending</div>
-              </div>
-              <div class="hmetric">
-                <div class="hmetric-label">Gap</div>
-                <div class="hmetric-val hm-orange" data-count="340">$0</div>
-                <div class="hmetric-delta danger">disputed</div>
-              </div>
+              <span class="cs-green" id="cs-quota-pct">68%</span>
             </div>
-            <div class="hcard-bar-wrap">
-              <div class="hcard-bar-labels"><span>Quota attainment</span><span class="hm-green">68%</span></div>
-              <div class="hcard-bar-track"><div class="hcard-bar-fill" id="hcard-bar"></div></div>
-            </div>
-            <div class="hcard-alert">
-              <div class="hcard-alert-pulse"></div>
-              <div class="hcard-alert-content">
-                <div class="hcard-alert-title">Gap detected — F&amp;B Q2</div>
-                <div class="hcard-alert-sub">$320 shortfall · AI draft ready</div>
-              </div>
-              <div class="hcard-alert-arrow">→</div>
-            </div>
-            <div class="hcard-deals">
-              <div class="hcard-deal"><span class="hcard-deal-name">Marriott MENA expansion</span><span class="hbadge closed">Closed</span><span class="hm-green">✓</span></div>
-              <div class="hcard-deal"><span class="hcard-deal-name">Corporate travel block</span><span class="hbadge pending">Pending</span></div>
-              <div class="hcard-deal"><span class="hcard-deal-name">F&amp;B partnership Q2</span><span class="hbadge disputed">Disputed</span><span class="hm-orange">-$320</span></div>
-            </div>
+          </div>
+          <div class="cs-footer-divider"></div>
+          <div class="cs-footer-item">
+            <div class="cs-fi-label">Accuracy</div>
+            <div class="cs-fi-val cs-green">94%</div>
+          </div>
+          <div class="cs-footer-divider"></div>
+          <div class="cs-footer-item">
+            <div class="cs-fi-label">Deals</div>
+            <div class="cs-fi-val">4 logged</div>
           </div>
         </div>
       </div>
@@ -555,12 +581,24 @@ function triggerReveals(slideIndex) {
 setTimeout(() => triggerReveals(0), 200)
 
 /* ============================================
-   DASHBOARD BAR ANIMATION
+   COMMISSION STATEMENT ANIMATION
 ============================================ */
-setTimeout(() => {
-  const b = document.getElementById('hcard-bar')
-  if(b) b.style.width='68%'
-}, 1000)
+setTimeout(function() {
+  // Animate main amount
+  var el = document.getElementById('cs-amount')
+  if(el) {
+    var target = 4820, duration = 1600, start = Date.now()
+    ;(function update(){
+      var progress = Math.min((Date.now()-start)/duration, 1)
+      var eased = 1-Math.pow(1-progress, 3)
+      el.textContent = '$'+Math.round(eased*target).toLocaleString()
+      if(progress<1) requestAnimationFrame(update)
+    })()
+  }
+  // Animate quota bar
+  var fill = document.getElementById('cs-quota-fill')
+  if(fill) fill.style.width = '68%'
+}, 600)
 
 /* ============================================
    COUNTER ANIMATION
