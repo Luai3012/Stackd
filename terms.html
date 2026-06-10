@@ -23,6 +23,8 @@
   </style>
 </head>
 <body>
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
 <nav class="nav" id="main-nav">
   <a href="index.html" class="logo">stack<span>d</span></a>
   <button class="nav-hamburger" id="nav-toggle" onclick="toggleNav()"><span></span><span></span><span></span></button>
@@ -77,6 +79,19 @@
 <script>
 function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); document.getElementById('nav-toggle').classList.toggle('open'); }
 window.addEventListener('scroll', () => { document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10); });
+</script>
+<script>
+var _cd=document.getElementById("cursor-dot"),_cr=document.getElementById("cursor-ring"),_mx=window.innerWidth/2,_my=window.innerHeight/2,_rx=_mx,_ry=_my;
+if(_cd</body></body>_cr){
+document.addEventListener("mousemove",function(e){_mx=e.clientX;_my=e.clientY;});
+(function tick(){_cd.style.transform="translate("+_mx+"px,"+_my+"px) translate(-50%,-50%)";
+_rx+=(_mx-_rx)*0.1;_ry+=(_my-_ry)*0.1;
+_cr.style.transform="translate("+_rx+"px,"+_ry+"px) translate(-50%,-50%)";
+requestAnimationFrame(tick);})();
+document.querySelectorAll("a,button").forEach(function(el){
+el.addEventListener("mouseenter",function(){_cr.classList.add("ring-hover");_cd.classList.add("dot-hover");});
+el.addEventListener("mouseleave",function(){_cr.classList.remove("ring-hover");_cd.classList.remove("dot-hover");});
+});}
 </script>
 </body>
 </html>
