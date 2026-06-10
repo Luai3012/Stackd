@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stackd — Dashboard</title>
   <meta name="robots" content="noindex" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231D9E75'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='600' fill='white'>S</text></svg>" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300D87F'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='700' fill='%230A0909'>S</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="shared.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="app.css" />
 </head>
 <body>
@@ -21,8 +20,9 @@
 <!-- ===================== AUTH SCREEN ===================== -->
 <div id="auth-screen" style="display:none;">
   <div class="auth-page">
+    <canvas id="auth-canvas" class="auth-canvas"></canvas>
     <div class="auth-card">
-      <a href="index.html" class="logo auth-logo">stack<span>d</span></a>
+      <a href="index.html" class="auth-logo">stack<span>d</span></a>
       <p class="auth-tagline">Your deals. Your numbers. Always clear.</p>
 
       <div class="auth-tabs">
@@ -30,7 +30,6 @@
         <button class="auth-tab" id="tab-signup" onclick="showAuthTab('signup')">Sign up</button>
       </div>
 
-      <!-- LOGIN -->
       <div id="form-login">
         <div class="form-field">
           <label class="form-label">Email</label>
@@ -40,11 +39,10 @@
           <label class="form-label">Password</label>
           <input type="password" id="login-password" placeholder="Your password" />
         </div>
-        <button class="btn btn-primary btn-full" onclick="signIn()">Sign in</button>
+        <button class="btn-auth-primary" onclick="signIn()">Sign in</button>
         <p class="auth-link" onclick="showAuthTab('forgot')">Forgot your password?</p>
       </div>
 
-      <!-- SIGNUP -->
       <div id="form-signup" style="display:none;">
         <div class="form-field">
           <label class="form-label">Full name</label>
@@ -58,18 +56,17 @@
           <label class="form-label">Password</label>
           <input type="password" id="signup-password" placeholder="At least 6 characters" />
         </div>
-        <button class="btn btn-primary btn-full" onclick="signUp()">Create account</button>
+        <button class="btn-auth-primary" onclick="signUp()">Create account</button>
         <p class="auth-legal">By signing up you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
       </div>
 
-      <!-- FORGOT PASSWORD -->
       <div id="form-forgot" style="display:none;">
-        <p class="auth-desc">Enter your email and we'll send you a reset link.</p>
+        <p class="auth-desc">Enter your email and we'll send a reset link.</p>
         <div class="form-field">
           <label class="form-label">Email</label>
           <input type="email" id="forgot-email" placeholder="you@example.com" />
         </div>
-        <button class="btn btn-primary btn-full" onclick="sendPasswordReset()">Send reset link</button>
+        <button class="btn-auth-primary" onclick="sendPasswordReset()">Send reset link</button>
         <p class="auth-link" onclick="showAuthTab('login')">← Back to sign in</p>
       </div>
 
@@ -83,7 +80,7 @@
 <div id="reset-screen" style="display:none;">
   <div class="auth-page">
     <div class="auth-card">
-      <a href="index.html" class="logo auth-logo">stack<span>d</span></a>
+      <a href="index.html" class="auth-logo">stack<span>d</span></a>
       <h2 class="auth-heading">Set your new password</h2>
       <div class="form-field">
         <label class="form-label">New password</label>
@@ -93,7 +90,7 @@
         <label class="form-label">Confirm password</label>
         <input type="password" id="confirm-password" placeholder="Same password again" />
       </div>
-      <button class="btn btn-primary btn-full" onclick="updatePassword()">Update password</button>
+      <button class="btn-auth-primary" onclick="updatePassword()">Update password</button>
       <p class="auth-feedback error" id="reset-error"></p>
       <p class="auth-feedback success" id="reset-success"></p>
     </div>
@@ -101,448 +98,674 @@
 </div>
 
 <!-- ===================== APP SCREEN ===================== -->
-<div id="app-screen" style="display:none;">
+<div id="app-screen" style="display:none;" class="app-shell">
 
-  <!-- APP NAV -->
-  <nav class="nav app-nav" id="app-nav">
-    <a href="index.html" class="logo">stack<span>d</span></a>
-    <button class="nav-hamburger" id="app-nav-toggle" onclick="toggleAppNav()">
-      <span></span><span></span><span></span>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <a href="index.html" class="sidebar-logo">stack<span>d</span></a>
+      <div class="sidebar-tagline">Sales Performance</div>
+    </div>
+
+    <button class="sidebar-new-btn" onclick="toggleAddForm()">
+      <span class="ms">add</span>
+      New Deal
     </button>
-    <div class="app-nav-center" id="app-nav-links">
-      <button class="app-tab-btn active" id="nav-dashboard" onclick="showAppTab('dashboard')">Dashboard</button>
-      <button class="app-tab-btn" id="nav-settings" onclick="showAppTab('settings')">Settings</button>
-    </div>
-    <div class="app-nav-right" id="app-nav-right">
-      <span class="nav-plan-badge" id="plan-badge">Free</span>
-      <span class="nav-user-name" id="nav-user"></span>
-      <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
-    </div>
-  </nav>
 
-  <!-- SETUP BANNER -->
-  <div id="setup-banner" class="setup-banner" style="display:none;">
-    <div class="setup-inner">
-      <div class="setup-text">
-        <strong>Welcome to Stackd!</strong>
-        Set up your comp plan so we can calculate your commissions automatically.
+    <nav class="sidebar-nav">
+      <a class="sidebar-link active" id="nav-dashboard" onclick="showTab('dashboard')">
+        <span class="ms">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a class="sidebar-link" id="nav-commission" onclick="showTab('commission')">
+        <span class="ms">payments</span>
+        <span>Commission</span>
+      </a>
+      <a class="sidebar-link" id="nav-performance" onclick="showTab('performance')">
+        <span class="ms">trending_up</span>
+        <span>Performance</span>
+      </a>
+      <a class="sidebar-link" id="nav-workspace" onclick="showTab('workspace')">
+        <span class="ms">psychology</span>
+        <span>AI Workspace</span>
+      </a>
+      <a class="sidebar-link" id="nav-settings" onclick="showTab('settings')">
+        <span class="ms">settings</span>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar" id="sidebar-avatar">L</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name" id="sidebar-name">Loading...</div>
+        <div class="sidebar-user-role">
+          <span class="plan-chip" id="sidebar-plan">Free</span>
+        </div>
       </div>
-      <div class="setup-fields">
-        <div class="setup-field">
-          <label class="form-label">Commission rate (%)</label>
-          <input type="number" id="setup-rate" placeholder="e.g. 8" style="width:160px;" />
+      <button class="sidebar-signout" onclick="signOut()" title="Sign out">
+        <span class="ms">logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="app-main" id="app-main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="topbar-menu" onclick="toggleSidebar()">
+        <span class="ms">menu</span>
+      </button>
+      <div class="topbar-search">
+        <span class="ms">search</span>
+        <input type="text" placeholder="Search deals..." id="search-input" oninput="filterDeals(this.value)" />
+      </div>
+      <div class="topbar-actions">
+        <div class="topbar-sync">
+          <span class="sync-dot"></span>
+          <span id="sync-label">Synced</span>
         </div>
-        <div class="setup-field">
-          <label class="form-label">Monthly quota ($)</label>
-          <input type="number" id="setup-quota" placeholder="e.g. 50000" style="width:180px;" />
+        <button class="topbar-btn" onclick="signOut()">
+          <span class="ms">logout</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- SETUP BANNER -->
+    <div id="setup-banner" class="setup-banner" style="display:none;">
+      <div class="setup-inner">
+        <span class="ms setup-icon">rocket_launch</span>
+        <div class="setup-text">
+          <strong>Welcome to Stackd.</strong> Set your commission rate and quota to unlock all features.
         </div>
-        <button class="btn btn-primary" onclick="saveCompPlan()">Save and continue</button>
+        <div class="setup-fields">
+          <div class="setup-field-wrap">
+            <label class="form-label">Commission %</label>
+            <input type="number" id="setup-rate" placeholder="e.g. 8" />
+          </div>
+          <div class="setup-field-wrap">
+            <label class="form-label">Monthly quota ($)</label>
+            <input type="number" id="setup-quota" placeholder="e.g. 50000" />
+          </div>
+          <button class="btn-setup-save" onclick="saveCompPlan()">Save &amp; continue</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- DASHBOARD TAB -->
-  <div id="tab-dashboard" class="app-tab">
-    <div class="app-container">
-
-      <!-- METRICS -->
-      <div class="metrics-grid" id="metrics-grid">
-        <div class="metric-card skeleton-wrap" id="metric-expected">
-          <div class="metric-label">Expected this month</div>
-          <div class="metric-value" id="m-expected">—</div>
-          <div class="metric-sub" id="m-expected-sub"></div>
+    <!-- TAB: DASHBOARD -->
+    <div id="tab-dashboard" class="app-tab active-tab">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title" id="welcome-title">Welcome back.</h1>
+          <p class="page-sub">Here is your pipeline status and earnings overview.</p>
         </div>
-        <div class="metric-card" id="metric-received">
+        <div class="header-kpi">
+          <div class="header-kpi-item">
+            <div class="header-kpi-label">Expected this month</div>
+            <div class="header-kpi-val green" id="h-expected">$0</div>
+          </div>
+          <div class="header-kpi-divider"></div>
+          <div class="header-kpi-item">
+            <div class="header-kpi-label">Quota attainment</div>
+            <div class="header-kpi-val" id="h-attainment">0%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- METRIC CARDS -->
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-bg-icon"><span class="ms">account_balance_wallet</span></div>
+          <div class="metric-label">Current earnings</div>
+          <div class="metric-value green" id="m-expected">$0</div>
+          <div class="metric-delta" id="m-expected-delta"></div>
+        </div>
+        <div class="metric-card">
           <div class="metric-label">Received</div>
-          <div class="metric-value" id="m-received">—</div>
-          <div class="metric-sub" id="m-received-sub"></div>
+          <div class="metric-value" id="m-received">$0</div>
+          <div class="metric-delta" id="m-received-delta"></div>
         </div>
-        <div class="metric-card" id="metric-gap">
-          <div class="metric-label">Gap</div>
-          <div class="metric-value" id="m-gap">—</div>
-          <div class="metric-sub" id="m-gap-sub"></div>
+        <div class="metric-card">
+          <div class="metric-label">Commission gap</div>
+          <div class="metric-value orange" id="m-gap">$0</div>
+          <div class="metric-delta" id="m-gap-delta"></div>
         </div>
-        <div class="metric-card" id="metric-quota">
+        <div class="metric-card">
           <div class="metric-label">Quota attainment</div>
-          <div class="metric-value" id="m-quota">—</div>
-          <div class="metric-sub" id="m-quota-sub"></div>
+          <div class="metric-value" id="m-quota">0%</div>
+          <div class="quota-bar-wrap">
+            <div class="quota-bar-track">
+              <div class="quota-bar-fill" id="quota-bar"></div>
+            </div>
+            <div class="quota-bar-labels">
+              <span id="quota-closed">$0 closed</span>
+              <span id="quota-target">Target: —</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- QUOTA BAR -->
-      <div class="quota-wrap">
-        <div class="quota-bar-track">
-          <div class="quota-bar-fill" id="quota-bar" style="width:0%"></div>
+      <!-- BENTO GRID -->
+      <div class="bento-grid">
+
+        <!-- DEALS TABLE — large -->
+        <div class="bento-card bento-large">
+          <div class="bento-header">
+            <div class="bento-title">Deal Breakdown</div>
+            <div class="bento-actions">
+              <button class="bento-btn" onclick="exportCSV()">
+                <span class="ms">download</span> Export
+              </button>
+              <button class="bento-btn primary" onclick="toggleAddForm()">
+                <span class="ms">add</span> Log deal
+              </button>
+            </div>
+          </div>
+
+          <!-- ADD FORM -->
+          <div id="add-form" class="add-form" style="display:none;">
+            <div class="add-form-grid">
+              <div class="form-field">
+                <label class="form-label">Deal name <span class="req">*</span></label>
+                <input type="text" id="f-name" placeholder="e.g. Acme Corp renewal" />
+              </div>
+              <div class="form-field">
+                <label class="form-label">Client</label>
+                <input type="text" id="f-client" placeholder="Company name" />
+              </div>
+              <div class="form-field">
+                <label class="form-label">Deal value ($) <span class="req">*</span></label>
+                <input type="number" id="f-value" placeholder="0" />
+              </div>
+              <div class="form-field">
+                <label class="form-label">Commission rate (%)</label>
+                <input type="number" id="f-rate" placeholder="Uses default" />
+              </div>
+              <div class="form-field">
+                <label class="form-label">Amount received ($)</label>
+                <input type="number" id="f-received" placeholder="0" />
+              </div>
+              <div class="form-field">
+                <label class="form-label">Status</label>
+                <select id="f-status">
+                  <option value="pending">Pending</option>
+                  <option value="closed">Closed</option>
+                  <option value="disputed">Disputed</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label">Close date</label>
+                <input type="date" id="f-date" />
+              </div>
+              <div class="form-field">
+                <label class="form-label">Notes</label>
+                <input type="text" id="f-notes" placeholder="Optional" />
+              </div>
+            </div>
+            <p class="form-error" id="form-error"></p>
+            <div class="form-actions">
+              <button class="btn-ghost" onclick="toggleAddForm()">Cancel</button>
+              <button class="btn-primary" id="save-btn" onclick="addDeal()">Save deal</button>
+            </div>
+          </div>
+
+          <!-- TABLE -->
+          <div class="deals-table-wrap">
+            <table class="deals-table">
+              <thead>
+                <tr>
+                  <th>Deal</th>
+                  <th>Amount</th>
+                  <th>Base comm.</th>
+                  <th>Expected</th>
+                  <th>Received</th>
+                  <th>Status</th>
+                  <th class="text-right">Gap</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="deals-tbody">
+                <tr><td colspan="8" class="empty-row">
+                  <div class="empty-state">
+                    <span class="ms empty-icon">receipt_long</span>
+                    <div class="empty-title">No deals logged yet</div>
+                    <div class="empty-sub">Click "Log deal" to add your first deal</div>
+                  </div>
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="quota-labels">
-          <span id="quota-closed-label">$0 closed</span>
-          <span id="quota-target-label">Target: —</span>
+
+        <!-- NEXT BEST ACTIONS -->
+        <div class="bento-card bento-small">
+          <div class="bento-header">
+            <div class="bento-title">
+              <span class="ms bento-title-icon">auto_awesome</span>
+              Alerts &amp; Actions
+            </div>
+          </div>
+          <div id="alerts-list" class="alerts-list">
+            <div class="no-alerts">
+              <span class="ms">check_circle</span>
+              All clear — no gaps detected
+            </div>
+          </div>
+        </div>
+
+        <!-- SCENARIO SIMULATOR -->
+        <div class="bento-card bento-small">
+          <div class="bento-header">
+            <div class="bento-title">
+              <span class="ms bento-title-icon">science</span>
+              Scenario Simulator
+            </div>
+          </div>
+          <div class="simulator-body">
+            <div class="form-field">
+              <label class="form-label">Potential deal value</label>
+              <div class="sim-input-wrap">
+                <span class="sim-prefix">$</span>
+                <input type="number" id="sim-value" class="sim-input" value="50000" oninput="updateSimulator()" />
+              </div>
+            </div>
+            <div class="sim-slider-wrap">
+              <input type="range" id="sim-slider" min="10000" max="500000" step="5000" value="50000" oninput="syncSimSlider(this.value)" />
+            </div>
+            <div class="sim-result">
+              <div class="sim-result-row">
+                <span>Commission earned</span>
+                <span class="green mono" id="sim-comm">$4,000</span>
+              </div>
+              <div class="sim-result-row">
+                <span>New quota attainment</span>
+                <span class="mono" id="sim-quota">—</span>
+              </div>
+              <div class="sim-result-row highlight">
+                <span>Total expected this month</span>
+                <span class="green mono bold" id="sim-total">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAYOUT TIMELINE -->
+        <div class="bento-card bento-small">
+          <div class="bento-header">
+            <div class="bento-title">
+              <span class="ms bento-title-icon">calendar_month</span>
+              Upcoming Payouts
+            </div>
+          </div>
+          <div class="timeline-body" id="payout-timeline">
+            <div class="no-alerts"><span class="ms">hourglass_empty</span> No pending payouts</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB: COMMISSION CENTER -->
+    <div id="tab-commission" class="app-tab" style="display:none;">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Commission Center</h1>
+          <p class="page-sub">Track, analyze, and project your YTD earnings.</p>
+        </div>
+        <div class="header-kpi">
+          <div class="header-kpi-item">
+            <div class="header-kpi-label">YTD Earnings</div>
+            <div class="header-kpi-val green" id="ytd-earnings">$0</div>
+          </div>
+          <div class="header-kpi-divider"></div>
+          <div class="header-kpi-item">
+            <div class="header-kpi-label">Projected EOY</div>
+            <div class="header-kpi-val" id="ytd-projected">$0</div>
+          </div>
         </div>
       </div>
 
-      <!-- ALERTS -->
-      <div id="alerts-section" style="display:none;">
-        <div class="row-header">
-          <span class="section-label">Alerts</span>
+      <!-- ACCELERATORS -->
+      <div class="section-title-row">
+        <span class="section-title">Active accelerators &amp; SPIFs</span>
+      </div>
+      <div class="accelerators-grid">
+        <div class="accel-card accel-active">
+          <div class="accel-header">
+            <span class="ms accel-icon">speed</span>
+            <span class="accel-tag active">Active</span>
+          </div>
+          <div class="accel-name">Pro Plan</div>
+          <div class="accel-value">1.5× multiplier</div>
+          <div class="accel-desc">On all deals while subscribed to Pro</div>
+          <div class="accel-progress-wrap">
+            <div class="accel-progress-labels">
+              <span id="accel-closed">$0 closed</span>
+              <span id="accel-target">Target: $0</span>
+            </div>
+            <div class="accel-bar"><div class="accel-bar-fill" id="accel-fill"></div></div>
+          </div>
         </div>
-        <div id="alerts-list" class="alerts-box"></div>
-      </div>
-
-      <!-- AI ACTIONS BAR -->
-      <div class="ai-actions-bar" id="ai-actions-bar">
-        <span class="ai-actions-label">✦ AI</span>
-        <button class="btn-ai" onclick="openAIModal('dispute')" id="btn-dispute">
-          <span class="btn-ai-icon">⚠️</span> Draft dispute email
-        </button>
-        <button class="btn-ai" onclick="openAIModal('raise')">
-          <span class="btn-ai-icon">📈</span> Request a raise
-        </button>
-        <button class="btn-ai" onclick="openAIModal('report')">
-          <span class="btn-ai-icon">📄</span> Performance report
-        </button>
-        <button class="btn-ai career-feature" onclick="openAIModal('interview')">
-          <span class="btn-ai-icon">🎯</span> Interview coach
-        </button>
-        <button class="btn-ai career-feature" onclick="openAIModal('star')">
-          <span class="btn-ai-icon">⭐</span> STAR answer
-        </button>
-        <button class="btn-ai career-feature" onclick="openAIModal('linkedin')">
-          <span class="btn-ai-icon">💼</span> LinkedIn audit
-        </button>
-        <button class="btn-ai career-feature" onclick="openAIModal('negotiation')">
-          <span class="btn-ai-icon">💰</span> Salary negotiation
-        </button>
-      </div>
-
-      <!-- DEALS -->
-      <div class="row-header">
-        <span class="section-label">All deals</span>
-        <div class="row-header-actions">
-          <button class="btn btn-ghost btn-sm" onclick="exportCSV()">Export CSV</button>
-          <button class="btn btn-outline btn-sm" onclick="toggleAddForm()">+ Log deal</button>
+        <div class="accel-card">
+          <div class="accel-header">
+            <span class="ms accel-icon">star</span>
+            <span class="accel-tag pending">In Progress</span>
+          </div>
+          <div class="accel-name">Dispute Recovery</div>
+          <div class="accel-value">Gap protection</div>
+          <div class="accel-desc">AI-drafted disputes recover underpaid commissions</div>
+          <div class="accel-progress-wrap">
+            <div class="accel-progress-labels">
+              <span id="dispute-count">0 disputes</span>
+              <span id="dispute-gap">$0 at risk</span>
+            </div>
+            <div class="accel-bar"><div class="accel-bar-fill orange" id="dispute-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="accel-card accel-locked">
+          <div class="accel-header">
+            <span class="ms accel-icon">lock</span>
+          </div>
+          <div class="accel-name">Career Coaching</div>
+          <div class="accel-value">Unlocks at Career plan</div>
+          <div class="accel-desc">Interview prep, STAR answers, LinkedIn audit</div>
+          <button class="accel-unlock-btn" onclick="openUpgradeModal('career')">Upgrade to Career →</button>
         </div>
       </div>
 
-      <!-- ADD FORM -->
-      <div id="add-form" class="add-form" style="display:none;">
-        <div class="add-form-grid">
+      <!-- COMMISSION TABLE -->
+      <div class="section-title-row" style="margin-top:1.5rem;">
+        <span class="section-title">Full deal breakdown</span>
+        <button class="bento-btn" onclick="exportCSV()"><span class="ms">download</span> Export CSV</button>
+      </div>
+      <div class="bento-card" style="padding:0;">
+        <div class="deals-table-wrap">
+          <table class="deals-table commission-table">
+            <thead>
+              <tr>
+                <th>Deal</th>
+                <th>Amount</th>
+                <th>Base comm.</th>
+                <th>Multiplier</th>
+                <th class="text-right">Total payout</th>
+                <th class="text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody id="commission-tbody">
+              <tr><td colspan="6" class="empty-row">
+                <div class="empty-state"><span class="ms empty-icon">payments</span><div class="empty-title">No deals yet</div></div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: PERFORMANCE -->
+    <div id="tab-performance" class="app-tab" style="display:none;">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Performance</h1>
+          <p class="page-sub">Your pipeline waterfall and activity trends.</p>
+        </div>
+      </div>
+      <div class="bento-grid">
+        <div class="bento-card bento-large">
+          <div class="bento-header">
+            <div class="bento-title">Pipeline Waterfall</div>
+          </div>
+          <div class="waterfall-chart" id="waterfall-chart">
+            <div class="waterfall-bars" id="waterfall-bars">
+              <!-- rendered by JS -->
+            </div>
+            <div class="waterfall-labels" id="waterfall-labels">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+        </div>
+        <div class="bento-card bento-small">
+          <div class="bento-header">
+            <div class="bento-title">
+              <span class="ms bento-title-icon">insights</span>
+              Key Stats
+            </div>
+          </div>
+          <div class="perf-stats" id="perf-stats">
+            <!-- rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: AI WORKSPACE -->
+    <div id="tab-workspace" class="app-tab" style="display:none;">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">AI Workspace</h1>
+          <p class="page-sub">Automated career and performance assets, powered by Claude.</p>
+        </div>
+      </div>
+      <div class="workspace-layout">
+        <!-- Tool Sidebar -->
+        <div class="workspace-tools">
+          <div class="workspace-tools-header">Tools</div>
+          <div class="workspace-tools-sub">Generate professional documents instantly</div>
+          <div class="workspace-tool-list" id="workspace-tool-list">
+            <button class="tool-card" id="tool-dispute" onclick="selectTool('dispute')">
+              <div class="tool-card-inner">
+                <div class="tool-card-label">Draft Generator</div>
+                <div class="tool-card-title">Commission Dispute</div>
+              </div>
+              <span class="ms tool-card-icon">description</span>
+            </button>
+            <button class="tool-card" id="tool-raise" onclick="selectTool('raise')">
+              <div class="tool-card-inner">
+                <div class="tool-card-label">Draft Generator</div>
+                <div class="tool-card-title">Raise Request</div>
+              </div>
+              <span class="ms tool-card-icon">trending_up</span>
+            </button>
+            <button class="tool-card" id="tool-report" onclick="selectTool('report')">
+              <div class="tool-card-inner">
+                <div class="tool-card-label">Generator</div>
+                <div class="tool-card-title">Performance Report</div>
+              </div>
+              <span class="ms tool-card-icon">insert_chart</span>
+            </button>
+            <button class="tool-card career-tool" id="tool-interview" onclick="selectTool('interview')">
+              <div class="tool-card-inner">
+                <div class="tool-card-label">Career · Interview</div>
+                <div class="tool-card-title">Interview Coach</div>
+              </div>
+              <span class="ms tool-card-icon">school</span>
+            </button>
+            <button class="tool-card career-tool" id="tool-star" onclick="selectTool('star')">
+              <div class="tool-card-inner">
+                <div class="tool-card-label">Career · STAR</div>
+                <div class="tool-card-title">STAR Answer</div>
+              </div>
+              <span class="ms tool-card-icon">stars</span>
+            </button>
+            <button class="tool-card career-tool" id="tool-linkedin" onclick="selectTool('linkedin')">
+              <div class="tool-card-inner">
+                <div class="tool-card-label">Career · LinkedIn</div>
+                <div class="tool-card-title">Profile Audit</div>
+              </div>
+              <span class="ms tool-card-icon">badge</span>
+            </button>
+            <button class="tool-card career-tool" id="tool-negotiation" onclick="selectTool('negotiation')">
+              <div class="tool-card-inner">
+                <div class="tool-card-label">Career · Salary</div>
+                <div class="tool-card-title">Negotiation Script</div>
+              </div>
+              <span class="ms tool-card-icon">handshake</span>
+            </button>
+          </div>
+          <div class="workspace-growth-hub">
+            <div class="growth-hub-header">
+              <span class="growth-hub-title">Growth Hub</span>
+              <button class="growth-hub-link" onclick="openUpgradeModal('career')">Upgrade</button>
+            </div>
+            <div class="growth-hub-card">
+              <div class="growth-hub-row">
+                <span>Career readiness</span>
+                <span class="green mono" id="career-readiness">0%</span>
+              </div>
+              <div class="growth-bar-track">
+                <div class="growth-bar-fill" id="career-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workspace Editor -->
+        <div class="workspace-editor">
+          <div class="editor-toolbar">
+            <div class="editor-toolbar-left">
+              <span class="editor-tool-name" id="active-tool-name">Select a tool to get started</span>
+            </div>
+            <div class="editor-toolbar-right">
+              <span class="editor-saved">Auto-saved</span>
+              <button class="btn-ghost btn-sm" onclick="copyResult()">Copy</button>
+              <button class="btn-primary btn-sm" onclick="generateFromTool()">
+                <span class="ms">auto_awesome</span>
+                Generate
+              </button>
+            </div>
+          </div>
+
+          <!-- Input Panel -->
+          <div class="editor-inputs" id="editor-inputs">
+            <div class="editor-placeholder">
+              <span class="ms editor-placeholder-icon">psychology</span>
+              <div class="editor-placeholder-title">Choose a tool from the left</div>
+              <div class="editor-placeholder-sub">Each tool generates a professional document tailored to your performance data</div>
+            </div>
+          </div>
+
+          <!-- Output Panel -->
+          <div class="editor-output" id="editor-output" style="display:none;">
+            <div class="editor-output-label">
+              <span class="ms">auto_awesome</span>
+              Generated by Claude
+            </div>
+            <div class="editor-output-content" id="editor-output-content"></div>
+            <div class="editor-output-actions">
+              <button class="btn-primary btn-sm" onclick="copyResult()">
+                <span class="ms">content_copy</span> Copy
+              </button>
+              <button class="btn-ghost btn-sm" onclick="printResult()">
+                <span class="ms">print</span> Print / PDF
+              </button>
+              <button class="btn-ghost btn-sm" onclick="regenerateResult()">
+                <span class="ms">refresh</span> Regenerate
+              </button>
+            </div>
+          </div>
+
+          <!-- Loading -->
+          <div class="editor-loading" id="editor-loading" style="display:none;">
+            <div class="editor-loading-inner">
+              <div class="ai-spinner"></div>
+              <span>Claude is writing...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: SETTINGS -->
+    <div id="tab-settings" class="app-tab" style="display:none;">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Settings</h1>
+          <p class="page-sub">Manage your profile, comp plan, and subscription.</p>
+        </div>
+      </div>
+      <div class="settings-layout">
+
+        <div class="settings-block">
+          <div class="settings-block-title">Profile</div>
           <div class="form-field">
-            <label class="form-label">Deal name <span class="required">*</span></label>
-            <input type="text" id="f-name" placeholder="e.g. Acme Corp renewal" />
+            <label class="form-label">Full name</label>
+            <input type="text" id="settings-name" placeholder="Your name" />
           </div>
           <div class="form-field">
-            <label class="form-label">Client</label>
-            <input type="text" id="f-client" placeholder="Company name" />
+            <label class="form-label">Email address</label>
+            <input type="email" id="settings-email" disabled />
+            <p class="field-hint">Contact support to change your email.</p>
           </div>
           <div class="form-field">
-            <label class="form-label">Deal value ($) <span class="required">*</span></label>
-            <input type="number" id="f-value" placeholder="0" min="0" />
+            <label class="form-label">New password <span class="hint-inline">(leave blank to keep current)</span></label>
+            <input type="password" id="settings-password" placeholder="New password" />
+          </div>
+        </div>
+
+        <div class="settings-block">
+          <div class="settings-block-title">Comp Plan</div>
+          <div class="settings-two-col">
+            <div class="form-field">
+              <label class="form-label">Commission rate (%)</label>
+              <input type="number" id="settings-rate" placeholder="e.g. 8" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Quota target ($)</label>
+              <input type="number" id="settings-quota" placeholder="e.g. 50000" />
+            </div>
           </div>
           <div class="form-field">
-            <label class="form-label">Commission rate (%)</label>
-            <input type="number" id="f-rate" placeholder="Uses your default" min="0" max="100" />
-          </div>
-          <div class="form-field">
-            <label class="form-label">Amount received ($)</label>
-            <input type="number" id="f-received" placeholder="0" min="0" />
-          </div>
-          <div class="form-field">
-            <label class="form-label">Status</label>
-            <select id="f-status">
-              <option value="pending">Pending</option>
-              <option value="closed">Closed</option>
-              <option value="disputed">Disputed</option>
+            <label class="form-label">Currency</label>
+            <select id="settings-currency">
+              <option value="USD">USD — US Dollar</option>
+              <option value="EUR">EUR — Euro</option>
+              <option value="GBP">GBP — British Pound</option>
+              <option value="JOD">JOD — Jordanian Dinar</option>
+              <option value="AED">AED — UAE Dirham</option>
+              <option value="SAR">SAR — Saudi Riyal</option>
             </select>
           </div>
-          <div class="form-field">
-            <label class="form-label">Close date</label>
-            <input type="date" id="f-date" />
+        </div>
+
+        <button class="btn-primary" onclick="saveSettings()">Save changes</button>
+
+        <div class="settings-block plan-block">
+          <div class="settings-block-title">Subscription</div>
+          <div class="plan-info-row">
+            <div>
+              <div class="plan-info-name" id="settings-plan-name">Free plan</div>
+              <div class="plan-info-desc" id="settings-plan-desc">Up to 5 deals per month</div>
+            </div>
+            <div class="plan-upgrade-btns">
+              <button class="btn-outline btn-sm" onclick="openUpgradeModal('pro')">Upgrade to Pro — $19/mo</button>
+              <button class="btn-primary btn-sm" onclick="openUpgradeModal('career')">Career — $29/mo</button>
+            </div>
           </div>
-          <div class="form-field">
-            <label class="form-label">Notes</label>
-            <input type="text" id="f-notes" placeholder="Optional context" />
-          </div>
-        </div>
-        <p class="form-error" id="form-error"></p>
-        <div class="form-actions">
-          <button class="btn btn-ghost" onclick="toggleAddForm()">Cancel</button>
-          <button class="btn btn-primary" id="save-deal-btn" onclick="addDeal()">Save deal</button>
-        </div>
-      </div>
-
-      <!-- DEALS TABLE -->
-      <div class="deals-table">
-        <div class="deals-head">
-          <div>Deal</div>
-          <div>Value</div>
-          <div>Expected</div>
-          <div>Received</div>
-          <div>Status</div>
-          <div>Gap</div>
-          <div></div>
-        </div>
-        <div id="deals-body">
-          <div class="loading-state"><div class="spinner"></div> Loading deals...</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- SETTINGS TAB -->
-  <div id="tab-settings" class="app-tab" style="display:none;">
-    <div class="app-container" style="max-width:640px;">
-
-      <div class="settings-block">
-        <div class="settings-block-title">Profile</div>
-        <div class="form-field">
-          <label class="form-label">Full name</label>
-          <input type="text" id="settings-name" placeholder="Your name" />
-        </div>
-        <div class="form-field">
-          <label class="form-label">Email address</label>
-          <input type="email" id="settings-email" disabled />
-          <p class="field-hint">Contact support to change your email address.</p>
-        </div>
-        <div class="form-field">
-          <label class="form-label">New password <span class="hint-inline">(leave blank to keep current)</span></label>
-          <input type="password" id="settings-password" placeholder="New password" />
-        </div>
-      </div>
-
-      <div class="settings-block">
-        <div class="settings-block-title">Comp plan</div>
-        <div class="settings-two-col">
-          <div class="form-field">
-            <label class="form-label">Commission rate (%)</label>
-            <input type="number" id="settings-rate" placeholder="e.g. 8" />
-          </div>
-          <div class="form-field">
-            <label class="form-label">Quota target ($)</label>
-            <input type="number" id="settings-quota" placeholder="e.g. 50000" />
+          <div class="guarantee-note">
+            <span class="ms">verified</span>
+            7-day money back guarantee on all paid plans
           </div>
         </div>
-        <div class="form-field">
-          <label class="form-label">Currency</label>
-          <select id="settings-currency">
-            <option value="USD">USD — US Dollar</option>
-            <option value="EUR">EUR — Euro</option>
-            <option value="GBP">GBP — British Pound</option>
-            <option value="JOD">JOD — Jordanian Dinar</option>
-            <option value="AED">AED — UAE Dirham</option>
-            <option value="SAR">SAR — Saudi Riyal</option>
-            <option value="EGP">EGP — Egyptian Pound</option>
-          </select>
-        </div>
-      </div>
 
-      <button class="btn btn-primary" onclick="saveSettings()">Save changes</button>
-
-      <div class="settings-block">
-        <div class="settings-block-title">Plan</div>
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-          <div>
-            <div style="font-size:15px;font-weight:600;" id="settings-plan-name">Free plan</div>
-            <div style="font-size:13px;color:var(--gray-600);margin-top:2px;" id="settings-plan-desc">Up to 5 deals per month</div>
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-outline btn-sm" onclick="openUpgradeModal('pro')">Upgrade to Pro — $19/mo</button>
-            <button class="btn btn-primary btn-sm" onclick="openUpgradeModal('career')">Career — $29/mo</button>
+        <div class="settings-block danger-block">
+          <div class="settings-block-title danger-title">Account</div>
+          <p class="settings-desc">Your data is stored securely in the cloud.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn-ghost btn-sm" onclick="signOut()">Sign out</button>
+            <button class="btn-danger btn-sm" onclick="confirmDeleteAccount()">Delete account</button>
           </div>
         </div>
-      </div>
-        <div class="settings-block-title danger-title">Account</div>
-        <p class="settings-desc">Signing out will end your current session. Your data is safely stored in the cloud and will be here when you return.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
-          <button class="btn btn-danger btn-sm" onclick="confirmDeleteAccount()">Delete account</button>
-        </div>
-      </div>
 
-      <div class="settings-block" style="border-color:rgba(29,158,117,0.2);background:var(--green-light);">
-        <div class="settings-block-title" style="color:var(--green-dark);border-color:rgba(29,158,117,0.2);">7-day guarantee</div>
-        <p class="settings-desc" style="color:var(--green-dark);">Not happy with your subscription within the first 7 days? Email <a href="mailto:support@getstackd.app" style="color:var(--green-dark);font-weight:600;">support@getstackd.app</a> and we'll refund you in full — no questions, no hassle.</p>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- ===================== AI MODAL ===================== -->
-<div id="ai-modal-backdrop" class="ai-modal-backdrop" style="display:none;" onclick="closeAIModal()"></div>
-<div id="ai-modal" class="ai-modal" style="display:none;">
-  <div class="ai-modal-header">
-    <div class="ai-modal-title" id="ai-modal-title">AI Assistant</div>
-    <button class="ai-modal-close" onclick="closeAIModal()">✕</button>
-  </div>
-
-  <div id="ai-dispute-inputs" style="display:none;">
-    <p class="ai-modal-desc">Claude will write a professional dispute email based on your deal details.</p>
-    <div class="form-field">
-      <label class="form-label">Tone</label>
-      <select id="dispute-tone">
-        <option value="professional and measured">Professional and measured</option>
-        <option value="firm and assertive">Firm and assertive</option>
-        <option value="polite and collaborative">Polite and collaborative</option>
-      </select>
-    </div>
-  </div>
-
-  <div id="ai-raise-inputs" style="display:none;">
-    <p class="ai-modal-desc">Claude will write a compelling raise request email using your performance data.</p>
-    <div class="ai-input-grid">
-      <div class="form-field">
-        <label class="form-label">Your role / title</label>
-        <input type="text" id="raise-role" placeholder="e.g. BD Associate" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Time since last raise</label>
-        <input type="text" id="raise-time" placeholder="e.g. 14 months" />
-      </div>
-      <div class="form-field" style="grid-column:span 2;">
-        <label class="form-label">Additional context <span class="hint-inline">(optional)</span></label>
-        <input type="text" id="raise-context" placeholder="e.g. Landed 3 enterprise accounts, exceeded quota 4 months straight" />
       </div>
     </div>
-  </div>
 
-  <div id="ai-report-inputs" style="display:none;">
-    <p class="ai-modal-desc">Claude will generate a professional performance report you can print or use in reviews.</p>
-    <div class="form-field">
-      <label class="form-label">Period</label>
-      <select id="report-period">
-        <option value="this month">This month</option>
-        <option value="this quarter">This quarter</option>
-        <option value="this year">This year</option>
-        <option value="all time">All time</option>
-      </select>
-    </div>
-  </div>
+  </div><!-- end app-main -->
 
-  <div id="ai-interview-inputs" style="display:none;">
-    <p class="ai-modal-desc">Claude will write tailored interview answers based on the job you're applying for.</p>
-    <div class="ai-input-grid">
-      <div class="form-field">
-        <label class="form-label">Role you're applying for <span class="required">*</span></label>
-        <input type="text" id="interview-role" placeholder="e.g. Account Executive" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Company</label>
-        <input type="text" id="interview-company" placeholder="e.g. Salesforce" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Years of experience</label>
-        <input type="text" id="interview-experience" placeholder="e.g. 5 years" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Your background summary</label>
-        <input type="text" id="interview-background" placeholder="e.g. BD in luxury hospitality, moved into tech" />
-      </div>
-      <div class="form-field" style="grid-column:span 2;">
-        <label class="form-label">Key points from job description <span class="required">*</span></label>
-        <input type="text" id="interview-jd" placeholder="e.g. Hunter role, SaaS sales, enterprise clients, quota $1M+" />
-      </div>
-    </div>
-  </div>
+</div><!-- end app-screen -->
 
-  <div id="ai-star-inputs" style="display:none;">
-    <p class="ai-modal-desc">Describe a situation from your career and Claude will turn it into a perfect STAR answer.</p>
-    <div class="ai-input-grid">
-      <div class="form-field">
-        <label class="form-label">Your role at the time</label>
-        <input type="text" id="star-role" placeholder="e.g. BD Associate at Marriott" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Role you're interviewing for</label>
-        <input type="text" id="star-target" placeholder="e.g. Account Executive" />
-      </div>
-      <div class="form-field" style="grid-column:span 2;">
-        <label class="form-label">Describe the situation <span class="required">*</span></label>
-        <input type="text" id="star-situation" placeholder="e.g. Lost a major corporate account, had to win them back within 90 days" />
-      </div>
-    </div>
-  </div>
-
-  <div id="ai-linkedin-inputs" style="display:none;">
-    <p class="ai-modal-desc">Claude will rewrite your LinkedIn About section to attract recruiters and hiring managers.</p>
-    <div class="ai-input-grid">
-      <div class="form-field">
-        <label class="form-label">Current role</label>
-        <input type="text" id="linkedin-role" placeholder="e.g. BD Associate, Marriott International" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Target roles</label>
-        <input type="text" id="linkedin-target" placeholder="e.g. Account Executive, SaaS sales" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Key achievements</label>
-        <input type="text" id="linkedin-achievements" placeholder="e.g. Grew corporate accounts 40%, managed $2M pipeline" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Tone</label>
-        <select id="linkedin-tone">
-          <option value="professional but personable">Professional but personable</option>
-          <option value="bold and confident">Bold and confident</option>
-          <option value="warm and approachable">Warm and approachable</option>
-        </select>
-      </div>
-      <div class="form-field" style="grid-column:span 2;">
-        <label class="form-label">Current LinkedIn summary <span class="hint-inline">(paste it here or leave blank)</span></label>
-        <input type="text" id="linkedin-current" placeholder="Paste your current About section or leave blank for a fresh start" />
-      </div>
-    </div>
-  </div>
-
-  <div id="ai-negotiation-inputs" style="display:none;">
-    <p class="ai-modal-desc">Claude will write a confident salary negotiation script based on your offer.</p>
-    <div class="ai-input-grid">
-      <div class="form-field">
-        <label class="form-label">Role offered</label>
-        <input type="text" id="neg-role" placeholder="e.g. Account Executive" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Company</label>
-        <input type="text" id="neg-company" placeholder="e.g. Salesforce" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Offered salary <span class="required">*</span></label>
-        <input type="text" id="neg-offered" placeholder="e.g. $60,000" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Your target <span class="required">*</span></label>
-        <input type="text" id="neg-target" placeholder="e.g. $70,000" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Current salary</label>
-        <input type="text" id="neg-current" placeholder="e.g. $55,000" />
-      </div>
-      <div class="form-field">
-        <label class="form-label">Your strengths to leverage</label>
-        <input type="text" id="neg-strengths" placeholder="e.g. Exceeded quota 3 years running, strong enterprise network" />
-      </div>
-    </div>
-  </div>
-
-  <button class="btn btn-primary btn-full" id="ai-generate-btn" onclick="generateAI()">Generate with Claude</button>
-
-  <div id="ai-loading" style="display:none;">
-    <div class="ai-loading-inner">
-      <div class="spinner"></div>
-      <span>Claude is writing...</span>
-    </div>
-  </div>
-
-  <div id="ai-result" style="display:none;">
-    <div class="ai-result-label">Generated by Claude</div>
-    <div class="ai-result-text" id="ai-result-text"></div>
-    <div class="ai-result-actions">
-      <button class="btn btn-primary btn-sm" onclick="copyAIResult()">Copy to clipboard</button>
-      <button class="btn btn-outline btn-sm" onclick="printAIResult()">Print / Save PDF</button>
-      <button class="btn btn-ghost btn-sm" onclick="regenerateAI()">Regenerate</button>
-    </div>
-  </div>
-</div>
+<!-- AI MODAL (for quick generations) -->
+<div id="ai-modal-backdrop" class="modal-backdrop" style="display:none;" onclick="closeAIModal()"></div>
+<div id="ai-modal" class="ai-modal" style="display:none;"></div>
 
 <script src="app.js"></script>
 </body>
