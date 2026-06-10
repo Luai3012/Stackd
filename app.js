@@ -769,19 +769,30 @@ function renderPerformanceTab() {
   const maxVal = Math.max(...stages.map(s=>s.val), 1)
   const barsEl = document.getElementById('waterfall-bars')
   const labelsEl = document.getElementById('waterfall-labels')
-  if(!barsEl||!labelsEl) return
+  if(!barsEl) return
 
+  // Container width for percentage calculation — use 100% and CSS does the work
   barsEl.innerHTML = stages.map((s,i) => {
-    const h = Math.max(Math.round((s.val/maxVal)*100), 4)
-    const display = s.val >= 1000000 ? '$'+(s.val/1000000).toFixed(1)+'M' : '$'+(s.val/1000).toFixed(0)+'k'
+    const pct = Math.max(Math.round((s.val/maxVal)*100), s.val>0?2:0)
+    const display = s.val >= 1000000 ? '$'+(s.val/1000000).toFixed(1)+'M'
+      : s.val >= 1000 ? '$'+(s.val/1000).toFixed(0)+'k'
+      : '$'+s.val
     const isActive = perfFilter === s.status
-    return `<div class="waterfall-bar-wrap" onclick="filterByStage('${s.status}','${s.label}')" style="cursor:pointer;">
-      <div class="waterfall-bar-val" style="${isActive?'color:var(--green)':''}">${display}</div>
-      <div class="waterfall-bar" style="height:${h}%;background:${s.color};border:0.5px solid ${s.color.replace('0.3','0.7').replace('0.4','0.8').replace('0.5','0.9')};${isActive?'outline:1.5px solid var(--green);':''}opacity:${isActive||perfFilter===null?'1':'0.5'};transition:opacity 0.2s;"></div>
+    const count = s.status === null ? deals.length
+      : deals.filter(d => d.status === s.status).length
+    return `<div class="waterfall-bar-wrap" onclick="filterByStage('${s.status}','${s.label}')">
+      <div class="waterfall-bar-label">
+        <span class="wbl-name" style="${isActive?'color:var(--green);':''}">${s.label}</span>
+        <span class="wbl-count">${count} deal${count!==1?'s':''}</span>
+      </div>
+      <div class="waterfall-bar-track">
+        <div class="waterfall-bar" style="width:${pct}%;background:${s.color};${isActive?'outline:1.5px solid var(--green);outline-offset:2px;':''};opacity:${isActive||perfFilter===null?'1':'0.45'};"></div>
+        <span class="waterfall-bar-val" style="${isActive?'color:var(--green)':''}">${display}</span>
+      </div>
     </div>`
   }).join('')
 
-  labelsEl.innerHTML = stages.map(s => `<div class="waterfall-label">${s.label}</div>`).join('')
+  if(labelsEl) labelsEl.innerHTML = ''
 
   // Key stats
   const quota = compPlan?.quota_target || 0
@@ -1214,6 +1225,18 @@ function showToast(msg, type='') {
 
 function escHtml(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+}
+
+function dismissDisclaimer() {
+  const bar = document.getElementById('disclaimer-bar')
+  if(bar) bar.style.display = 'none'
+  localStorage.setItem('stackd-disclaimer-dismissed', '1')
+}
+
+// Hide disclaimer if already dismissed
+if(localStorage.getItem('stackd-disclaimer-dismissed')) {
+  const bar = document.getElementById('disclaimer-bar')
+  if(bar) bar.style.display = 'none'
 }
 
 /* ============================================ START */
