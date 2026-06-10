@@ -17,19 +17,20 @@
 </head>
 <body>
 
+<!-- PERSISTENT BACKGROUND — covers everything -->
 <canvas id="bg-canvas" class="bg-canvas"></canvas>
 <div class="cursor-dot" id="cursor-dot"></div>
 <div class="cursor-ring" id="cursor-ring"></div>
 
-<!-- NAV -->
+<!-- NAV — fixed above slides -->
 <nav class="nav" id="main-nav">
   <a href="index.html" class="logo">stack<span>d</span></a>
   <button class="hamburger" id="nav-toggle" onclick="toggleNav()">
     <span></span><span></span><span></span>
   </button>
   <div class="nav-center" id="nav-links">
-    <a href="#features" class="nav-link" onclick="closeNav()">Features</a>
-    <a href="#pricing" class="nav-link" onclick="closeNav()">Pricing</a>
+    <a href="#" class="nav-link" onclick="goToSlide(1);closeNav()">Features</a>
+    <a href="pricing.html" class="nav-link">Pricing</a>
     <a href="support.html" class="nav-link">Support</a>
   </div>
   <div class="nav-right" id="nav-right">
@@ -41,363 +42,256 @@
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-bg-text" aria-hidden="true">STACK</div>
+<!-- SLIDE TRACK — horizontal -->
+<div class="slide-track" id="slide-track">
 
-  <div class="hero-content">
-    <div class="hero-tag reveal" data-dir="up">
-      <span class="hero-tag-dot"></span>
-      Commission tracking for sales professionals
-    </div>
-
-    <h1 class="hero-h1">
-      <span class="h1-line reveal" data-dir="left" data-delay="0">Your deals.</span>
-      <span class="h1-line reveal" data-dir="left" data-delay="100">Your numbers.</span>
-      <span class="h1-line h1-accent reveal" data-dir="left" data-delay="200">Always clear.</span>
-    </h1>
-
-    <p class="hero-sub reveal" data-dir="up" data-delay="300">
-      Most sales reps are underpaid and don't know it.<br>
-      Stackd shows you exactly what you're owed — and what you're missing.
-    </p>
-
-    <div class="hero-actions reveal" data-dir="up" data-delay="400">
-      <a href="app.html" class="cta-primary">
-        <span class="cta-text">Start for free</span>
-        <span class="cta-arrow">→</span>
-      </a>
-      <a href="#calculator" class="cta-secondary">Try the calculator</a>
-    </div>
-  </div>
-
-  <div class="hero-visual reveal" data-dir="right" data-delay="200">
-    <div class="hero-card-stack">
-      <div class="hcard hcard-back"></div>
-      <div class="hcard hcard-mid"></div>
-      <div class="hcard hcard-front">
-        <div class="hcard-header">
-          <div class="hcard-dots">
-            <span class="hd red"></span>
-            <span class="hd amber"></span>
-            <span class="hd green"></span>
-          </div>
-          <span class="hcard-title">wearestackd.net</span>
+  <!-- ========== SLIDE 1: HERO ========== -->
+  <section class="slide" id="slide-0">
+    <div class="hero-bg-text" aria-hidden="true">STACK</div>
+    <div class="hero-content">
+      <div class="hero-tag reveal" data-dir="up">
+        <span class="hero-tag-dot"></span>
+        Commission tracking for sales professionals
+      </div>
+      <h1 class="hero-h1">
+        <span class="h1-line reveal" data-dir="left" data-delay="0">Your deals.</span>
+        <span class="h1-line reveal" data-dir="left" data-delay="100">Your numbers.</span>
+        <span class="h1-line h1-accent reveal" data-dir="left" data-delay="200">Always clear.</span>
+      </h1>
+      <p class="hero-sub reveal" data-dir="up" data-delay="300">
+        Most sales reps are underpaid and don't know it.<br>
+        Stackd shows you exactly what you're owed — and what you're missing.
+      </p>
+      <div class="hero-actions reveal" data-dir="up" data-delay="400">
+        <a href="app.html" class="cta-primary">
+          <span>Start for free</span>
+          <span class="cta-arrow">→</span>
+        </a>
+        <a href="pricing.html" class="cta-secondary">See pricing</a>
+      </div>
+      <div class="hero-proof reveal" data-dir="up" data-delay="500">
+        <div class="proof-item">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          7-day guarantee
         </div>
-        <div class="hcard-body">
-          <div class="hcard-metrics">
-            <div class="hmetric">
-              <div class="hmetric-label">Expected</div>
-              <div class="hmetric-val green" id="h-expected">$4,820</div>
-              <div class="hmetric-delta up">+12%</div>
+        <div class="proof-divider"></div>
+        <div class="proof-item">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+          Free to start
+        </div>
+        <div class="proof-divider"></div>
+        <div class="proof-item">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="2" y="5" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 5V3.5a2 2 0 014 0V5" stroke="currentColor" stroke-width="1"/></svg>
+          Private &amp; secure
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal" data-dir="right" data-delay="200">
+      <div class="hero-card-stack">
+        <div class="hcard hcard-back"></div>
+        <div class="hcard hcard-mid"></div>
+        <div class="hcard hcard-front">
+          <div class="hcard-header">
+            <div class="hcard-dots">
+              <span class="hd red"></span><span class="hd amber"></span><span class="hd green"></span>
             </div>
-            <div class="hmetric">
-              <div class="hmetric-label">Received</div>
-              <div class="hmetric-val" id="h-received">$4,480</div>
-              <div class="hmetric-delta warn">pending</div>
-            </div>
-            <div class="hmetric">
-              <div class="hmetric-label">Gap</div>
-              <div class="hmetric-val orange" id="h-gap">$340</div>
-              <div class="hmetric-delta danger">disputed</div>
-            </div>
+            <span class="hcard-title">wearestackd.net/dashboard</span>
           </div>
-          <div class="hcard-bar-wrap">
-            <div class="hcard-bar-labels">
-              <span>Quota attainment</span>
-              <span class="green">68%</span>
+          <div class="hcard-body">
+            <div class="hcard-metrics">
+              <div class="hmetric">
+                <div class="hmetric-label">Expected</div>
+                <div class="hmetric-val hm-green" data-count="4820">$0</div>
+                <div class="hmetric-delta up">+12%</div>
+              </div>
+              <div class="hmetric">
+                <div class="hmetric-label">Received</div>
+                <div class="hmetric-val" data-count="4480">$0</div>
+                <div class="hmetric-delta warn">1 pending</div>
+              </div>
+              <div class="hmetric">
+                <div class="hmetric-label">Gap</div>
+                <div class="hmetric-val hm-orange" data-count="340">$0</div>
+                <div class="hmetric-delta danger">disputed</div>
+              </div>
             </div>
-            <div class="hcard-bar-track">
-              <div class="hcard-bar-fill" id="hcard-bar"></div>
+            <div class="hcard-bar-wrap">
+              <div class="hcard-bar-labels"><span>Quota attainment</span><span class="hm-green">68%</span></div>
+              <div class="hcard-bar-track"><div class="hcard-bar-fill" id="hcard-bar"></div></div>
             </div>
-          </div>
-          <div class="hcard-alert">
-            <div class="hcard-alert-pulse"></div>
-            <div class="hcard-alert-content">
-              <div class="hcard-alert-title">Gap detected — F&amp;B Q2</div>
-              <div class="hcard-alert-sub">$320 shortfall · AI draft ready</div>
+            <div class="hcard-alert">
+              <div class="hcard-alert-pulse"></div>
+              <div class="hcard-alert-content">
+                <div class="hcard-alert-title">Gap detected — F&amp;B Q2</div>
+                <div class="hcard-alert-sub">$320 shortfall · AI draft ready</div>
+              </div>
+              <div class="hcard-alert-arrow">→</div>
             </div>
-            <div class="hcard-alert-arrow">→</div>
+            <div class="hcard-deals">
+              <div class="hcard-deal"><span class="hcard-deal-name">Marriott MENA expansion</span><span class="hbadge closed">Closed</span><span class="hm-green">✓</span></div>
+              <div class="hcard-deal"><span class="hcard-deal-name">Corporate travel block</span><span class="hbadge pending">Pending</span></div>
+              <div class="hcard-deal"><span class="hcard-deal-name">F&amp;B partnership Q2</span><span class="hbadge disputed">Disputed</span><span class="hm-orange">-$320</span></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="hero-scroll-hint reveal" data-dir="up" data-delay="600">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</section>
+    <!-- Slide indicator -->
+    <div class="slide-indicator">
+      <span class="slide-num">01</span>
+      <span class="slide-sep">/</span>
+      <span class="slide-total">04</span>
+    </div>
+  </section>
 
-<!-- LIVE CALCULATOR -->
-<section class="calc-section" id="calculator">
-  <div class="calc-inner">
-    <div class="calc-left reveal" data-dir="left">
-      <div class="section-tag">Live calculator</div>
-      <h2 class="calc-h2">How much are<br>you <span class="text-orange">actually</span> owed?</h2>
+  <!-- ========== SLIDE 2: FEATURES ========== -->
+  <section class="slide slide-features" id="slide-1">
+    <div class="slide-section-tag">What Stackd does</div>
+    <h2 class="slide-h2">Every tool in your stack<br>was built for <em>your manager.</em><br><span class="text-green">This one's for you.</span></h2>
+
+    <div class="features-bento">
+      <div class="fb-card fb-large reveal" data-dir="left">
+        <div class="fb-num">01</div>
+        <div class="fb-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="14" width="4" height="7" rx="1" fill="currentColor" opacity=".4"/><rect x="10" y="9" width="4" height="12" rx="1" fill="currentColor" opacity=".7"/><rect x="17" y="4" width="4" height="17" rx="1" fill="currentColor"/></svg>
+        </div>
+        <h3 class="fb-title">Deal tracking</h3>
+        <p class="fb-desc">Log every deal as you close it. Your personal source of truth that lives outside your company's systems.</p>
+        <div class="fb-stat"><span class="fb-stat-num">30s</span><span class="fb-stat-label">to log a deal</span></div>
+      </div>
+      <div class="fb-card reveal" data-dir="up" data-delay="100">
+        <div class="fb-num">02</div>
+        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3 class="fb-title">Gap detection</h3>
+        <p class="fb-desc">Stackd compares what you're owed against what landed. Discrepancies surface instantly.</p>
+      </div>
+      <div class="fb-card fb-tall reveal" data-dir="up" data-delay="150">
+        <div class="fb-num">03</div>
+        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h6M8 17h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3 class="fb-title">AI dispute emails</h3>
+        <p class="fb-desc">One click. Claude writes a professional dispute email that gets results — not one that gets you fired.</p>
+        <div class="fb-lines">
+          <div class="fb-line"></div><div class="fb-line short"></div><div class="fb-line medium"></div><div class="fb-line short"></div>
+        </div>
+      </div>
+      <div class="fb-card reveal" data-dir="up" data-delay="200">
+        <div class="fb-num">04</div>
+        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 5-6 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3 class="fb-title">Quota attainment</h3>
+        <p class="fb-desc">Always know where you stand. Never be surprised at review time.</p>
+      </div>
+      <div class="fb-card fb-large reveal" data-dir="right" data-delay="100">
+        <div class="fb-num">05</div>
+        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M4 21c0-5 3.58-8 8-8s8 3 8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3 class="fb-title">Career coaching</h3>
+        <p class="fb-desc">Interview prep, STAR answers, LinkedIn rewrites, salary scripts. Your deal history becomes career ammunition.</p>
+        <div class="fb-badges">
+          <span class="fb-badge">Interview coach</span>
+          <span class="fb-badge">STAR answers</span>
+          <span class="fb-badge">LinkedIn audit</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-indicator"><span class="slide-num">02</span><span class="slide-sep">/</span><span class="slide-total">04</span></div>
+  </section>
+
+  <!-- ========== SLIDE 3: CALCULATOR ========== -->
+  <section class="slide slide-calculator" id="slide-2">
+    <div class="calc-slide-left reveal" data-dir="left">
+      <div class="slide-section-tag">Live calculator</div>
+      <h2 class="slide-h2">How much are you<br><span class="text-orange">actually owed?</span></h2>
       <p class="calc-sub">Type in your numbers. See the truth in real time.</p>
       <div class="calc-inputs">
         <div class="calc-field">
           <label class="calc-label">Deal value</label>
           <div class="calc-input-wrap">
             <span class="calc-prefix">$</span>
-            <input type="number" id="calc-value" class="calc-input" value="20000" placeholder="20000" oninput="updateCalc()">
+            <input type="number" id="calc-value" class="calc-input" value="20000" oninput="updateCalc()">
           </div>
         </div>
         <div class="calc-field">
-          <label class="calc-label">Your commission rate</label>
+          <label class="calc-label">Commission rate</label>
           <div class="calc-input-wrap">
-            <input type="number" id="calc-rate" class="calc-input" value="8" placeholder="8" oninput="updateCalc()">
+            <input type="number" id="calc-rate" class="calc-input" value="8" oninput="updateCalc()">
             <span class="calc-suffix">%</span>
           </div>
         </div>
         <div class="calc-field">
           <label class="calc-label">Deals per month</label>
           <div class="calc-input-wrap">
-            <input type="number" id="calc-deals" class="calc-input" value="4" placeholder="4" oninput="updateCalc()">
+            <input type="number" id="calc-deals" class="calc-input" value="4" oninput="updateCalc()">
           </div>
         </div>
       </div>
     </div>
-    <div class="calc-right reveal" data-dir="right">
+    <div class="calc-slide-right reveal" data-dir="right">
       <div class="calc-result-card">
         <div class="calc-result-row">
           <span class="calc-result-label">Monthly expected</span>
-          <span class="calc-result-val green" id="calc-monthly">$6,400</span>
+          <span class="calc-result-val hm-green" id="calc-monthly">$6,400</span>
         </div>
         <div class="calc-result-row">
           <span class="calc-result-label">Annual expected</span>
-          <span class="calc-result-val green" id="calc-annual">$76,800</span>
+          <span class="calc-result-val hm-green" id="calc-annual">$76,800</span>
         </div>
         <div class="calc-result-divider"></div>
         <div class="calc-result-row">
           <span class="calc-result-label">Typical gap (8%)</span>
-          <span class="calc-result-val orange" id="calc-gap-month">$512</span>
+          <span class="calc-result-val hm-orange" id="calc-gap-month">$512</span>
         </div>
         <div class="calc-result-row big">
           <span class="calc-result-label">You could be losing annually</span>
-          <span class="calc-result-val orange big" id="calc-gap-year">$6,144</span>
+          <span class="calc-result-val hm-orange big" id="calc-gap-year">$6,144</span>
         </div>
-        <div class="calc-cta-wrap">
-          <a href="app.html" class="calc-cta">Track it with Stackd — free</a>
-        </div>
+        <a href="app.html" class="calc-cta">Track it with Stackd — free</a>
       </div>
     </div>
-  </div>
-</section>
+    <div class="slide-indicator"><span class="slide-num">03</span><span class="slide-sep">/</span><span class="slide-total">04</span></div>
+  </section>
 
-<!-- FEATURES -->
-<section class="features-section" id="features">
-  <div class="features-header reveal" data-dir="up">
-    <div class="section-tag">What Stackd does</div>
-    <h2 class="features-h2">The tools your<br>company <em>won't</em> give you.</h2>
-  </div>
-
-  <div class="features-scroll-track">
-    <div class="features-scroll-inner">
-
-      <div class="feat-card feat-large reveal" data-dir="left">
-        <div class="feat-number">01</div>
-        <div class="feat-icon-line">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="15" width="5" height="10" rx="1.5" fill="currentColor" opacity=".4"/><rect x="11.5" y="9" width="5" height="16" rx="1.5" fill="currentColor" opacity=".7"/><rect x="20" y="3" width="5" height="22" rx="1.5" fill="currentColor"/></svg>
-        </div>
-        <h3 class="feat-title">Deal tracking</h3>
-        <p class="feat-desc">Log every deal as you close it. Value, client, commission rate. Your personal source of truth that lives outside your company's systems.</p>
-        <div class="feat-stat"><span class="feat-stat-num">30s</span><span class="feat-stat-label">to log a deal</span></div>
-      </div>
-
-      <div class="feat-card reveal" data-dir="up" data-delay="100">
-        <div class="feat-number">02</div>
-        <div class="feat-icon-line">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4v20M4 14h20" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".3"/><circle cx="14" cy="14" r="5" stroke="currentColor" stroke-width="2"/><circle cx="14" cy="14" r="2" fill="currentColor"/></svg>
-        </div>
-        <h3 class="feat-title">Gap detection</h3>
-        <p class="feat-desc">Stackd compares what you're owed against what landed in your account. Discrepancies surface instantly.</p>
-      </div>
-
-      <div class="feat-card feat-tall reveal" data-dir="up" data-delay="150">
-        <div class="feat-number">03</div>
-        <div class="feat-icon-line">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="4" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M9 10h10M9 14h7M9 18h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <h3 class="feat-title">AI dispute emails</h3>
-        <p class="feat-desc">One click. Claude reads your gap, understands your situation, and writes a professional dispute email that gets results — not one that gets you fired.</p>
-        <div class="feat-preview">
-          <div class="feat-preview-line"></div>
-          <div class="feat-preview-line short"></div>
-          <div class="feat-preview-line medium"></div>
-          <div class="feat-preview-line short"></div>
-        </div>
-      </div>
-
-      <div class="feat-card reveal" data-dir="up" data-delay="200">
-        <div class="feat-number">04</div>
-        <div class="feat-icon-line">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 20l6-6 4 4 6-8 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <h3 class="feat-title">Quota attainment</h3>
-        <p class="feat-desc">Always know where you stand. Never be surprised at review time.</p>
-      </div>
-
-      <div class="feat-card feat-large reveal" data-dir="right" data-delay="100">
-        <div class="feat-number">05</div>
-        <div class="feat-icon-line">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="10" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M5 24c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <h3 class="feat-title">Career coaching</h3>
-        <p class="feat-desc">Interview prep, STAR answers, LinkedIn rewrites, salary negotiation scripts. Your deal history becomes your career ammunition.</p>
-        <div class="feat-badge-row">
-          <span class="feat-badge violet">Interview coach</span>
-          <span class="feat-badge violet">STAR answers</span>
-          <span class="feat-badge violet">LinkedIn audit</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS — editorial timeline -->
-<section class="timeline-section">
-  <div class="timeline-inner">
-    <div class="timeline-header reveal" data-dir="up">
-      <div class="section-tag">How it works</div>
-      <h2 class="timeline-h2">Four steps.<br><span class="text-green">Zero confusion.</span></h2>
-    </div>
-    <div class="timeline-body">
-      <div class="timeline-line"></div>
-      <div class="timeline-step reveal" data-dir="left">
-        <div class="tstep-marker">
-          <span class="tstep-num">01</span>
-        </div>
-        <div class="tstep-content">
-          <h3 class="tstep-title">Set up your comp plan</h3>
-          <p class="tstep-desc">Enter your commission rate and quota once. Stackd calculates everything from there. Takes under two minutes.</p>
-        </div>
-      </div>
-      <div class="timeline-step reveal" data-dir="right" data-delay="100">
-        <div class="tstep-marker">
-          <span class="tstep-num">02</span>
-        </div>
-        <div class="tstep-content">
-          <h3 class="tstep-title">Log deals as you close them</h3>
-          <p class="tstep-desc">30 seconds per deal. Client, value, status. Your personal pipeline — separate from anything your company controls.</p>
-        </div>
-      </div>
-      <div class="timeline-step reveal" data-dir="left" data-delay="150">
-        <div class="tstep-marker">
-          <span class="tstep-num">03</span>
-        </div>
-        <div class="tstep-content">
-          <h3 class="tstep-title">Watch for gaps</h3>
-          <p class="tstep-desc">Stackd flags the moment your received commission doesn't match what you're owed. You'll know before payday, not after.</p>
-        </div>
-      </div>
-      <div class="timeline-step reveal" data-dir="right" data-delay="200">
-        <div class="tstep-marker">
-          <span class="tstep-num">04</span>
-        </div>
-        <div class="tstep-content">
-          <h3 class="tstep-title">Act with confidence</h3>
-          <p class="tstep-desc">Walk into every payout conversation with receipts. Use the AI to draft your dispute. Use your data to ask for a raise. Own the room.</p>
-        </div>
+  <!-- ========== SLIDE 4: FINAL CTA ========== -->
+  <section class="slide slide-cta" id="slide-3">
+    <div class="final-cta-bg" aria-hidden="true">STACKD</div>
+    <div class="final-cta-content reveal" data-dir="up">
+      <div class="slide-section-tag">One last thing</div>
+      <h2 class="final-h2">Your company tracks<br>everything you do.</h2>
+      <p class="final-sub">It's time you tracked what they owe you.</p>
+      <a href="app.html" class="final-btn">
+        <span>Start tracking — it's free</span>
+        <span class="final-btn-arrow">→</span>
+      </a>
+      <p class="final-proof">No credit card &nbsp;&middot;&nbsp; 7-day guarantee &nbsp;&middot;&nbsp; Cancel anytime</p>
+      <div class="final-links">
+        <a href="pricing.html" class="final-link">View pricing →</a>
+        <a href="support.html" class="final-link">Support →</a>
       </div>
     </div>
-  </div>
-</section>
+    <div class="slide-indicator"><span class="slide-num">04</span><span class="slide-sep">/</span><span class="slide-total">04</span></div>
+  </section>
 
-<!-- PRICING — horizontal stacked -->
-<section class="pricing-section" id="pricing">
-  <div class="pricing-inner">
-    <div class="pricing-header reveal" data-dir="up">
-      <div class="section-tag">Pricing</div>
-      <h2 class="pricing-h2">Straightforward.<br><span class="text-green">Like your commission should be.</span></h2>
-      <div class="pricing-guarantee reveal" data-dir="up" data-delay="100">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L8.5 5h3.5L9.5 7.5l1 3.5L7 9l-3.5 2 1-3.5L2 5h3.5z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
-        7-day money back guarantee — no questions, no hassle
-      </div>
-    </div>
+</div><!-- end slide-track -->
 
-    <div class="plans-stack">
+<!-- SLIDE NAVIGATION ARROWS -->
+<button class="slide-nav slide-nav-prev" id="slide-prev" onclick="prevSlide()" aria-label="Previous">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="slide-nav slide-nav-next" id="slide-next" onclick="nextSlide()" aria-label="Next">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
 
-      <div class="plan-row reveal" data-dir="up" data-delay="100">
-        <div class="plan-row-left">
-          <div class="plan-row-name">Free</div>
-          <div class="plan-row-price">$0<span>/month</span></div>
-          <p class="plan-row-desc">Get started, validate your numbers, feel what Stackd does.</p>
-        </div>
-        <div class="plan-row-features">
-          <div class="plan-feat"><span class="pfeat-dot"></span>Up to 5 deals per month</div>
-          <div class="plan-feat"><span class="pfeat-dot"></span>Commission gap detection</div>
-          <div class="plan-feat"><span class="pfeat-dot"></span>Quota tracker</div>
-          <div class="plan-feat"><span class="pfeat-dot"></span>Basic dashboard</div>
-        </div>
-        <div class="plan-row-action">
-          <a href="app.html" class="plan-btn plan-btn-outline">Get started</a>
-        </div>
-      </div>
+<!-- SLIDE DOTS -->
+<div class="slide-dots" id="slide-dots">
+  <button class="slide-dot active" onclick="goToSlide(0)"></button>
+  <button class="slide-dot" onclick="goToSlide(1)"></button>
+  <button class="slide-dot" onclick="goToSlide(2)"></button>
+  <button class="slide-dot" onclick="goToSlide(3)"></button>
+</div>
 
-      <div class="plan-row plan-row-featured reveal" data-dir="up" data-delay="180">
-        <div class="plan-row-glow"></div>
-        <div class="plan-row-left">
-          <div class="plan-row-badge">Most popular</div>
-          <div class="plan-row-name">Pro</div>
-          <div class="plan-row-price">$19<span>/month</span></div>
-          <p class="plan-row-desc">For reps serious about every dollar they've earned.</p>
-        </div>
-        <div class="plan-row-features">
-          <div class="plan-feat"><span class="pfeat-dot green"></span>Unlimited deals</div>
-          <div class="plan-feat"><span class="pfeat-dot green"></span>AI dispute emails</div>
-          <div class="plan-feat"><span class="pfeat-dot green"></span>AI raise requests</div>
-          <div class="plan-feat"><span class="pfeat-dot green"></span>Performance reports</div>
-          <div class="plan-feat"><span class="pfeat-dot green"></span>CSV export</div>
-          <div class="plan-feat"><span class="pfeat-dot green"></span>Priority support</div>
-        </div>
-        <div class="plan-row-action">
-          <a href="app.html" class="plan-btn plan-btn-primary" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
-        </div>
-      </div>
-
-      <div class="plan-row plan-row-career reveal" data-dir="up" data-delay="260">
-        <div class="plan-row-left">
-          <div class="plan-row-name">Career</div>
-          <div class="plan-row-price">$29<span>/month</span></div>
-          <p class="plan-row-desc">Everything in Pro, plus tools that build your next move.</p>
-        </div>
-        <div class="plan-row-features">
-          <div class="plan-feat"><span class="pfeat-dot violet"></span>Everything in Pro</div>
-          <div class="plan-feat"><span class="pfeat-dot violet"></span>AI interview coach</div>
-          <div class="plan-feat"><span class="pfeat-dot violet"></span>STAR answer generator</div>
-          <div class="plan-feat"><span class="pfeat-dot violet"></span>LinkedIn profile audit</div>
-          <div class="plan-feat"><span class="pfeat-dot violet"></span>Salary negotiation scripts</div>
-        </div>
-        <div class="plan-row-action">
-          <a href="app.html" class="plan-btn plan-btn-violet" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA — full screen moment -->
-<section class="final-cta">
-  <div class="final-cta-bg" aria-hidden="true">STACKD</div>
-  <div class="final-cta-content reveal" data-dir="up">
-    <div class="section-tag">One last thing</div>
-    <h2 class="final-h2">Your company tracks<br>everything you do.</h2>
-    <p class="final-sub">It's time you tracked what they owe you.</p>
-    <a href="app.html" class="final-btn">
-      <span>Start tracking — it's free</span>
-      <span class="final-btn-arrow">→</span>
-    </a>
-    <p class="final-proof">No credit card &nbsp;&middot;&nbsp; 7-day guarantee &nbsp;&middot;&nbsp; Cancel anytime</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
+<!-- FOOTER — shown on last slide -->
+<footer class="footer" id="page-footer">
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="index.html" class="logo">stack<span>d</span></a>
@@ -407,9 +301,9 @@
     <div class="footer-cols">
       <div class="footer-col">
         <div class="footer-col-title">Product</div>
-        <a href="#features" class="footer-link">Features</a>
-        <a href="#pricing" class="footer-link">Pricing</a>
-        <a href="#calculator" class="footer-link">Calculator</a>
+        <a href="#" onclick="goToSlide(1)" class="footer-link">Features</a>
+        <a href="pricing.html" class="footer-link">Pricing</a>
+        <a href="#" onclick="goToSlide(2)" class="footer-link">Calculator</a>
         <a href="app.html" class="footer-link">Sign in</a>
       </div>
       <div class="footer-col">
@@ -434,275 +328,331 @@
 <script>
 try {
 
-// CUSTOM CURSOR
-const dot = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
-let mx = window.innerWidth/2, my = window.innerHeight/2;
-let rx = mx, ry = my;
+/* ============================================
+   CUSTOM CURSOR
+============================================ */
+const dot = document.getElementById('cursor-dot')
+const ring = document.getElementById('cursor-ring')
+let mx = window.innerWidth/2, my = window.innerHeight/2
+let rx = mx, ry = my
 
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY })
 
 function animateCursor() {
-  dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
-  rx += (mx - rx) * 0.1;
-  ry += (my - ry) * 0.1;
-  ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
-  requestAnimationFrame(animateCursor);
+  dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`
+  rx += (mx-rx)*0.1; ry += (my-ry)*0.1
+  ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`
+  requestAnimationFrame(animateCursor)
 }
-animateCursor();
+animateCursor()
 
-// Cursor states
-document.querySelectorAll('a,button,input,.calc-input').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    ring.classList.add('ring-hover');
-    dot.classList.add('dot-hover');
-  });
-  el.addEventListener('mouseleave', () => {
-    ring.classList.remove('ring-hover');
-    dot.classList.remove('dot-hover');
-  });
-});
+document.querySelectorAll('a,button,input').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.classList.add('ring-hover'); dot.classList.add('dot-hover') })
+  el.addEventListener('mouseleave', () => { ring.classList.remove('ring-hover'); dot.classList.remove('dot-hover') })
+})
 
-// CANVAS — grid + particles + flowing lines
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
-let W = window.innerWidth;
-let H = Math.max(window.innerHeight, document.documentElement.scrollHeight || 3000);
+/* ============================================
+   CANVAS — grid + particles — FULL PAGE
+============================================ */
+const canvas = document.getElementById('bg-canvas')
+const ctx = canvas.getContext('2d')
+let W = window.innerWidth
+let H = window.innerHeight
 
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = Math.max(window.innerHeight * 4, document.documentElement.scrollHeight || 3000);
+function resizeCanvas() {
+  W = canvas.width = window.innerWidth
+  H = canvas.height = window.innerHeight
 }
+resizeCanvas()
+window.addEventListener('resize', () => { resizeCanvas(); updateSlideLayout() })
 
-// Delay resize so page has rendered first
-window.addEventListener('load', resize);
-window.addEventListener('resize', resize);
-setTimeout(resize, 100);
-setTimeout(resize, 500);
+const PTS = 140
+const pts = Array.from({length:PTS}, () => ({
+  x: Math.random()*W*4, y: Math.random()*H,
+  vx: (Math.random()-0.5)*0.35, vy: -(Math.random()*0.4+0.1),
+  r: Math.random()*1.6+0.3, a: Math.random(),
+  phase: Math.random()*Math.PI*2,
+  green: Math.random()>0.65,
+  orange: Math.random()>0.92
+}))
 
-// Set initial canvas size immediately
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight * 5;
+const FLOW_LINES = Array.from({length:5}, (_,i) => ({
+  y: H * (0.15 + i*0.18),
+  amp: 30+Math.random()*50,
+  speed: 0.0003+Math.random()*0.0004,
+  phase: i*Math.PI*0.4,
+  green: i%3===0
+}))
 
-// Particles
-const PTS = 150;
-const pts = Array.from({length: PTS}, () => ({
-  x: Math.random() * 2000,
-  y: Math.random() * 3000,
-  vx: (Math.random() - 0.5) * 0.35,
-  vy: -(Math.random() * 0.4 + 0.1),
-  r: Math.random() * 1.6 + 0.3,
-  a: Math.random(),
-  phase: Math.random() * Math.PI * 2,
-  green: Math.random() > 0.65,
-  orange: Math.random() > 0.9
-}));
+let t = 0
 
-// Flowing bezier lines
-const LINES = Array.from({length: 6}, (_, i) => ({
-  x: (i / 5) * 1200 + 100,
-  amp: 40 + Math.random() * 60,
-  speed: 0.0003 + Math.random() * 0.0004,
-  phase: (i / 6) * Math.PI * 2,
-  green: i % 3 === 0
-}));
+function drawBg() {
+  ctx.clearRect(0,0,W,H)
+  t += 0.01
 
-let t = 0;
-let scrollY = 0;
-window.addEventListener('scroll', () => scrollY = window.scrollY);
+  const cell = 54
 
-function draw() {
-  ctx.clearRect(0, 0, W, H);
-  t += 0.01;
-
-  const cell = 54;
-
-  // Grid
-  ctx.lineWidth = 0.5;
-  for (let x = 0; x < W; x += cell) {
-    ctx.strokeStyle = x % (cell*4) === 0 ? 'rgba(0,216,127,0.05)' : 'rgba(255,255,255,0.04)';
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  // Grid — full viewport always
+  ctx.lineWidth = 0.5
+  for(let x=0; x<W; x+=cell) {
+    ctx.strokeStyle = x%(cell*4)===0 ? 'rgba(0,216,127,0.055)' : 'rgba(255,255,255,0.042)'
+    ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke()
   }
-  for (let y = 0; y < H; y += cell) {
-    ctx.strokeStyle = y % (cell*4) === 0 ? 'rgba(0,216,127,0.05)' : 'rgba(255,255,255,0.04)';
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  for(let y=0; y<H; y+=cell) {
+    ctx.strokeStyle = y%(cell*4)===0 ? 'rgba(0,216,127,0.055)' : 'rgba(255,255,255,0.042)'
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke()
   }
 
-  // Dot intersections
-  for (let x = 0; x < W; x += cell*4) {
-    for (let y = 0; y < H; y += cell*4) {
-      ctx.beginPath();
-      ctx.arc(x, y, 1.5, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(0,216,127,0.08)';
-      ctx.fill();
+  // Intersection dots
+  for(let x=0; x<W; x+=cell*4) {
+    for(let y=0; y<H; y+=cell*4) {
+      ctx.beginPath(); ctx.arc(x,y,1.6,0,Math.PI*2)
+      ctx.fillStyle='rgba(0,216,127,0.09)'; ctx.fill()
     }
   }
 
   // Flowing lines
-  LINES.forEach(line => {
-    ctx.beginPath();
-    ctx.moveTo(0, line.x + Math.sin(t * line.speed * 1000 + line.phase) * line.amp);
-    for (let x = 0; x <= W; x += 20) {
-      const y = line.x + Math.sin((x * 0.005) + t * line.speed * 1000 + line.phase) * line.amp
-              + Math.sin((x * 0.002) + t * line.speed * 500) * line.amp * 0.5;
-      ctx.lineTo(x, y);
+  FLOW_LINES.forEach(line => {
+    ctx.beginPath()
+    for(let x=0; x<=W; x+=16) {
+      const y = line.y + Math.sin(x*0.006 + t*line.speed*1000 + line.phase)*line.amp
+      x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y)
     }
-    ctx.strokeStyle = line.green ? 'rgba(0,216,127,0.04)' : 'rgba(255,107,53,0.03)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  });
+    ctx.strokeStyle = line.green ? 'rgba(0,216,127,0.045)' : 'rgba(255,107,53,0.03)'
+    ctx.lineWidth = 1; ctx.stroke()
+  })
 
-  // Particles
+  // Particles — distributed across current slide viewport
+  const slideOffset = currentSlide * W
   pts.forEach(p => {
-    p.x += p.vx; p.y += p.vy; p.phase += 0.015;
-    const opacity = (Math.sin(p.phase) * 0.2 + 0.3) * p.a;
-    if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
-    if (p.x < -10 || p.x > W + 10) { p.x = Math.random() * W; }
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    // Map particle x to current viewport
+    const screenX = ((p.x - slideOffset) % (W*4) + W*4) % (W*4)
+    if(screenX < 0 || screenX > W) { p.x += p.vx; p.y += p.vy; return }
+    p.x += p.vx; p.y += p.vy; p.phase += 0.015
+    if(p.y < -10) { p.y = H+10 }
+    if(p.y > H+10) { p.y = -10 }
+    const opacity = (Math.sin(p.phase)*0.2+0.3)*p.a
+    ctx.beginPath(); ctx.arc(screenX,p.y,p.r,0,Math.PI*2)
     ctx.fillStyle = p.orange ? `rgba(255,107,53,${opacity})`
-      : p.green ? `rgba(0,216,127,${opacity})`
-      : `rgba(255,255,255,${opacity * 0.4})`;
-    ctx.fill();
-  });
+      : p.green ? `rgba(0,216,127,${opacity})` : `rgba(255,255,255,${opacity*0.4})`
+    ctx.fill()
+  })
 
-  // Vignette — covers viewport
-  const vh = window.innerHeight;
-  const vw = window.innerWidth;
-  const grad = ctx.createRadialGradient(vw/2, vh/2, vh * 0.1, vw/2, vh/2, vh * 0.9);
-  grad.addColorStop(0, 'rgba(10,9,9,0)');
-  grad.addColorStop(0.65, 'rgba(10,9,9,0.35)');
-  grad.addColorStop(1, 'rgba(10,9,9,0.92)');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, vw, vh);
+  // Subtle vignette edges
+  const grad = ctx.createRadialGradient(W/2,H/2,H*0.08,W/2,H/2,H*0.85)
+  grad.addColorStop(0,'rgba(10,9,9,0)')
+  grad.addColorStop(0.7,'rgba(10,9,9,0.25)')
+  grad.addColorStop(1,'rgba(10,9,9,0.88)')
+  ctx.fillStyle=grad; ctx.fillRect(0,0,W,H)
 
-  requestAnimationFrame(draw);
+  requestAnimationFrame(drawBg)
 }
-draw();
+drawBg()
 
-// Dashboard bar animation
+/* ============================================
+   HORIZONTAL SLIDE SYSTEM
+============================================ */
+let currentSlide = 0
+const totalSlides = 4
+const track = document.getElementById('slide-track')
+const footer = document.getElementById('page-footer')
+
+function updateSlideLayout() {
+  // Each slide is full viewport width
+  const slides = track.querySelectorAll('.slide')
+  slides.forEach(s => {
+    s.style.width = W+'px'
+    s.style.height = '100vh'
+  })
+  track.style.width = (W * totalSlides)+'px'
+  goToSlide(currentSlide, false)
+}
+
+function goToSlide(index, animate=true) {
+  currentSlide = Math.max(0, Math.min(index, totalSlides-1))
+  track.style.transition = animate ? 'transform 0.75s cubic-bezier(0.77,0,0.175,1)' : 'none'
+  track.style.transform = `translateX(-${currentSlide * W}px)`
+
+  // Update dots
+  document.querySelectorAll('.slide-dot').forEach((d,i) => d.classList.toggle('active', i===currentSlide))
+
+  // Update arrows
+  document.getElementById('slide-prev').style.opacity = currentSlide===0?'0':'1'
+  document.getElementById('slide-prev').style.pointerEvents = currentSlide===0?'none':'auto'
+  document.getElementById('slide-next').style.opacity = currentSlide===totalSlides-1?'0':'1'
+  document.getElementById('slide-next').style.pointerEvents = currentSlide===totalSlides-1?'none':'auto'
+
+  // Show footer on last slide
+  if(footer) footer.style.display = currentSlide===totalSlides-1 ? 'block' : 'none'
+
+  // Trigger reveals on current slide
+  setTimeout(() => triggerReveals(currentSlide), animate?400:0)
+
+  // Update nav
+  document.getElementById('main-nav').classList.toggle('scrolled', currentSlide>0)
+}
+
+function nextSlide() { goToSlide(currentSlide+1) }
+function prevSlide() { goToSlide(currentSlide-1) }
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') nextSlide()
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') prevSlide()
+})
+
+// Touch/swipe
+let touchStartX = 0
+document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX, {passive:true})
+document.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX
+  if(Math.abs(diff)>60) diff>0 ? nextSlide() : prevSlide()
+}, {passive:true})
+
+// Mouse wheel
+let wheelLocked = false
+document.addEventListener('wheel', e => {
+  if(wheelLocked) return
+  wheelLocked = true
+  setTimeout(()=>wheelLocked=false, 1000)
+  if(e.deltaY>30) nextSlide()
+  else if(e.deltaY<-30) prevSlide()
+}, {passive:true})
+
+// Init layout
+updateSlideLayout()
+
+/* ============================================
+   REVEAL SYSTEM
+============================================ */
+const revealed = new Set()
+
+function triggerReveals(slideIndex) {
+  const slide = document.getElementById('slide-'+slideIndex)
+  if(!slide) return
+  slide.querySelectorAll('.reveal').forEach((el, i) => {
+    const key = slideIndex+'-'+i
+    if(revealed.has(key)) return
+    const delay = parseInt(el.dataset.delay||0)
+    setTimeout(() => {
+      el.classList.add('visible')
+      revealed.add(key)
+    }, delay)
+  })
+}
+
+// Trigger first slide immediately
+setTimeout(() => triggerReveals(0), 200)
+
+/* ============================================
+   DASHBOARD BAR ANIMATION
+============================================ */
 setTimeout(() => {
-  const b = document.getElementById('hcard-bar');
-  if (b) b.style.width = '68%';
-}, 1000);
+  const b = document.getElementById('hcard-bar')
+  if(b) b.style.width='68%'
+}, 1000)
 
-// BIDIRECTIONAL SCROLL REVEAL
-const revealEls = document.querySelectorAll('.reveal');
-const revObs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const delay = entry.target.dataset.delay || 0;
-      setTimeout(() => entry.target.classList.add('visible'), parseInt(delay));
-      entry.target.classList.remove('hidden-back');
-    } else {
-      const rect = entry.target.getBoundingClientRect();
-      if (rect.top < 0) {
-        // Above viewport — retract upward
-        entry.target.classList.remove('visible');
-        entry.target.classList.add('hidden-back');
-      } else {
-        // Below viewport — reset to initial hidden state
-        entry.target.classList.remove('visible');
-        entry.target.classList.remove('hidden-back');
-      }
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
-
-revealEls.forEach(el => revObs.observe(el));
-
-// LIVE CALCULATOR
-function updateCalc() {
-  const val = parseFloat(document.getElementById('calc-value').value) || 0;
-  const rate = parseFloat(document.getElementById('calc-rate').value) || 0;
-  const deals = parseFloat(document.getElementById('calc-deals').value) || 0;
-  const monthly = val * (rate/100) * deals;
-  const annual = monthly * 12;
-  const gapMonthly = monthly * 0.08;
-  const gapAnnual = gapMonthly * 12;
-
-  animNum('calc-monthly', monthly, '$');
-  animNum('calc-annual', annual, '$');
-  animNum('calc-gap-month', gapMonthly, '$');
-  animNum('calc-gap-year', gapAnnual, '$');
-}
-
-function animNum(id, target, prefix = '') {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const start = parseFloat(el.dataset.current || 0);
-  el.dataset.current = target;
-  const duration = 400;
-  const startTime = Date.now();
+/* ============================================
+   COUNTER ANIMATION
+============================================ */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count)
+  const duration = 1600
+  const start = Date.now()
   function update() {
-    const progress = Math.min((Date.now() - startTime) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    const current = start + (target - start) * eased;
-    el.textContent = prefix + '$' + Math.round(current).toLocaleString();
-    if (progress < 1) requestAnimationFrame(update);
+    const progress = Math.min((Date.now()-start)/duration, 1)
+    const eased = 1-Math.pow(1-progress, 3)
+    const current = Math.floor(eased*target)
+    el.textContent = '$'+current.toLocaleString()
+    if(progress<1) requestAnimationFrame(update)
   }
-  update();
+  update()
 }
 
-updateCalc();
+// Trigger counters when slide 0 reveals
+setTimeout(() => {
+  document.querySelectorAll('[data-count]').forEach(el => animateCounter(el))
+}, 600)
 
-// BUTTON RIPPLE + PRESS
-function addInteractions() {
-  document.querySelectorAll('a, button, .plan-btn, .cta-primary, .cta-secondary, .final-btn, .calc-cta').forEach(el => {
-    el.addEventListener('click', function(e) {
-      if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
-      el.style.overflow = 'hidden';
-      const r = document.createElement('span');
-      r.className = 'ripple';
-      const rect = el.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height) * 2.2;
-      r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
-      el.appendChild(r);
-      setTimeout(() => r.remove(), 700);
-    });
-    el.addEventListener('mousedown', () => {
-      if (!el.classList.contains('no-press')) el.style.transform = 'scale(0.96)';
-    });
-    el.addEventListener('mouseup', () => el.style.transform = '');
-    el.addEventListener('mouseleave', () => el.style.transform = '');
-  });
+/* ============================================
+   LIVE CALCULATOR
+============================================ */
+function updateCalc() {
+  const val = parseFloat(document.getElementById('calc-value')?.value)||0
+  const rate = parseFloat(document.getElementById('calc-rate')?.value)||0
+  const deals = parseFloat(document.getElementById('calc-deals')?.value)||0
+  const monthly = val*(rate/100)*deals
+  const annual = monthly*12
+  const gapM = monthly*0.08
+  const gapY = gapM*12
+  animNum('calc-monthly', monthly)
+  animNum('calc-annual', annual)
+  animNum('calc-gap-month', gapM)
+  animNum('calc-gap-year', gapY)
 }
-addInteractions();
 
-// NAV SCROLL
-window.addEventListener('scroll', () => {
-  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 30);
-});
+function animNum(id, target) {
+  const el = document.getElementById(id)
+  if(!el) return
+  const start = parseFloat(el.dataset.current||0)
+  el.dataset.current = target
+  const duration = 350
+  const startTime = Date.now()
+  function update() {
+    const progress = Math.min((Date.now()-startTime)/duration, 1)
+    const eased = 1-Math.pow(1-progress, 3)
+    el.textContent = '$'+Math.round(start+(target-start)*eased).toLocaleString()
+    if(progress<1) requestAnimationFrame(update)
+  }
+  update()
+}
 
-// MOBILE NAV
+updateCalc()
+
+/* ============================================
+   BUTTON RIPPLE
+============================================ */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('a,button')
+  if(!btn) return
+  const pos = window.getComputedStyle(btn).position
+  if(pos==='static') btn.style.position='relative'
+  btn.style.overflow='hidden'
+  const r = document.createElement('span')
+  r.className='ripple'
+  const rect = btn.getBoundingClientRect()
+  const size = Math.max(rect.width,rect.height)*2.2
+  r.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`
+  btn.appendChild(r)
+  setTimeout(()=>r.remove(), 700)
+})
+
+/* ============================================
+   NAV
+============================================ */
 function toggleNav() {
-  document.getElementById('nav-links').classList.toggle('open');
-  document.getElementById('nav-right').classList.toggle('open');
-  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-links').classList.toggle('open')
+  document.getElementById('nav-right').classList.toggle('open')
+  document.getElementById('nav-toggle').classList.toggle('open')
 }
 function closeNav() {
-  document.getElementById('nav-links').classList.remove('open');
-  document.getElementById('nav-right').classList.remove('open');
-  document.getElementById('nav-toggle').classList.remove('open');
+  document.getElementById('nav-links').classList.remove('open')
+  document.getElementById('nav-right').classList.remove('open')
+  document.getElementById('nav-toggle').classList.remove('open')
 }
 
-// SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
-  });
-});
-
-// COOKIE
+/* ============================================
+   COOKIE
+============================================ */
 function acceptCookies() {
-  document.getElementById('cookie-bar').style.display = 'none';
-  localStorage.setItem('stackd-cookies', '1');
+  document.getElementById('cookie-bar').style.display='none'
+  localStorage.setItem('stackd-cookies','1')
 }
-if (!localStorage.getItem('stackd-cookies')) {
-  document.getElementById('cookie-bar').style.display = 'flex';
+if(!localStorage.getItem('stackd-cookies')) {
+  document.getElementById('cookie-bar').style.display='flex'
 }
-} catch(e) { console.error('Stackd init error:', e); }
+
+} catch(e) { console.error('Stackd landing error:', e) }
 </script>
 </body>
 </html>
