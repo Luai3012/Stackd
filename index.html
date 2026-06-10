@@ -326,7 +326,49 @@
 </div>
 
 <script>
-try {
+/* ============================================
+   SLIDE SYSTEM — defined globally first so
+   onclick handlers always work
+============================================ */
+let currentSlide = 0
+const totalSlides = 4
+
+function goToSlide(index, animate) {
+  if(animate===undefined) animate=true
+  const track = document.getElementById('slide-track')
+  const footer = document.getElementById('page-footer')
+  if(!track) return
+  currentSlide = Math.max(0, Math.min(index, totalSlides-1))
+  track.style.transition = animate ? 'transform 0.75s cubic-bezier(0.77,0,0.175,1)' : 'none'
+  track.style.transform = 'translateX(-' + (currentSlide * 100) + 'vw)'
+  document.querySelectorAll('.slide-dot').forEach(function(d,i){ d.classList.toggle('active', i===currentSlide) })
+  var prev = document.getElementById('slide-prev')
+  var next = document.getElementById('slide-next')
+  if(prev){ prev.style.opacity = currentSlide===0?'0':'1'; prev.style.pointerEvents = currentSlide===0?'none':'auto' }
+  if(next){ next.style.opacity = currentSlide===totalSlides-1?'0':'1'; next.style.pointerEvents = currentSlide===totalSlides-1?'none':'auto' }
+  if(footer) footer.style.display = currentSlide===totalSlides-1 ? 'block' : 'none'
+  var nav = document.getElementById('main-nav')
+  if(nav) nav.classList.toggle('scrolled', currentSlide>0)
+  setTimeout(function(){ triggerReveals(currentSlide) }, animate ? 400 : 50)
+}
+
+function nextSlide() { goToSlide(currentSlide+1) }
+function prevSlide() { goToSlide(currentSlide-1) }
+
+function toggleNav() {
+  document.getElementById('nav-links').classList.toggle('open')
+  document.getElementById('nav-right').classList.toggle('open')
+  document.getElementById('nav-toggle').classList.toggle('open')
+}
+function closeNav() {
+  document.getElementById('nav-links').classList.remove('open')
+  document.getElementById('nav-right').classList.remove('open')
+  document.getElementById('nav-toggle').classList.remove('open')
+}
+function acceptCookies() {
+  document.getElementById('cookie-bar').style.display='none'
+  localStorage.setItem('stackd-cookies','1')
+}
 
 /* ============================================
    CUSTOM CURSOR
@@ -336,20 +378,22 @@ const ring = document.getElementById('cursor-ring')
 let mx = window.innerWidth/2, my = window.innerHeight/2
 let rx = mx, ry = my
 
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY })
-
-function animateCursor() {
-  dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`
-  rx += (mx-rx)*0.1; ry += (my-ry)*0.1
-  ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`
-  requestAnimationFrame(animateCursor)
+if(dot && ring) {
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY })
+  function animateCursor() {
+    dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`
+    rx += (mx-rx)*0.1; ry += (my-ry)*0.1
+    ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`
+    requestAnimationFrame(animateCursor)
+  }
+  animateCursor()
+  document.querySelectorAll('a,button,input').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.classList.add('ring-hover'); dot.classList.add('dot-hover') })
+    el.addEventListener('mouseleave', () => { ring.classList.remove('ring-hover'); dot.classList.remove('dot-hover') })
+  })
 }
-animateCursor()
 
-document.querySelectorAll('a,button,input').forEach(el => {
-  el.addEventListener('mouseenter', () => { ring.classList.add('ring-hover'); dot.classList.add('dot-hover') })
-  el.addEventListener('mouseleave', () => { ring.classList.remove('ring-hover'); dot.classList.remove('dot-hover') })
-})
+try {
 
 /* ============================================
    CANVAS — grid + particles — FULL PAGE
@@ -449,82 +493,44 @@ function drawBg() {
 }
 drawBg()
 
-/* ============================================
-   HORIZONTAL SLIDE SYSTEM
-============================================ */
-let currentSlide = 0
-const totalSlides = 4
-const track = document.getElementById('slide-track')
-const footer = document.getElementById('page-footer')
 
-function updateSlideLayout() {
-  // Use CSS vw instead of JS pixels — far more reliable
-  track.style.width = (totalSlides * 100) + 'vw'
+/* ============================================
+   INIT SLIDE LAYOUT + EVENTS
+============================================ */
+;(function(){
+  var track = document.getElementById('slide-track')
+  if(!track) return
+  track.style.width = '400vw'
   track.style.height = '100vh'
-  const slides = track.querySelectorAll('.slide')
-  slides.forEach(s => {
+  track.querySelectorAll('.slide').forEach(function(s){
     s.style.width = '100vw'
     s.style.minHeight = '100vh'
   })
-  // Reapply position without animation
-  track.style.transition = 'none'
-  track.style.transform = `translateX(-${currentSlide * 100}vw)`
-}
+  goToSlide(0, false)
 
-function goToSlide(index, animate=true) {
-  currentSlide = Math.max(0, Math.min(index, totalSlides-1))
-  track.style.transition = animate ? 'transform 0.75s cubic-bezier(0.77,0,0.175,1)' : 'none'
-  track.style.transform = `translateX(-${currentSlide * 100}vw)`
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown') nextSlide()
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp') prevSlide()
+  })
 
-  // Update dots
-  document.querySelectorAll('.slide-dot').forEach((d,i) => d.classList.toggle('active', i===currentSlide))
+  var touchStartX = 0
+  document.addEventListener('touchstart', function(e){ touchStartX=e.touches[0].clientX },{passive:true})
+  document.addEventListener('touchend', function(e){
+    var diff = touchStartX - e.changedTouches[0].clientX
+    if(Math.abs(diff)>60) diff>0 ? nextSlide() : prevSlide()
+  },{passive:true})
 
-  // Update arrows
-  const prev = document.getElementById('slide-prev')
-  const next = document.getElementById('slide-next')
-  if(prev) { prev.style.opacity = currentSlide===0?'0':'1'; prev.style.pointerEvents = currentSlide===0?'none':'auto'; }
-  if(next) { next.style.opacity = currentSlide===totalSlides-1?'0':'1'; next.style.pointerEvents = currentSlide===totalSlides-1?'none':'auto'; }
+  var wheelLocked = false
+  document.addEventListener('wheel', function(e){
+    if(wheelLocked) return
+    wheelLocked = true
+    setTimeout(function(){wheelLocked=false},900)
+    if(e.deltaY>30) nextSlide()
+    else if(e.deltaY<-30) prevSlide()
+  },{passive:true})
 
-  // Show footer on last slide
-  if(footer) footer.style.display = currentSlide===totalSlides-1 ? 'block' : 'none'
-
-  // Trigger reveals on current slide
-  setTimeout(() => triggerReveals(currentSlide), animate ? 400 : 50)
-
-  // Update nav
-  document.getElementById('main-nav').classList.toggle('scrolled', currentSlide>0)
-}
-
-function nextSlide() { goToSlide(currentSlide+1) }
-function prevSlide() { goToSlide(currentSlide-1) }
-
-// Keyboard navigation
-document.addEventListener('keydown', e => {
-  if(e.key==='ArrowRight'||e.key==='ArrowDown') nextSlide()
-  if(e.key==='ArrowLeft'||e.key==='ArrowUp') prevSlide()
-})
-
-// Touch/swipe
-let touchStartX = 0
-document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX, {passive:true})
-document.addEventListener('touchend', e => {
-  const diff = touchStartX - e.changedTouches[0].clientX
-  if(Math.abs(diff)>60) diff>0 ? nextSlide() : prevSlide()
-}, {passive:true})
-
-// Mouse wheel
-let wheelLocked = false
-document.addEventListener('wheel', e => {
-  if(wheelLocked) return
-  wheelLocked = true
-  setTimeout(()=>wheelLocked=false, 900)
-  if(e.deltaY>30) nextSlide()
-  else if(e.deltaY<-30) prevSlide()
-}, {passive:true})
-
-// Init — CSS vw handles sizing, just need to set track dimensions
-updateSlideLayout()
-window.addEventListener('resize', updateSlideLayout)
+  window.addEventListener('resize', function(){ goToSlide(currentSlide, false) })
+})()
 
 /* ============================================
    REVEAL SYSTEM
@@ -632,26 +638,8 @@ document.addEventListener('click', e => {
 })
 
 /* ============================================
-   NAV
+   COOKIE + NAV
 ============================================ */
-function toggleNav() {
-  document.getElementById('nav-links').classList.toggle('open')
-  document.getElementById('nav-right').classList.toggle('open')
-  document.getElementById('nav-toggle').classList.toggle('open')
-}
-function closeNav() {
-  document.getElementById('nav-links').classList.remove('open')
-  document.getElementById('nav-right').classList.remove('open')
-  document.getElementById('nav-toggle').classList.remove('open')
-}
-
-/* ============================================
-   COOKIE
-============================================ */
-function acceptCookies() {
-  document.getElementById('cookie-bar').style.display='none'
-  localStorage.setItem('stackd-cookies','1')
-}
 if(!localStorage.getItem('stackd-cookies')) {
   document.getElementById('cookie-bar').style.display='flex'
 }
