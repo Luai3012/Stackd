@@ -342,9 +342,19 @@
       .comp-table th:nth-child(2), .comp-table td:nth-child(2) { display: none; }
       .pricing-footer { padding: 1.5rem 1.25rem; }
     }
+
+    /* CURSOR */
+    @media (hover: hover) and (pointer: fine) { body, a, button { cursor: none !important; } }
+    .cursor-dot { position: fixed; width: 6px; height: 6px; background: #00D87F; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .15s, height .15s, background .15s; }
+    .cursor-ring { position: fixed; width: 34px; height: 34px; border: 1.5px solid rgba(0,216,127,0.45); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width .25s cubic-bezier(0.34,1.56,0.64,1), height .25s cubic-bezier(0.34,1.56,0.64,1); }
+    .cursor-dot.dot-hover { width: 10px; height: 10px; background: #FF6B35; }
+    .cursor-ring.ring-hover { width: 50px; height: 50px; }
+    @media (max-width: 768px), (hover: none) { .cursor-dot, .cursor-ring { display: none; } body { cursor: auto !important; } }
   </style>
 </head>
 <body>
+<div class="cursor-dot" id="c-dot"></div>
+<div class="cursor-ring" id="c-ring"></div>
 <div class="pricing-page">
 
   <!-- NAV -->
@@ -564,5 +574,15 @@ document.addEventListener('click', e => {
 })
 </script>
 <style>@keyframes ripple{to{transform:scale(1);opacity:0;}}</style>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var d=document.getElementById('c-dot'),r=document.getElementById('c-ring');
+  if(!d||!r||window.matchMedia('(hover:none),(pointer:coarse)').matches)return;
+  var mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  (function tick(){d.style.left=mx+'px';d.style.top=my+'px';rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(tick);})();
+  document.querySelectorAll('a,button').forEach(function(el){el.addEventListener('mouseenter',function(){r.classList.add('ring-hover');d.classList.add('dot-hover');});el.addEventListener('mouseleave',function(){r.classList.remove('ring-hover');d.classList.remove('dot-hover');});});
+});
+</script>
 </body>
 </html>
