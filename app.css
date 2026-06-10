@@ -907,40 +907,69 @@ body {
 .commission-table th { background: var(--bg-4); }
 
 /* ============================================ PERFORMANCE TAB */
-.waterfall-chart { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 0.75rem; min-height: 280px; }
+.waterfall-chart { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
 
 .waterfall-bars {
-  flex: 1;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-around;
-  gap: 12px;
-  border-left: 0.5px solid var(--border);
-  border-bottom: 0.5px solid var(--border);
-  padding: 1rem 0.5rem 0;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0.5rem 0;
 }
 
-.waterfall-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+.waterfall-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.waterfall-bar-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wbl-name {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-2);
+  transition: color 0.15s;
+}
+
+.wbl-count {
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+.waterfall-bar-track {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
 
 .waterfall-bar {
-  width: 100%;
-  border-radius: 4px 4px 0 0;
-  min-height: 8px;
-  transition: opacity 0.2s;
-  cursor: pointer;
-  position: relative;
+  height: 28px;
+  border-radius: 4px;
+  min-width: 4px;
+  transition: width 0.7s cubic-bezier(0.4,0,0.2,1), opacity 0.2s;
+  flex-shrink: 0;
 }
-.waterfall-bar:hover { opacity: 0.85; }
 
 .waterfall-bar-val {
   font-family: var(--font-m);
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 700;
   color: var(--text-2);
-  text-align: center;
+  white-space: nowrap;
+  transition: color 0.15s;
 }
 
-.waterfall-labels { display: flex; justify-content: space-around; gap: 12px; }
-.waterfall-label { font-family: var(--font-m); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); text-align: center; flex: 1; }
+.waterfall-labels { display: none; }
+.waterfall-label { display: none; }
 
 .perf-stats { padding: 1rem; display: flex; flex-direction: column; gap: 6px; }
 
@@ -1386,4 +1415,72 @@ select option { background: var(--bg-3); }
 }
 @media (max-width: 480px) {
   .perf-top-cards { grid-template-columns: 1fr; }
+}
+
+/* ============================================
+   DISCLAIMER BANNER
+============================================ */
+.disclaimer-bar {
+  background: var(--bg-3);
+  border-bottom: 0.5px solid var(--border);
+  padding: 8px 1.5rem;
+  flex-shrink: 0;
+}
+
+.disclaimer-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 1100px;
+}
+
+.disclaimer-text {
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.5;
+  flex: 1;
+  min-width: 200px;
+}
+
+.disclaimer-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.disclaimer-links a {
+  font-family: var(--font-m);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.disclaimer-links a:hover { color: var(--green); }
+
+.disclaimer-links span {
+  color: var(--text-3);
+  font-size: 10px;
+}
+
+.disclaimer-close {
+  background: transparent;
+  border: none;
+  color: var(--text-3);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: color 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.disclaimer-close:hover { color: var(--text); }
+
+@media (max-width: 640px) {
+  .disclaimer-bar { padding: 8px 1rem; }
+  .disclaimer-links { display: none; }
 }
