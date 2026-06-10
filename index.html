@@ -458,35 +458,38 @@ const track = document.getElementById('slide-track')
 const footer = document.getElementById('page-footer')
 
 function updateSlideLayout() {
-  // Each slide is full viewport width
+  // Use CSS vw instead of JS pixels — far more reliable
+  track.style.width = (totalSlides * 100) + 'vw'
+  track.style.height = '100vh'
   const slides = track.querySelectorAll('.slide')
   slides.forEach(s => {
-    s.style.width = W+'px'
-    s.style.height = '100vh'
+    s.style.width = '100vw'
+    s.style.minHeight = '100vh'
   })
-  track.style.width = (W * totalSlides)+'px'
-  goToSlide(currentSlide, false)
+  // Reapply position without animation
+  track.style.transition = 'none'
+  track.style.transform = `translateX(-${currentSlide * 100}vw)`
 }
 
 function goToSlide(index, animate=true) {
   currentSlide = Math.max(0, Math.min(index, totalSlides-1))
   track.style.transition = animate ? 'transform 0.75s cubic-bezier(0.77,0,0.175,1)' : 'none'
-  track.style.transform = `translateX(-${currentSlide * W}px)`
+  track.style.transform = `translateX(-${currentSlide * 100}vw)`
 
   // Update dots
   document.querySelectorAll('.slide-dot').forEach((d,i) => d.classList.toggle('active', i===currentSlide))
 
   // Update arrows
-  document.getElementById('slide-prev').style.opacity = currentSlide===0?'0':'1'
-  document.getElementById('slide-prev').style.pointerEvents = currentSlide===0?'none':'auto'
-  document.getElementById('slide-next').style.opacity = currentSlide===totalSlides-1?'0':'1'
-  document.getElementById('slide-next').style.pointerEvents = currentSlide===totalSlides-1?'none':'auto'
+  const prev = document.getElementById('slide-prev')
+  const next = document.getElementById('slide-next')
+  if(prev) { prev.style.opacity = currentSlide===0?'0':'1'; prev.style.pointerEvents = currentSlide===0?'none':'auto'; }
+  if(next) { next.style.opacity = currentSlide===totalSlides-1?'0':'1'; next.style.pointerEvents = currentSlide===totalSlides-1?'none':'auto'; }
 
   // Show footer on last slide
   if(footer) footer.style.display = currentSlide===totalSlides-1 ? 'block' : 'none'
 
   // Trigger reveals on current slide
-  setTimeout(() => triggerReveals(currentSlide), animate?400:0)
+  setTimeout(() => triggerReveals(currentSlide), animate ? 400 : 50)
 
   // Update nav
   document.getElementById('main-nav').classList.toggle('scrolled', currentSlide>0)
@@ -514,13 +517,14 @@ let wheelLocked = false
 document.addEventListener('wheel', e => {
   if(wheelLocked) return
   wheelLocked = true
-  setTimeout(()=>wheelLocked=false, 1000)
+  setTimeout(()=>wheelLocked=false, 900)
   if(e.deltaY>30) nextSlide()
   else if(e.deltaY<-30) prevSlide()
 }, {passive:true})
 
-// Init layout
+// Init — CSS vw handles sizing, just need to set track dimensions
 updateSlideLayout()
+window.addEventListener('resize', updateSlideLayout)
 
 /* ============================================
    REVEAL SYSTEM
