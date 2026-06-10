@@ -390,86 +390,168 @@
 </div>
 
 <script>
-// CURSOR GLOW
+// =============================================
+// CURSOR GLOW — follows entire page, not just viewport
+// =============================================
 const cursorGlow = document.getElementById('cursor-glow');
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+let glowX = mouseX;
+let glowY = mouseY;
+
 document.addEventListener('mousemove', e => {
-  cursorGlow.style.left = e.clientX + 'px';
-  cursorGlow.style.top = e.clientY + 'px';
+  mouseX = e.clientX;
+  mouseY = e.clientY;
 });
 
-// GRID BACKGROUND
+// Smooth lerp so glow trails the cursor elegantly
+function animateCursor() {
+  glowX += (mouseX - glowX) * 0.12;
+  glowY += (mouseY - glowY) * 0.12;
+  cursorGlow.style.left = glowX + 'px';
+  cursorGlow.style.top = glowY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// =============================================
+// CANVAS — Grid + Particles combined
+// =============================================
 const canvas = document.getElementById('grid-canvas');
 const ctx = canvas.getContext('2d');
 let W, H;
 
-function resizeGrid() {
+function resizeCanvas() {
   W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
+  H = canvas.height = document.documentElement.scrollHeight;
 }
-resizeGrid();
-window.addEventListener('resize', resizeGrid);
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Particles
+const PARTICLE_COUNT = 120;
+const particles = [];
+
+class Particle {
+  constructor() { this.reset(true); }
+  reset(randomY = false) {
+    this.x = Math.random() * W;
+    this.y = randomY ? Math.random() * H : H + 10;
+    this.size = Math.random() * 1.8 + 0.4;
+    this.speedX = (Math.random() - 0.5) * 0.4;
+    this.speedY = -(Math.random() * 0.5 + 0.15);
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.green = Math.random() > 0.72;
+    this.pulse = Math.random() * Math.PI * 2;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.pulse += 0.02;
+    this.opacity = (Math.sin(this.pulse) * 0.15 + 0.35) * (this.green ? 1 : 0.5);
+    if (this.y < -10 || this.x < -10 || this.x > W + 10) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.green
+      ? `rgba(29,158,117,${this.opacity})`
+      : `rgba(255,255,255,${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
 
 let gridOffset = 0;
-function drawGrid() {
+let scrollY = 0;
+
+window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+
+function drawFrame() {
   ctx.clearRect(0, 0, W, H);
-  const cellSize = 60;
-  const lineColor = 'rgba(255,255,255,0.028)';
-  const accentColor = 'rgba(29,158,117,0.035)';
-  ctx.strokeStyle = lineColor;
+
+  const cellSize = 56;
+  const offset = gridOffset % cellSize;
+
+  // Grid lines — more prominent
+  ctx.strokeStyle = 'rgba(255,255,255,0.045)';
   ctx.lineWidth = 0.5;
 
-  // Vertical lines
-  for (let x = (gridOffset % cellSize); x < W; x += cellSize) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, H);
-    ctx.stroke();
+  for (let x = offset; x < W; x += cellSize) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = offset; y < H; y += cellSize) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
   }
 
-  // Horizontal lines
-  for (let y = (gridOffset % cellSize); y < H; y += cellSize) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(W, y);
-    ctx.stroke();
+  // Green accent lines — every 4th
+  ctx.strokeStyle = 'rgba(29,158,117,0.06)';
+  ctx.lineWidth = 0.5;
+  for (let x = offset; x < W; x += cellSize * 4) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = offset; y < H; y += cellSize * 4) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
   }
 
-  // Accent dot at every 4th intersection
-  ctx.fillStyle = accentColor;
-  for (let x = (gridOffset % cellSize); x < W; x += cellSize * 4) {
-    for (let y = (gridOffset % cellSize); y < H; y += cellSize * 4) {
-      ctx.beginPath();
-      ctx.arc(x, y, 1.5, 0, Math.PI * 2);
-      ctx.fill();
+  // Intersection dots
+  ctx.fillStyle = 'rgba(29,158,117,0.07)';
+  for (let x = offset; x < W; x += cellSize * 4) {
+    for (let y = offset; y < H; y += cellSize * 4) {
+      ctx.beginPath(); ctx.arc(x, y, 1.8, 0, Math.PI * 2); ctx.fill();
     }
   }
 
-  // Radial fade from center — overlay dark gradient to fade edges
-  const grad = ctx.createRadialGradient(W/2, H/2, H * 0.1, W/2, H/2, H * 0.85);
-  grad.addColorStop(0, 'rgba(8,8,8,0)');
-  grad.addColorStop(1, 'rgba(8,8,8,0.95)');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, W, H);
+  // Particles
+  particles.forEach(p => { p.update(); p.draw(); });
 
-  gridOffset += 0.15;
-  requestAnimationFrame(drawGrid);
+  // Edge vignette — fade grid at page edges only (not full page)
+  const vignette = ctx.createRadialGradient(W/2, scrollY + window.innerHeight/2, window.innerHeight * 0.15, W/2, scrollY + window.innerHeight/2, window.innerHeight * 0.85);
+  vignette.addColorStop(0, 'rgba(8,8,8,0)');
+  vignette.addColorStop(1, 'rgba(8,8,8,0.88)');
+  ctx.fillStyle = vignette;
+  ctx.fillRect(0, scrollY, W, window.innerHeight);
+
+  gridOffset += 0.18;
+  requestAnimationFrame(drawFrame);
 }
-drawGrid();
+drawFrame();
 
-// SCROLL REVEAL
-const reveals = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up');
-const observer = new IntersectionObserver((entries) => {
+// =============================================
+// BIDIRECTIONAL SCROLL REVEAL — elevator doors
+// =============================================
+const revealEls = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up');
+
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('revealed');
-      observer.unobserve(entry.target);
+      entry.target.classList.remove('retracted');
+    } else {
+      // Only retract if element is above viewport (scrolled past it going up)
+      const rect = entry.target.getBoundingClientRect();
+      if (rect.top > window.innerHeight * 0.1) {
+        // Element is below viewport — not yet seen, keep hidden
+      } else {
+        // Element is above viewport — retract it
+        entry.target.classList.remove('revealed');
+        entry.target.classList.add('retracted');
+      }
     }
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-reveals.forEach(el => observer.observe(el));
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
+revealEls.forEach(el => revealObserver.observe(el));
+
+// =============================================
 // COUNTER ANIMATION
+// =============================================
+const counterMap = new Map();
+
 function animateCounter(el) {
+  if (counterMap.get(el)) return;
+  counterMap.set(el, true);
   const target = parseInt(el.dataset.count);
   const format = el.dataset.format;
   const duration = 1800;
@@ -480,9 +562,7 @@ function animateCounter(el) {
     const eased = 1 - Math.pow(1 - progress, 3);
     const current = Math.floor(eased * target);
     if (format === 'money') {
-      el.textContent = current >= 1000000
-        ? '$' + (current / 1000000).toFixed(1) + 'M'
-        : '$' + current.toLocaleString();
+      el.textContent = current >= 1000000 ? '$' + (current/1000000).toFixed(1) + 'M' : '$' + current.toLocaleString();
     } else if (format === 'percent') {
       el.textContent = current + '%';
     } else if (format === 'seconds') {
@@ -491,6 +571,7 @@ function animateCounter(el) {
       el.textContent = current;
     }
     if (progress < 1) requestAnimationFrame(update);
+    else counterMap.delete(el);
   }
   update();
 }
@@ -499,36 +580,102 @@ const counterObs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.querySelectorAll('[data-count]').forEach(c => animateCounter(c));
-      counterObs.unobserve(entry.target);
     }
   });
 }, { threshold: 0.3 });
 
 document.querySelectorAll('.stat-ticker, .mock-metrics').forEach(el => counterObs.observe(el));
 
+// =============================================
 // DASHBOARD BAR
+// =============================================
 setTimeout(() => {
   const bar = document.getElementById('mock-bar');
   if (bar) bar.style.width = '68%';
 }, 900);
 
+// =============================================
+// BUTTON ANIMATIONS — all clickable elements
+// =============================================
+function addButtonAnimations() {
+  const allClickable = document.querySelectorAll(
+    'a, button, .btn, .btn-plan, .nav-link, .footer-link, .auth-tab, .app-tab-btn, .btn-ai, .delete-btn, .btn-alert, .nav-hamburger'
+  );
+
+  allClickable.forEach(el => {
+    // Ripple effect on click
+    el.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.className = 'btn-ripple';
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 2;
+      ripple.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${e.clientX - rect.left - size/2}px;
+        top: ${e.clientY - rect.top - size/2}px;
+      `;
+      // Only add ripple to elements with relative/absolute positioning
+      const pos = window.getComputedStyle(el).position;
+      if (pos === 'static') el.style.position = 'relative';
+      el.style.overflow = 'hidden';
+      el.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+
+    // Press down effect
+    el.addEventListener('mousedown', function() {
+      if (!el.classList.contains('magnetic')) {
+        el.style.transform = 'scale(0.96)';
+      }
+    });
+
+    el.addEventListener('mouseup', function() {
+      el.style.transform = '';
+    });
+
+    el.addEventListener('mouseleave', function() {
+      el.style.transform = '';
+    });
+  });
+}
+
+addButtonAnimations();
+
+// =============================================
 // MAGNETIC BUTTONS
+// =============================================
 document.querySelectorAll('.magnetic').forEach(btn => {
   btn.addEventListener('mousemove', e => {
     const rect = btn.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) * 0.15;
-    const y = (e.clientY - rect.top - rect.height / 2) * 0.15;
+    const x = (e.clientX - rect.left - rect.width / 2) * 0.18;
+    const y = (e.clientY - rect.top - rect.height / 2) * 0.18;
     btn.style.transform = `translate(${x}px, ${y}px)`;
   });
   btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  btn.addEventListener('mousedown', () => {
+    const rect = btn.getBoundingClientRect();
+    const x = parseFloat(btn.style.transform.replace(/[^-\d.]/g, '') || 0);
+    btn.style.transform = `translate(${x * 0.5}px, ${x * 0.5}px) scale(0.95)`;
+  });
+  btn.addEventListener('mouseup', e => {
+    const rect = btn.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) * 0.18;
+    const y = (e.clientY - rect.top - rect.height / 2) * 0.18;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+  });
 });
 
+// =============================================
 // NAV SCROLL
+// =============================================
 window.addEventListener('scroll', () => {
   document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
 });
 
+// =============================================
 // MOBILE NAV
+// =============================================
 function toggleMobileNav() {
   document.getElementById('nav-links').classList.toggle('open');
   document.getElementById('nav-toggle').classList.toggle('open');
@@ -538,7 +685,9 @@ function closeMobileNav() {
   document.getElementById('nav-toggle').classList.remove('open');
 }
 
+// =============================================
 // SMOOTH SCROLL
+// =============================================
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const target = document.querySelector(a.getAttribute('href'));
@@ -546,7 +695,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+// =============================================
 // COOKIE
+// =============================================
 function acceptCookies() {
   document.getElementById('cookie-banner').style.display = 'none';
   localStorage.setItem('cookies-accepted', '1');
