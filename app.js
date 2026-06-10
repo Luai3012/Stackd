@@ -206,7 +206,18 @@ function toggleSidebar() {
 /* ============================================ SUBSCRIPTION */
 async function loadSubscription() {
   const {data} = await db.from('subscriptions').select('plan,status').eq('user_id', currentUser.id).single()
-  userPlan = data?.plan || 'free'
+
+  // Auto-create free tier row if missing
+  if(!data) {
+    await db.from('subscriptions').insert({
+      user_id: currentUser.id,
+      plan: 'free',
+      status: 'active'
+    })
+    userPlan = 'free'
+  } else {
+    userPlan = data?.plan || 'free'
+  }
 
   const chip = document.getElementById('sidebar-plan')
   if(chip) {
