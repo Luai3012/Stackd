@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing — Stackd</title>
+  <meta name="description" content="Stackd pricing. Free to start. Upgrade when Stackd saves you more than it costs." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300D87F'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='700' fill='%230A0909'>S</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    body { overflow-x: hidden; overflow-y: auto; cursor: auto; }
+
+    .pricing-page { position: relative; z-index: 1; }
+
+    /* subtle bg grid */
+    .pricing-page::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 54px 54px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    .pricing-nav {
+      position: sticky;
+      top: 0;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(10,9,9,0.88);
+      backdrop-filter: blur(28px);
+      border-bottom: 0.5px solid var(--border);
+      z-index: 100;
+    }
+    .pnav-logo { font-family: var(--font-d); font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
+    .pnav-logo span { color: var(--green); }
+    .pnav-links { display: flex; align-items: center; gap: 0.25rem; }
+    .pnav-link { font-size: 14px; color: var(--text-2); text-decoration: none; padding: 6px 14px; border-radius: 6px; transition: color 0.15s, background 0.15s; }
+    .pnav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .pnav-cta { display: flex; align-items: center; gap: 6px; font-size: 14px; font-family: var(--font-d); font-weight: 700; color: #000; text-decoration: none; padding: 7px 18px; border-radius: 6px; background: var(--green); transition: background 0.15s, box-shadow 0.15s; }
+    .pnav-cta:hover { background: #00F090; box-shadow: 0 0 20px rgba(0,216,127,0.35); }
+
+    /* HERO */
+    .pricing-hero {
+      padding: 5rem 2.5rem 3rem;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pricing-eyebrow {
+      font-family: var(--font-m);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .pricing-eyebrow::before,
+    .pricing-eyebrow::after { content: ''; width: 20px; height: 1px; background: var(--green); }
+
+    .pricing-h1 {
+      font-family: var(--font-d);
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+
+    .pricing-sub { font-size: 17px; color: var(--text-2); line-height: 1.7; margin-bottom: 1.5rem; }
+
+    .pricing-guarantee-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-3);
+      border: 0.5px solid rgba(0,216,127,0.2);
+      border-radius: 99px;
+      padding: 8px 18px;
+      font-family: var(--font-m);
+      font-size: 12px;
+      color: var(--green);
+    }
+
+    /* PLAN CARDS */
+    .plans-section {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 0 2.5rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .plan-card {
+      background: var(--bg-2);
+      border: 0.5px solid var(--border-2);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .plan-card:hover { transform: translateY(-4px); }
+
+    .plan-card.plan-pro { border-color: rgba(0,216,127,0.3); background: linear-gradient(135deg, var(--bg-2) 0%, rgba(0,216,127,0.04) 100%); }
+    .plan-card.plan-pro:hover { border-color: rgba(0,216,127,0.55); }
+    .plan-card.plan-career { border-color: rgba(167,139,250,0.25); background: linear-gradient(135deg, var(--bg-2) 0%, rgba(167,139,250,0.04) 100%); }
+    .plan-card.plan-career:hover { border-color: rgba(167,139,250,0.5); }
+
+    .plan-glow {
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 120px; height: 120px;
+      background: radial-gradient(circle, rgba(0,216,127,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .plan-career .plan-glow { background: radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%); }
+
+    .plan-badge {
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 1rem;
+      width: fit-content;
+    }
+    .plan-pro .plan-badge { background: var(--green-3); color: var(--green); border: 0.5px solid rgba(0,216,127,0.2); }
+    .plan-career .plan-badge { background: var(--violet-2); color: var(--violet); border: 0.5px solid rgba(167,139,250,0.2); }
+
+    .plan-name { font-family: var(--font-m); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-2); margin-bottom: 4px; }
+    .plan-price { font-family: var(--font-d); font-size: 44px; font-weight: 800; color: var(--text); line-height: 1; margin-bottom: 4px; letter-spacing: -2px; }
+    .plan-price span { font-size: 15px; font-weight: 400; color: var(--text-2); letter-spacing: 0; }
+    .plan-desc { font-size: 13px; color: var(--text-2); margin-bottom: 1.5rem; line-height: 1.5; padding-bottom: 1.5rem; border-bottom: 0.5px solid var(--border); }
+
+    .plan-features-list { list-style: none; flex: 1; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0; }
+    .plan-features-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 0.5px solid var(--border);
+      font-size: 13px;
+      color: var(--text-2);
+    }
+    .plan-features-list li:last-child { border-bottom: none; }
+
+    .feat-check {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .feat-check.green { background: var(--green-3); border: 0.5px solid rgba(0,216,127,0.25); color: var(--green); }
+    .feat-check.violet { background: var(--violet-2); border: 0.5px solid rgba(167,139,250,0.2); color: var(--violet); }
+    .feat-check.muted { background: var(--bg-4); border: 0.5px solid var(--border); color: var(--text-3); }
+    .feat-check svg { width: 8px; height: 8px; }
+
+    .plan-btn {
+      display: block;
+      text-align: center;
+      font-family: var(--font-d);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 8px;
+      transition: all 0.15s;
+      cursor: pointer;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .plan-btn:hover { transform: translateY(-2px); }
+    .plan-btn.free { background: transparent; color: var(--text-2); border: 0.5px solid var(--border-2); }
+    .plan-btn.free:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+    .plan-btn.pro { background: var(--green); color: #000; }
+    .plan-btn.pro:hover { background: #00F090; box-shadow: 0 0 28px rgba(0,216,127,0.4); }
+    .plan-btn.career { background: var(--violet); color: #000; }
+    .plan-btn.career:hover { background: #C4B5FD; box-shadow: 0 0 28px rgba(167,139,250,0.4); }
+
+    /* COMPARISON TABLE */
+    .comparison-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2.5rem 5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .comparison-title {
+      font-family: var(--font-d);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .comparison-sub { font-size: 14px; color: var(--text-2); text-align: center; margin-bottom: 2.5rem; }
+
+    .comp-table { width: 100%; border-collapse: collapse; }
+    .comp-table thead tr { border-bottom: 0.5px solid var(--border-2); }
+    .comp-table th { padding: 1rem 1.25rem; font-family: var(--font-m); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-2); text-align: center; }
+    .comp-table th:first-child { text-align: left; }
+    .comp-table th.col-pro { color: var(--green); }
+    .comp-table th.col-career { color: var(--violet); }
+
+    .comp-table tbody tr { border-bottom: 0.5px solid var(--border); transition: background 0.15s; }
+    .comp-table tbody tr:hover { background: var(--bg-2); }
+    .comp-table td { padding: 12px 1.25rem; font-size: 13px; color: var(--text-2); text-align: center; }
+    .comp-table td:first-child { text-align: left; color: var(--text); font-weight: 500; }
+    .comp-table .comp-section { font-family: var(--font-m); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); background: var(--bg-3); }
+
+    .check-yes { color: var(--green); font-size: 16px; }
+    .check-violet { color: var(--violet); font-size: 16px; }
+    .check-no { color: var(--text-3); font-size: 16px; }
+    .check-limit { font-family: var(--font-m); font-size: 11px; color: var(--text-2); }
+
+    /* FAQ */
+    .faq-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 2.5rem 5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .faq-title { font-family: var(--font-d); font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem; text-align: center; }
+    .faq-sub { font-size: 14px; color: var(--text-2); text-align: center; margin-bottom: 2.5rem; }
+
+    .faq-item {
+      border-bottom: 0.5px solid var(--border);
+      overflow: hidden;
+    }
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: color 0.15s;
+      gap: 1rem;
+    }
+    .faq-q:hover { color: var(--green); }
+    .faq-icon { color: var(--text-3); font-size: 20px; transition: transform 0.2s; flex-shrink: 0; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); color: var(--green); }
+    .faq-a { font-size: 14px; color: var(--text-2); line-height: 1.75; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding-bottom: 0; }
+    .faq-a a { color: var(--green); text-decoration: none; }
+    .faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.25rem; }
+
+    /* FINAL CTA */
+    .pricing-cta-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 2.5rem 6rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .pricing-cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 400px; height: 200px;
+      background: radial-gradient(ellipse, rgba(0,216,127,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      filter: blur(30px);
+    }
+    .pcta-h2 { font-family: var(--font-d); font-size: clamp(32px, 4vw, 48px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1rem; }
+    .pcta-sub { font-size: 16px; color: var(--text-2); margin-bottom: 2rem; }
+    .pcta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-d);
+      font-size: 16px;
+      font-weight: 700;
+      color: #000;
+      text-decoration: none;
+      padding: 15px 36px;
+      border-radius: 10px;
+      background: var(--green);
+      transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .pcta-btn:hover { background: #00F090; box-shadow: 0 0 50px rgba(0,216,127,0.45); transform: translateY(-2px); }
+    .pcta-proof { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.5px; color: var(--text-3); }
+
+    /* FOOTER */
+    .pricing-footer {
+      border-top: 0.5px solid var(--border);
+      padding: 2rem 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .pf-inner { max-width: 1050px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .pf-left { display: flex; gap: 1.5rem; align-items: center; }
+    .pf-link { font-size: 13px; color: var(--text-3); text-decoration: none; transition: color 0.15s; }
+    .pf-link:hover { color: var(--text); }
+    .pf-right { font-family: var(--font-m); font-size: 11px; color: var(--text-3); }
+
+    @media (max-width: 900px) {
+      .plans-grid { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
+    }
+    @media (max-width: 640px) {
+      .pricing-nav { padding: 0 1.25rem; }
+      .pnav-links { display: none; }
+      .pricing-hero, .plans-section, .comparison-section, .faq-section, .pricing-cta-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .comp-table th:nth-child(2), .comp-table td:nth-child(2) { display: none; }
+      .pricing-footer { padding: 1.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="pricing-page">
+
+  <!-- NAV -->
+  <nav class="pricing-nav">
+    <a href="index.html" class="pnav-logo">stack<span>d</span></a>
+    <div class="pnav-links">
+      <a href="index.html" class="pnav-link">Home</a>
+      <a href="support.html" class="pnav-link">Support</a>
+    </div>
+    <a href="app.html" class="pnav-cta">Get started free →</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="pricing-hero">
+    <div class="pricing-eyebrow">Pricing</div>
+    <h1 class="pricing-h1">Straightforward.<br><span style="color:var(--green)">No surprises.</span></h1>
+    <p class="pricing-sub">Start free. Upgrade when Stackd saves you more than it costs — which usually happens in the first month.</p>
+    <div class="pricing-guarantee-pill">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5l1.5 3.5h3.5L9.5 7l1 3.5L7 9l-3.5 2 1-3.5L2 5h3.5z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+      7-day money back guarantee on all paid plans — no questions asked
+    </div>
+  </div>
+
+  <!-- PLAN CARDS -->
+  <div class="plans-section">
+    <div class="plans-grid">
+
+      <!-- FREE -->
+      <div class="plan-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0<span>/mo</span></div>
+        <p class="plan-desc">Get started, validate your numbers, feel what Stackd does.</p>
+        <ul class="plan-features-list">
+          <li><span class="feat-check muted"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Up to 5 deals per month</li>
+          <li><span class="feat-check muted"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Commission gap detection</li>
+          <li><span class="feat-check muted"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Quota tracker</li>
+          <li><span class="feat-check muted"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Basic dashboard</li>
+        </ul>
+        <a href="app.html" class="plan-btn free">Get started</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="plan-card plan-pro">
+        <div class="plan-glow"></div>
+        <div class="plan-badge">Most popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$19<span>/mo</span></div>
+        <p class="plan-desc">For reps serious about every dollar they've earned.</p>
+        <ul class="plan-features-list">
+          <li><span class="feat-check green"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Unlimited deals</li>
+          <li><span class="feat-check green"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>AI dispute emails</li>
+          <li><span class="feat-check green"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>AI raise requests</li>
+          <li><span class="feat-check green"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Performance reports</li>
+          <li><span class="feat-check green"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>CSV export</li>
+          <li><span class="feat-check green"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Priority support</li>
+        </ul>
+        <a href="app.html" class="plan-btn pro" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
+      </div>
+
+      <!-- CAREER -->
+      <div class="plan-card plan-career">
+        <div class="plan-glow"></div>
+        <div class="plan-badge">Full stack</div>
+        <div class="plan-name">Career</div>
+        <div class="plan-price">$29<span>/mo</span></div>
+        <p class="plan-desc">Everything in Pro, plus AI-powered career coaching tools.</p>
+        <ul class="plan-features-list">
+          <li><span class="feat-check violet"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Everything in Pro</li>
+          <li><span class="feat-check violet"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>AI interview coach</li>
+          <li><span class="feat-check violet"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>STAR answer generator</li>
+          <li><span class="feat-check violet"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>LinkedIn profile audit</li>
+          <li><span class="feat-check violet"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2L6.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>Salary negotiation scripts</li>
+        </ul>
+        <a href="app.html" class="plan-btn career" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="comparison-section">
+    <h2 class="comparison-title">Full feature comparison</h2>
+    <p class="comparison-sub">Everything you get on each plan, side by side.</p>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Free</th>
+          <th class="col-pro">Pro</th>
+          <th class="col-career">Career</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="comp-section"><td colspan="4">Core tracking</td></tr>
+        <tr><td>Deals per month</td><td><span class="check-limit">5 deals</span></td><td><span class="check-yes">Unlimited</span></td><td><span class="check-yes">Unlimited</span></td></tr>
+        <tr><td>Commission gap detection</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+        <tr><td>Quota attainment tracker</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+        <tr><td>Deal dashboard</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+        <tr><td>CSV export</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+        <tr class="comp-section"><td colspan="4">AI features</td></tr>
+        <tr><td>AI dispute emails</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+        <tr><td>AI raise request emails</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+        <tr><td>AI performance reports</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+        <tr class="comp-section"><td colspan="4">Career coaching</td></tr>
+        <tr><td>AI interview coach</td><td><span class="check-no">—</span></td><td><span class="check-no">—</span></td><td><span class="check-violet">✓</span></td></tr>
+        <tr><td>STAR answer generator</td><td><span class="check-no">—</span></td><td><span class="check-no">—</span></td><td><span class="check-violet">✓</span></td></tr>
+        <tr><td>LinkedIn profile audit</td><td><span class="check-no">—</span></td><td><span class="check-no">—</span></td><td><span class="check-violet">✓</span></td></tr>
+        <tr><td>Salary negotiation scripts</td><td><span class="check-no">—</span></td><td><span class="check-no">—</span></td><td><span class="check-violet">✓</span></td></tr>
+        <tr class="comp-section"><td colspan="4">Support</td></tr>
+        <tr><td>Email support</td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+        <tr><td>Priority support</td><td><span class="check-no">—</span></td><td><span class="check-yes">✓</span></td><td><span class="check-yes">✓</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <h2 class="faq-title">Common questions</h2>
+    <p class="faq-sub">Everything you need to know before signing up.</p>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Is Stackd really free to start?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Yes — no credit card required. The Free plan lets you log up to 5 deals per month with full gap detection and quota tracking. You'll see exactly what Stackd does before spending a dollar.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Can my employer see my Stackd data?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">No. Stackd is a personal app. Your data is stored securely and only accessible to your account. We use row-level security so no other user — or employer — can ever access your records. We never share user data with third parties.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What is the refund policy?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">7-day money back guarantee on all paid plans. Email <a href="mailto:support@wearestackd.net">support@wearestackd.net</a> within 7 days of subscribing and we'll refund you in full — no questions asked.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Can I cancel anytime?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Yes — no long-term contracts, no cancellation fees. Cancel from your settings at any time. You'll keep access until the end of your billing period, then drop to the Free plan.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Does Stackd integrate with my CRM?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">No integration needed — and that's intentional. Stackd is your personal record, completely separate from your company's systems. You don't need IT approval, CRM access, or admin permissions. You log your own deals in 30 seconds.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What does the AI actually do?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Stackd uses Claude (by Anthropic) to generate professional documents based on your actual deal data. This includes dispute emails, raise requests, performance reports, and — on the Career plan — interview coaching, STAR answers, LinkedIn rewrites, and salary negotiation scripts. The AI reads your real numbers and writes content specific to your situation, not a generic template.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What's the difference between Pro and Career?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-a">Pro is everything you need to track commissions and fight for what you're owed. Career adds a full coaching suite — interview prep, STAR answers, LinkedIn audits, and negotiation scripts — for reps who are also building toward their next move. Career is $10/month more than Pro.</div>
+    </div>
+  </div>
+
+  <!-- FINAL CTA -->
+  <div class="pricing-cta-section">
+    <h2 class="pcta-h2">Start stacking<br>your commissions.</h2>
+    <p class="pcta-sub">Free to start. Upgrade when you're ready.</p>
+    <a href="app.html" class="pcta-btn">
+      Create free account →
+    </a>
+    <p class="pcta-proof">No credit card &nbsp;&middot;&nbsp; 7-day guarantee &nbsp;&middot;&nbsp; Cancel anytime</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="pricing-footer">
+    <div class="pf-inner">
+      <div class="pf-left">
+        <a href="index.html" class="pnav-logo" style="font-size:17px;">stack<span style="color:var(--green)">d</span></a>
+        <a href="support.html" class="pf-link">Support</a>
+        <a href="privacy.html" class="pf-link">Privacy</a>
+        <a href="terms.html" class="pf-link">Terms</a>
+      </div>
+      <div class="pf-right">© 2026 Stackd · Made with honesty, in Amman.</div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+function toggleFaq(el) {
+  const item = el.parentElement
+  const isOpen = item.classList.contains('open')
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'))
+  if(!isOpen) item.classList.add('open')
+}
+
+// Ripple on buttons
+document.addEventListener('click', e => {
+  const btn = e.target.closest('a,button')
+  if(!btn) return
+  if(window.getComputedStyle(btn).position==='static') btn.style.position='relative'
+  btn.style.overflow='hidden'
+  const r = document.createElement('span')
+  const rect = btn.getBoundingClientRect()
+  const size = Math.max(rect.width,rect.height)*2.2
+  r.style.cssText=`position:absolute;border-radius:50%;background:rgba(255,255,255,0.12);width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;transform:scale(0);animation:ripple 0.65s ease forwards;pointer-events:none;`
+  btn.appendChild(r)
+  setTimeout(()=>r.remove(),700)
+})
+</script>
+<style>@keyframes ripple{to{transform:scale(1);opacity:0;}}</style>
+</body>
+</html>
