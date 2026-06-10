@@ -416,51 +416,177 @@ html, body {
 /* hero visual */
 .hero-visual { position: relative; z-index: 1; }
 
-.hero-card-stack { position: relative; }
-.hcard { border-radius: 16px; border: 0.5px solid var(--border-2); }
-.hcard-back { width: 90%; height: 100%; background: var(--bg-3); position: absolute; bottom: -20px; right: -20px; opacity: 0.4; }
-.hcard-mid  { width: 95%; height: 100%; background: var(--bg-2); position: absolute; bottom: -10px; right: -10px; opacity: 0.7; }
-.hcard-front { width: 100%; background: var(--bg-2); position: relative; box-shadow: 0 32px 80px rgba(0,0,0,0.7); animation: float 7s ease-in-out infinite; }
+/* ============================================
+   PAY SLIP — hero visual
+   Reads like a real payslip, not a SaaS template
+============================================ */
+.pay-slip {
+  background: var(--bg-2);
+  border: 0.5px solid rgba(255,255,255,0.09);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 48px 96px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(255,255,255,0.04) inset;
+  animation: float 7s ease-in-out infinite;
+  max-width: 400px;
+  margin-left: auto;
+}
 @keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
 
-.hcard-header { display: flex; align-items: center; gap: 6px; padding: 11px 14px; background: var(--bg-3); border-bottom: 0.5px solid var(--border); border-radius: 16px 16px 0 0; }
-.hcard-dots { display: flex; gap: 5px; }
-.hd { width: 9px; height: 9px; border-radius: 50%; }
-.red { background: #FF5F57; } .amber { background: #FFBD2E; } .green { background: var(--green); }
-.hcard-title { font-family: var(--font-m); font-size: 10px; color: var(--text-3); margin-left: 6px; }
-.hcard-body { padding: 1.1rem; }
+.ps-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 0.5px solid var(--border);
+}
+.ps-name { font-family: var(--font-d); font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+.ps-role { font-family: var(--font-m); font-size: 10px; color: var(--text-3); margin-top: 3px; letter-spacing: 0.5px; }
+.ps-live {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-m);
+  font-size: 10px;
+  color: var(--green);
+  letter-spacing: 0.5px;
+}
+.ps-live-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2.5s ease-in-out infinite;
+}
 
-.hcard-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-bottom: 0.875rem; }
-.hmetric { background: var(--bg-3); border: 0.5px solid var(--border); border-radius: 7px; padding: 9px; }
-.hmetric-label { font-size: 9px; font-family: var(--font-m); color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.hmetric-val { font-family: var(--font-m); font-size: 18px; font-weight: 700; color: var(--text); line-height: 1; background: none; }
-.hm-green { color: var(--green); background: none; }
-.hm-orange { color: var(--orange); background: none; }
-.hmetric-delta { font-size: 9px; margin-top: 3px; }
-.hmetric-delta.up { color: var(--green); }
-.hmetric-delta.warn { color: #F59E0B; }
-.hmetric-delta.danger { color: var(--orange); }
+/* The number — big, proud, honest */
+.ps-main {
+  padding: 1.75rem 1.5rem 1.25rem;
+  border-bottom: 0.5px solid var(--border);
+}
+.ps-main-label {
+  font-family: var(--font-m);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 8px;
+}
+.ps-main-amount {
+  font-family: var(--font-d);
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -3px;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.ps-main-sub {
+  font-size: 13px;
+  color: var(--text-2);
+}
+.ps-accent { color: var(--green); font-weight: 600; }
 
-.hcard-bar-wrap { margin-bottom: 0.875rem; }
-.hcard-bar-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-3); font-family: var(--font-m); margin-bottom: 5px; }
-.hcard-bar-track { background: var(--bg-4); border-radius: 99px; height: 4px; overflow: hidden; }
-.hcard-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green), #00F090); border-radius: 99px; width: 0%; transition: width 1.4s var(--ease); }
+/* Deal lines */
+.ps-lines {
+  padding: 0.75rem 1.5rem;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+.ps-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 0.5px solid var(--border);
+  font-size: 12px;
+  gap: 8px;
+}
+.ps-line:last-child { border-bottom: none; }
+.ps-line-pending { opacity: 0.5; }
 
-.hcard-alert { display: flex; align-items: center; gap: 10px; background: rgba(255,107,53,0.06); border: 0.5px solid rgba(255,107,53,0.2); border-radius: 7px; padding: 9px 11px; margin-bottom: 0.7rem; animation: alert-glow 3.5s ease-in-out infinite; }
-@keyframes alert-glow { 0%,100%{border-color:rgba(255,107,53,0.2);}50%{border-color:rgba(255,107,53,0.45);} }
-.hcard-alert-pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; animation: pulse 1.5s ease-in-out infinite; }
-.hcard-alert-title { font-size: 11px; font-weight: 600; color: var(--text); }
-.hcard-alert-sub { font-size: 10px; color: var(--text-2); }
-.hcard-alert-arrow { margin-left: auto; font-family: var(--font-m); font-size: 13px; color: var(--orange); }
+.ps-line-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ps-line-right { display: flex; align-items: center; gap: 6px; }
 
-.hcard-deals { display: flex; flex-direction: column; gap: 0; }
-.hcard-deal { display: flex; align-items: center; gap: 7px; padding: 6px 0; border-bottom: 0.5px solid var(--border); font-size: 10px; }
-.hcard-deal:last-child { border-bottom: none; }
-.hcard-deal-name { flex: 1; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hbadge { font-size: 9px; padding: 2px 6px; border-radius: 20px; font-weight: 600; }
-.hbadge.closed { background: rgba(0,216,127,0.1); color: var(--green); }
-.hbadge.pending { background: rgba(245,158,11,0.1); color: #F59E0B; }
-.hbadge.disputed { background: rgba(255,107,53,0.1); color: var(--orange); }
+.ps-line-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ps-line-dot.green { background: var(--green); }
+.ps-line-dot.orange { background: var(--orange); }
+.ps-line-dot.muted { background: var(--text-3); }
+
+.ps-line-amount {
+  font-family: var(--font-m);
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.ps-line-amount.green { color: var(--green); background: none; }
+.ps-line-amount.orange { color: var(--orange); background: none; }
+.ps-line-amount.muted { color: var(--text-3); }
+
+.ps-line-tag {
+  font-family: var(--font-m);
+  font-size: 9px;
+  padding: 2px 6px;
+  background: rgba(255,107,53,0.1);
+  color: var(--orange);
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* Footer — quota + gap */
+.ps-footer {
+  padding: 1rem 1.5rem;
+}
+.ps-footer-track {
+  height: 3px;
+  background: var(--bg-4);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.ps-footer-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--green), #00F090);
+  border-radius: 99px;
+  transition: width 1.2s var(--ease);
+}
+.ps-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+.ps-footer-label { font-family: var(--font-m); color: var(--text-3); font-size: 10px; }
+.ps-footer-label .green { color: var(--green); background: none; }
+.ps-footer-gap { font-family: var(--font-m); font-size: 10px; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+.ps-draft-btn {
+  background: none;
+  border: none;
+  color: var(--orange);
+  font-family: var(--font-m);
+  font-size: 10px;
+  cursor: none;
+  padding: 0;
+  transition: opacity 0.15s;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ps-draft-btn:hover { opacity: 0.75; }
+
 
 /* ============================================
    SLIDE 2 — FEATURES
