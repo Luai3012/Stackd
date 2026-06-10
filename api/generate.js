@@ -4,6 +4,8 @@
 // Anthropic API key safe on the server side
 // ============================================
 
+import { createClient } from '@supabase/supabase-js'
+
 export default async function handler(req, res) {
 
   // Only allow POST requests
@@ -14,12 +16,52 @@ export default async function handler(req, res) {
   // CORS headers so your frontend can call this
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end()
+  }
 
   const { type, data } = req.body
 
   if (!type || !data) {
     return res.status(400).json({ error: 'Missing type or data' })
+  }
+
+  // Verify user is authenticated and on a paid plan
+  const authHeader = req.headers.authorization
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Authentication required' })
+  }
+
+  const token = authHeader.split(' ')[1]
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  )
+
+  // Verify the JWT and get user
+  const { data: { user }, error: authError } = await supabase.auth.getUser(token)
+  if (authError || !user) {
+    return res.status(401).json({ error: 'Invalid or expired session' })
+  }
+
+  // Check subscription plan — free users cannot use AI
+  const { data: sub } = await supabase
+    .from('subscriptions')
+    .select('plan')
+    .eq('user_id', user.id)
+    .single()
+
+  const plan = sub?.plan || 'free'
+  if (plan === 'free') {
+    return res.status(403).json({ error: 'AI features require a Pro or Career plan' })
+  }
+
+  // Career-only tools
+  const careerTools = ['interview', 'star', 'linkedin', 'negotiation']
+  if (careerTools.includes(type) && plan !== 'career') {
+    return res.status(403).json({ error: 'This feature requires the Career plan' })
   }
 
   // Build the prompt based on feature type
