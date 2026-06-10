@@ -519,33 +519,60 @@ function updateSimulator() {
 
 /* ============================================ COMMISSION TAB */
 function renderCommissionTab() {
+  const filter = document.getElementById('commission-filter')?.value || 'all'
+  const filtered = filter === 'all' ? deals : deals.filter(d => d.status === filter)
+
   // Commission table
   const tbody = document.getElementById('commission-tbody')
   if(!tbody) return
-  if(!deals.length){
-    tbody.innerHTML = `<tr><td colspan="6" class="empty-row"><div class="empty-state"><span class="ms empty-icon">payments</span><div class="empty-title">No deals yet</div></div></td></tr>`
-    return
+
+  if(!deals.length) {
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-row">
+      <div class="empty-state">
+        <span class="ms empty-icon">payments</span>
+        <div class="empty-title">No deals yet</div>
+        <div class="empty-sub">Go to Dashboard and log your first deal</div>
+        <button class="btn-primary btn-sm" style="margin-top:0.75rem;" onclick="showTab('dashboard');setTimeout(()=>toggleAddForm(),100)">
+          <span class="ms">add</span> Log a deal
+        </button>
+      </div>
+    </td></tr>`
+  } else if(!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-row">
+      <div class="empty-state">
+        <span class="ms empty-icon">filter_list</span>
+        <div class="empty-title">No ${filter} deals</div>
+      </div>
+    </td></tr>`
+  } else {
+    const isMultiplied = userPlan === 'pro' || userPlan === 'career'
+    tbody.innerHTML = filtered.map(d => {
+      const exp = Math.round(d.expected_commission)
+      const gap = Math.round(d.gap || 0)
+      const badgeClass = {closed:'badge-closed',pending:'badge-pending',disputed:'badge-disputed'}[d.status] || 'badge-forecast'
+      const actionBtn = d.status === 'disputed' && gap > 0
+        ? `<button class="bento-btn" style="font-size:11px;padding:4px 8px;" onclick="openDisputeFromAlert('${d.id}')"><span class="ms" style="font-size:13px;">auto_fix_high</span> Dispute</button>`
+        : d.status === 'pending'
+        ? `<button class="bento-btn" style="font-size:11px;padding:4px 8px;" onclick="markDealReceived('${d.id}', ${exp})"><span class="ms" style="font-size:13px;">check</span> Mark paid</button>`
+        : `<span style="color:var(--text-3);font-size:11px;">—</span>`
+      return `<tr>
+        <td><div class="deal-name">${escHtml(d.name)}</div><div class="deal-client">${escHtml(d.client||'')}</div></td>
+        <td class="deal-amount">$${Math.round(d.deal_value).toLocaleString()}</td>
+        <td class="deal-comm">${d.commission_rate}% = $${exp.toLocaleString()}</td>
+        <td style="color:var(--green);font-size:12px;">${isMultiplied ? '1.5×' : '—'}</td>
+        <td class="text-right deal-amount" style="font-weight:700;">$${exp.toLocaleString()}</td>
+        <td class="text-center"><span class="deal-status-badge ${badgeClass}">${d.status}</span></td>
+        <td class="text-center">${actionBtn}</td>
+      </tr>`
+    }).join('')
   }
-  tbody.innerHTML = deals.map(d=>{
-    const exp = Math.round(d.expected_commission)
-    const isMultiplied = userPlan==='pro' || userPlan==='career'
-    const badgeClass = {closed:'badge-closed',pending:'badge-pending',disputed:'badge-disputed'}[d.status]||'badge-forecast'
-    return `<tr>
-      <td><div class="deal-name">${escHtml(d.name)}</div><div class="deal-client">${escHtml(d.client||'')}</div></td>
-      <td class="deal-amount">$${Math.round(d.deal_value).toLocaleString()}</td>
-      <td class="deal-comm">${d.commission_rate}% ($${exp.toLocaleString()})</td>
-      <td style="color:var(--green);font-size:12px;">${isMultiplied?'+ Pro plan':'—'}</td>
-      <td class="text-right deal-amount" style="font-weight:700;">$${exp.toLocaleString()}</td>
-      <td class="text-center"><span class="deal-status-badge ${badgeClass}">${d.status}</span></td>
-    </tr>`
-  }).join('')
 
   // Accelerator progress
-  const totalVal = deals.reduce((s,d)=>s+(d.deal_value||0),0)
+  const totalVal = deals.reduce((s,d) => s+(d.deal_value||0), 0)
   const quota = compPlan?.quota_target || 0
-  const pct = quota>0 ? Math.min(Math.round((totalVal/quota)*100),100) : 0
-  const disputed = deals.filter(d=>d.status==='disputed')
-  const disputeGap = disputed.reduce((s,d)=>s+(d.gap||0),0)
+  const pct = quota > 0 ? Math.min(Math.round((totalVal/quota)*100), 100) : 0
+  const disputed = deals.filter(d => d.status === 'disputed')
+  const disputeGap = disputed.reduce((s,d) => s+(d.gap||0), 0)
 
   setText('accel-closed', '$'+Math.round(totalVal).toLocaleString()+' closed')
   setText('accel-target', 'Target: $'+Math.round(quota).toLocaleString())
@@ -556,17 +583,87 @@ function renderCommissionTab() {
   setText('dispute-gap', '$'+Math.round(disputeGap).toLocaleString()+' at risk')
   const disputeFill = document.getElementById('dispute-fill')
   if(disputeFill) disputeFill.style.width = Math.min(disputed.length*20, 100)+'%'
+
+  // Show dispute action button if there are disputed deals
+  const disputeBtn = document.getElementById('dispute-action-btn')
+  if(disputeBtn) disputeBtn.style.display = disputed.length > 0 ? 'flex' : 'none'
+
+  // Raise prompt — show if quota > 75%
+  const raisePrompt = document.getElementById('raise-prompt')
+  if(raisePrompt) {
+    if(pct >= 75 && deals.length >= 2) {
+      raisePrompt.style.display = 'flex'
+      setText('raise-prompt-sub', `You're at ${pct}% quota with $${Math.round(totalVal).toLocaleString()} in closed deals. Strong position to request a raise.`)
+    } else {
+      raisePrompt.style.display = 'none'
+    }
+  }
+}
+
+async function markDealReceived(id, amount) {
+  const {error} = await db.from('deals').update({amount_received: amount, status: 'closed'}).eq('id', id)
+  if(error){showToast('Error updating deal.','error');return}
+  showToast('Deal marked as paid!','success')
+  await loadDeals()
+  renderCommissionTab()
+}
+
+function goToBulkDispute() {
+  showTab('workspace')
+  setTimeout(() => selectTool('dispute'), 150)
+}
+
+function goToRaiseRequest() {
+  showTab('workspace')
+  setTimeout(() => selectTool('raise'), 150)
 }
 
 /* ============================================ PERFORMANCE TAB */
+let perfFilter = null
+
 function renderPerformanceTab() {
+  perfFilter = null
+  const period = document.getElementById('perf-period')?.value || 'all'
+
+  // Filter deals by period
+  const now = new Date()
+  const periodDeals = deals.filter(d => {
+    if(period === 'all') return true
+    const date = d.closed_date ? new Date(d.closed_date) : new Date(d.created_at)
+    if(period === 'month') return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear()
+    if(period === 'quarter') {
+      const q = Math.floor(now.getMonth()/3)
+      return Math.floor(date.getMonth()/3) === q && date.getFullYear() === now.getFullYear()
+    }
+    return true
+  })
+
+  // Top stat cards
+  const totalVal = periodDeals.reduce((s,d) => s+(d.deal_value||0), 0)
+  const totalExp = periodDeals.reduce((s,d) => s+(d.expected_commission||0), 0)
+  const totalRec = periodDeals.reduce((s,d) => s+(d.amount_received||0), 0)
+  const totalGap = Math.max(totalExp - totalRec, 0)
+
+  const topCards = document.getElementById('perf-top-cards')
+  if(topCards) {
+    topCards.innerHTML = [
+      {label:'Revenue closed', val:'$'+Math.round(totalVal).toLocaleString(), color:''},
+      {label:'Commission expected', val:'$'+Math.round(totalExp).toLocaleString(), color:'green'},
+      {label:'Commission received', val:'$'+Math.round(totalRec).toLocaleString(), color:'green'},
+      {label:'Total gap', val:'$'+Math.round(totalGap).toLocaleString(), color: totalGap>0?'orange':''},
+    ].map(c => `
+      <div class="perf-top-card">
+        <div class="metric-label">${c.label}</div>
+        <div class="metric-value ${c.color}">$${c.val.replace('$','')}</div>
+      </div>`).join('')
+  }
+
   // Waterfall
   const stages = [
-    {label:'Discovery', val: deals.length * 120000, color:'rgba(122,122,122,0.3)'},
-    {label:'Demo', val: deals.length * 90000, color:'rgba(91,185,194,0.3)'},
-    {label:'Proposal', val: deals.length * 65000, color:'rgba(98,223,125,0.3)'},
-    {label:'Commit', val: deals.filter(d=>d.status==='pending').reduce((s,d)=>s+d.deal_value,0), color:'rgba(0,216,127,0.4)'},
-    {label:'Closed Won', val: deals.filter(d=>d.status==='closed').reduce((s,d)=>s+d.deal_value,0), color:'var(--green)'}
+    {label:'All deals', status:null, val:totalVal, color:'rgba(122,122,122,0.3)'},
+    {label:'Closed', status:'closed', val:periodDeals.filter(d=>d.status==='closed').reduce((s,d)=>s+d.deal_value,0), color:'rgba(0,216,127,0.5)'},
+    {label:'Pending', status:'pending', val:periodDeals.filter(d=>d.status==='pending').reduce((s,d)=>s+d.deal_value,0), color:'rgba(245,158,11,0.4)'},
+    {label:'Disputed', status:'disputed', val:periodDeals.filter(d=>d.status==='disputed').reduce((s,d)=>s+d.deal_value,0), color:'rgba(255,107,53,0.5)'},
   ]
 
   const maxVal = Math.max(...stages.map(s=>s.val), 1)
@@ -574,42 +671,109 @@ function renderPerformanceTab() {
   const labelsEl = document.getElementById('waterfall-labels')
   if(!barsEl||!labelsEl) return
 
-  barsEl.innerHTML = stages.map(s=>{
+  barsEl.innerHTML = stages.map((s,i) => {
     const h = Math.max(Math.round((s.val/maxVal)*100), 4)
-    const display = s.val>=1000000 ? '$'+(s.val/1000000).toFixed(1)+'M' : '$'+(s.val/1000).toFixed(0)+'k'
-    return `<div class="waterfall-bar-wrap">
-      <div class="waterfall-bar-val">${display}</div>
-      <div class="waterfall-bar" style="height:${h}%;background:${s.color};border:0.5px solid ${s.color.replace('0.3','0.6').replace('0.4','0.8')}"></div>
+    const display = s.val >= 1000000 ? '$'+(s.val/1000000).toFixed(1)+'M' : '$'+(s.val/1000).toFixed(0)+'k'
+    const isActive = perfFilter === s.status
+    return `<div class="waterfall-bar-wrap" onclick="filterByStage('${s.status}','${s.label}')" style="cursor:pointer;">
+      <div class="waterfall-bar-val" style="${isActive?'color:var(--green)':''}">${display}</div>
+      <div class="waterfall-bar" style="height:${h}%;background:${s.color};border:0.5px solid ${s.color.replace('0.3','0.7').replace('0.4','0.8').replace('0.5','0.9')};${isActive?'outline:1.5px solid var(--green);':''}opacity:${isActive||perfFilter===null?'1':'0.5'};transition:opacity 0.2s;"></div>
     </div>`
   }).join('')
 
-  labelsEl.innerHTML = stages.map(s=>`<div class="waterfall-label">${s.label}</div>`).join('')
+  labelsEl.innerHTML = stages.map(s => `<div class="waterfall-label">${s.label}</div>`).join('')
 
   // Key stats
+  const quota = compPlan?.quota_target || 0
+  const attainment = quota > 0 ? Math.round((totalVal/quota)*100) : 0
+  const avgDeal = periodDeals.length > 0 ? Math.round(totalVal/periodDeals.length) : 0
+  const accuracy = periodDeals.length > 0 ? Math.round((periodDeals.filter(d=>!d.gap||d.gap===0).length/periodDeals.length)*100) : 100
+
   const statsEl = document.getElementById('perf-stats')
   if(statsEl) {
-    const totalVal = deals.reduce((s,d)=>s+(d.deal_value||0),0)
-    const totalExp = deals.reduce((s,d)=>s+(d.expected_commission||0),0)
-    const avgDeal = deals.length>0 ? Math.round(totalVal/deals.length) : 0
-    const quota = compPlan?.quota_target || 0
-    const pct = quota>0 ? Math.round((totalVal/quota)*100) : 0
-    const accuracy = deals.length>0 ? Math.round((deals.filter(d=>d.gap===0||!d.gap).length/deals.length)*100) : 100
-
-    const stats = [
-      {label:'Total deals logged', val: deals.length, class:''},
-      {label:'Total revenue generated', val: '$'+totalVal.toLocaleString(), class:'green'},
-      {label:'Total commissions expected', val: '$'+Math.round(totalExp).toLocaleString(), class:'green'},
-      {label:'Average deal size', val: '$'+avgDeal.toLocaleString(), class:''},
-      {label:'Quota attainment', val: pct+'%', class: pct>=100?'green':pct>=75?'':'orange'},
-      {label:'Commission accuracy', val: accuracy+'%', class: accuracy>=100?'green':accuracy>=90?'':'orange'},
-    ]
-
-    statsEl.innerHTML = stats.map(s=>`
+    statsEl.innerHTML = [
+      {label:'Deals logged', val: periodDeals.length, cls:''},
+      {label:'Avg deal size', val: '$'+avgDeal.toLocaleString(), cls:''},
+      {label:'Quota attainment', val: attainment+'%', cls: attainment>=100?'green':attainment>=75?'':'orange'},
+      {label:'Commission accuracy', val: accuracy+'%', cls: accuracy>=100?'green':accuracy>=90?'':'orange'},
+      {label:'Closed deals', val: periodDeals.filter(d=>d.status==='closed').length, cls:'green'},
+      {label:'Disputed deals', val: periodDeals.filter(d=>d.status==='disputed').length, cls: periodDeals.filter(d=>d.status==='disputed').length>0?'orange':''},
+    ].map(s => `
       <div class="perf-stat-row">
         <span class="perf-stat-label">${s.label}</span>
-        <span class="perf-stat-val ${s.class}">${s.val}</span>
+        <span class="perf-stat-val ${s.cls}">${s.val}</span>
       </div>`).join('')
   }
+
+  // This month stats
+  const thisMonth = deals.filter(d => {
+    const date = d.closed_date ? new Date(d.closed_date) : new Date(d.created_at)
+    return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear()
+  })
+  const monthEl = document.getElementById('perf-month-stats')
+  if(monthEl) {
+    const mVal = thisMonth.reduce((s,d)=>s+(d.deal_value||0),0)
+    const mExp = thisMonth.reduce((s,d)=>s+(d.expected_commission||0),0)
+    monthEl.innerHTML = [
+      {label:'Deals this month', val: thisMonth.length, cls:''},
+      {label:'Revenue', val: '$'+Math.round(mVal).toLocaleString(), cls:''},
+      {label:'Commission', val: '$'+Math.round(mExp).toLocaleString(), cls:'green'},
+    ].map(s => `
+      <div class="perf-stat-row">
+        <span class="perf-stat-label">${s.label}</span>
+        <span class="perf-stat-val ${s.cls}">${s.val}</span>
+      </div>`).join('')
+  }
+
+  // Hide filtered card
+  const filteredCard = document.getElementById('perf-filtered-card')
+  if(filteredCard) filteredCard.style.display = 'none'
+}
+
+function filterByStage(status, label) {
+  perfFilter = status === 'null' ? null : status
+  const filteredCard = document.getElementById('perf-filtered-card')
+  const filteredTitle = document.getElementById('perf-filtered-title')
+  const filteredTbody = document.getElementById('perf-filtered-tbody')
+  if(!filteredCard||!filteredTitle||!filteredTbody) return
+
+  const filtered = status === 'null' || !status ? deals : deals.filter(d => d.status === status)
+
+  if(!filtered.length) {
+    filteredCard.style.display = 'none'
+  } else {
+    filteredCard.style.display = 'flex'
+    setText('perf-filtered-title', label + ' deals')
+    filteredTbody.innerHTML = filtered.map(d => {
+      const exp = Math.round(d.expected_commission)
+      const gap = Math.round(d.gap||0)
+      const badgeClass = {closed:'badge-closed',pending:'badge-pending',disputed:'badge-disputed'}[d.status]||'badge-forecast'
+      return `<tr>
+        <td><div class="deal-name">${escHtml(d.name)}</div><div class="deal-client">${escHtml(d.client||'')}</div></td>
+        <td class="deal-amount">$${Math.round(d.deal_value).toLocaleString()}</td>
+        <td class="deal-comm">$${exp.toLocaleString()}</td>
+        <td class="text-center"><span class="deal-status-badge ${badgeClass}">${d.status}</span></td>
+        <td class="text-right ${gap>0?'deal-gap-pos':'deal-gap-ok'}">${gap>0?'-$'+gap.toLocaleString():'✓'}</td>
+      </tr>`
+    }).join('')
+  }
+
+  // Re-render bars with active state
+  renderPerformanceTab()
+  perfFilter = status
+}
+
+function clearPerfFilter() {
+  perfFilter = null
+  const filteredCard = document.getElementById('perf-filtered-card')
+  if(filteredCard) filteredCard.style.display = 'none'
+  renderPerformanceTab()
+}
+
+async function generatePerfReport() {
+  if(userPlan === 'free') { openUpgradeModal('pro'); return }
+  showTab('workspace')
+  setTimeout(() => selectTool('report'), 150)
 }
 
 /* ============================================ AI WORKSPACE */
