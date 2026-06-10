@@ -17,11 +17,11 @@
 </head>
 <body>
 
+<!-- GRID BACKGROUND -->
+<canvas id="grid-canvas" class="grid-canvas"></canvas>
+
 <!-- CURSOR GLOW -->
 <div class="cursor-glow" id="cursor-glow"></div>
-
-<!-- PARTICLE CANVAS -->
-<canvas id="particles" class="particles-canvas"></canvas>
 
 <!-- NAV -->
 <nav class="nav" id="main-nav">
@@ -58,24 +58,24 @@
     <div class="hero-actions reveal-left delay-3">
       <a href="app.html" class="btn btn-primary btn-lg magnetic">
         <span>Get started free</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a href="#features" class="btn btn-outline-hero btn-lg">See how it works</a>
     </div>
     <div class="hero-proof reveal-left delay-4">
       <div class="proof-item">
-        <span class="proof-icon">🛡</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1l1.5 3h3l-2.5 2 1 3L6 7.5 3 9l1-3L1.5 4h3z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
         7-day guarantee
       </div>
       <div class="proof-divider"></div>
       <div class="proof-item">
-        <span class="proof-icon">⚡</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Free to start
       </div>
       <div class="proof-divider"></div>
       <div class="proof-item">
-        <span class="proof-icon">🔒</span>
-        Private & secure
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="2" y="5" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 5V3.5a2 2 0 014 0V5" stroke="currentColor" stroke-width="1"/></svg>
+        Private &amp; secure
       </div>
     </div>
   </div>
@@ -95,8 +95,8 @@
           <div class="mock-metrics">
             <div class="mock-metric">
               <div class="mock-label">Expected</div>
-              <div class="mock-value positive" data-count="4820">$0</div>
-              <div class="mock-sub up">↑ 12%</div>
+              <div class="mock-value green" data-count="4820">$0</div>
+              <div class="mock-sub up">+12% vs last month</div>
             </div>
             <div class="mock-metric">
               <div class="mock-label">Received</div>
@@ -105,8 +105,8 @@
             </div>
             <div class="mock-metric">
               <div class="mock-label">Gap</div>
-              <div class="mock-value danger" data-count="340">$0</div>
-              <div class="mock-sub danger">1 disputed</div>
+              <div class="mock-value red" data-count="340">$0</div>
+              <div class="mock-sub red">1 disputed</div>
             </div>
           </div>
           <div class="mock-bar-wrap">
@@ -119,17 +119,17 @@
             </div>
           </div>
           <div class="mock-alert">
-            <span class="mock-alert-icon">⚠️</span>
+            <div class="mock-alert-indicator"></div>
             <div class="mock-alert-body">
               <div class="mock-alert-title">Commission gap — F&amp;B Partnership Q2</div>
-              <div class="mock-alert-desc">Shortfall of $320 detected. Draft dispute email →</div>
+              <div class="mock-alert-desc">Shortfall of $320 detected. Draft dispute email</div>
             </div>
           </div>
           <div class="mock-deals">
             <div class="mock-deal">
               <div class="mock-deal-name">Marriott MENA expansion</div>
               <span class="mock-badge closed">Closed</span>
-              <span class="mock-gap ok">✓</span>
+              <span class="mock-gap-ok">+</span>
             </div>
             <div class="mock-deal">
               <div class="mock-deal-name">Corporate travel block</div>
@@ -138,7 +138,7 @@
             <div class="mock-deal">
               <div class="mock-deal-name">F&amp;B partnership Q2</div>
               <span class="mock-badge disputed">Disputed</span>
-              <span class="mock-gap neg">-$320</span>
+              <span class="mock-gap-neg">-$320</span>
             </div>
           </div>
         </div>
@@ -151,23 +151,23 @@
 <div class="stat-ticker reveal-up">
   <div class="ticker-inner">
     <div class="ticker-item">
-      <span class="ticker-num" data-count="2400000" data-prefix="$" data-suffix="">$0</span>
+      <span class="ticker-num" data-count="2400000" data-format="money">$0</span>
       <span class="ticker-label">in gaps detected</span>
     </div>
     <div class="ticker-divider"></div>
     <div class="ticker-item">
-      <span class="ticker-num" data-count="98" data-prefix="" data-suffix="%">0%</span>
+      <span class="ticker-num" data-count="98" data-format="percent">0</span>
       <span class="ticker-label">commission accuracy</span>
     </div>
     <div class="ticker-divider"></div>
     <div class="ticker-item">
-      <span class="ticker-num" data-count="30" data-prefix="" data-suffix="s">0s</span>
+      <span class="ticker-num" data-count="30" data-format="seconds">0</span>
       <span class="ticker-label">to log a deal</span>
     </div>
     <div class="ticker-divider"></div>
     <div class="ticker-item">
-      <span class="ticker-num" data-count="3" data-prefix="" data-suffix=" AI tools">0</span>
-      <span class="ticker-label">built in</span>
+      <span class="ticker-num" data-count="3" data-format="plain">0</span>
+      <span class="ticker-label">AI tools built in</span>
     </div>
   </div>
 </div>
@@ -177,64 +177,71 @@
   <div class="section-inner">
     <div class="section-header reveal-up">
       <div class="eyebrow-label">What Stackd does</div>
-      <h2 class="section-h2">Built for the rep,<br><span class="text-accent">not the company.</span></h2>
-      <p class="section-sub">Every tool in your stack was built for your manager. Stackd is the first one built for you.</p>
+      <h2 class="section-h2">Every tool in your stack<br><span class="text-accent">was built for your manager.</span></h2>
+      <p class="section-sub">Stackd is the first one built for you.</p>
     </div>
     <div class="features-grid">
+
       <div class="feature-card reveal-left delay-1">
         <div class="feature-icon-wrap">
-          <span class="feature-icon">📊</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="2" y="10" width="3" height="6" rx="1" fill="currentColor"/><rect x="7.5" y="6" width="3" height="10" rx="1" fill="currentColor"/><rect x="13" y="2" width="3" height="14" rx="1" fill="currentColor"/></svg>
         </div>
         <div class="feature-content">
           <div class="feature-title">Deal tracking</div>
           <div class="feature-desc">Log every deal with value, rate, and expected commission. Your personal source of truth, always up to date.</div>
         </div>
       </div>
+
       <div class="feature-card reveal-right delay-1">
         <div class="feature-icon-wrap">
-          <span class="feature-icon">⚠️</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 5v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </div>
         <div class="feature-content">
           <div class="feature-title">Gap detection</div>
           <div class="feature-desc">Stackd compares what you're owed vs what you received and flags discrepancies the moment they appear.</div>
         </div>
       </div>
+
       <div class="feature-card reveal-left delay-2">
         <div class="feature-icon-wrap">
-          <span class="feature-icon">✉️</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 4h12M3 8h9M3 12h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </div>
         <div class="feature-content">
           <div class="feature-title">AI dispute emails</div>
           <div class="feature-desc">One click generates a professional, measured message to your manager — factual, not emotional.</div>
         </div>
       </div>
+
       <div class="feature-card reveal-right delay-2">
         <div class="feature-icon-wrap">
-          <span class="feature-icon">🎯</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M9 2v2M9 14v2M2 9h2M14 9h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </div>
         <div class="feature-content">
           <div class="feature-title">Quota attainment</div>
           <div class="feature-desc">See exactly where you stand against target at any point in the month, quarter, or year.</div>
         </div>
       </div>
+
       <div class="feature-card reveal-left delay-3">
         <div class="feature-icon-wrap">
-          <span class="feature-icon">📈</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 13l4-4 3 3 4-5 3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="feature-content">
           <div class="feature-title">Earnings trends</div>
           <div class="feature-desc">Month-over-month charts so you can spot patterns, plan better, and show your value at review time.</div>
         </div>
       </div>
+
       <div class="feature-card reveal-right delay-3">
         <div class="feature-icon-wrap">
-          <span class="feature-icon">💼</span>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="2" y="2" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h6M6 12h4M6 6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </div>
         <div class="feature-content">
           <div class="feature-title">Career coaching</div>
-          <div class="feature-desc">AI-powered interview prep, STAR answers, LinkedIn audit, and salary negotiation scripts. Career plan.</div>
+          <div class="feature-desc">AI-powered interview prep, STAR answers, LinkedIn audit, and salary negotiation scripts. Career plan only.</div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -250,25 +257,21 @@
     <div class="steps-grid">
       <div class="step-item reveal-up delay-1">
         <div class="step-number">01</div>
-        <div class="step-line"></div>
         <div class="step-title">Set up your comp plan</div>
         <div class="step-desc">Enter your commission rate and quota target once. Stackd uses it on every deal automatically.</div>
       </div>
       <div class="step-item reveal-up delay-2">
         <div class="step-number">02</div>
-        <div class="step-line"></div>
         <div class="step-title">Log your deals</div>
         <div class="step-desc">Add each deal as you close it — value, client, status. Takes 30 seconds per deal.</div>
       </div>
       <div class="step-item reveal-up delay-3">
         <div class="step-number">03</div>
-        <div class="step-line"></div>
         <div class="step-title">Track what you're owed</div>
         <div class="step-desc">Stackd calculates your expected commission and watches for gaps every pay cycle.</div>
       </div>
       <div class="step-item reveal-up delay-4">
         <div class="step-number">04</div>
-        <div class="step-line"></div>
         <div class="step-title">Act with confidence</div>
         <div class="step-desc">Walk into every payout conversation with your numbers, not theirs.</div>
       </div>
@@ -281,67 +284,61 @@
   <div class="section-inner">
     <div class="section-header reveal-up">
       <div class="eyebrow-label">Pricing</div>
-      <h2 class="section-h2">Simple.<br><span class="text-accent">No surprises.</span></h2>
-      <p class="section-sub">Start free. Upgrade when Stackd saves you more than it costs.</p>
-      <div class="guarantee-pill reveal-up delay-1">
-        <span>🛡</span>
+      <h2 class="section-h2">Simple pricing.<br><span class="text-accent">No surprises.</span></h2>
+      <p class="section-sub">Start free. Upgrade when Stackd saves you more than it costs — which usually happens in month one.</p>
+      <div class="guarantee-row reveal-up delay-1">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1l1.5 3.5h3.5L9.5 6.5l1 3.5L7 8 3.5 10l1-3.5L2 4.5h3.5z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
         7-day money back guarantee on all paid plans — no questions asked
       </div>
     </div>
     <div class="pricing-grid">
       <div class="plan-card reveal-up delay-1">
-        <div class="plan-header">
-          <div class="plan-name">Free</div>
-          <div class="plan-price">$0<span>/mo</span></div>
-        </div>
-        <div class="plan-desc">Perfect for getting started.</div>
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0<span>/mo</span></div>
+        <div class="plan-desc">Perfect for getting started and validating your numbers.</div>
         <ul class="plan-features">
-          <li><span class="check">✓</span>Up to 5 deals/month</li>
-          <li><span class="check">✓</span>Gap detection</li>
-          <li><span class="check">✓</span>Quota tracker</li>
-          <li><span class="check">✓</span>Basic dashboard</li>
+          <li><span class="check-mark"></span>Up to 5 deals per month</li>
+          <li><span class="check-mark"></span>Gap detection</li>
+          <li><span class="check-mark"></span>Quota tracker</li>
+          <li><span class="check-mark"></span>Basic dashboard</li>
         </ul>
-        <a href="app.html" class="btn btn-plan-outline magnetic">Get started</a>
+        <a href="app.html" class="btn-plan btn-plan-outline magnetic">Get started</a>
       </div>
       <div class="plan-card plan-featured reveal-up delay-2">
         <div class="plan-glow"></div>
-        <div class="plan-badge">Most popular</div>
-        <div class="plan-header">
-          <div class="plan-name">Pro</div>
-          <div class="plan-price">$19<span>/mo</span></div>
-        </div>
-        <div class="plan-desc">For reps serious about every dollar.</div>
+        <div class="plan-label">Most popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$19<span>/mo</span></div>
+        <div class="plan-desc">For reps serious about tracking every dollar and growing fast.</div>
         <ul class="plan-features">
-          <li><span class="check">✓</span>Unlimited deals</li>
-          <li><span class="check">✓</span>AI dispute emails</li>
-          <li><span class="check">✓</span>AI raise requests</li>
-          <li><span class="check">✓</span>Performance reports</li>
-          <li><span class="check">✓</span>Export to CSV</li>
-          <li><span class="check">✓</span>Priority support</li>
+          <li><span class="check-mark"></span>Unlimited deals</li>
+          <li><span class="check-mark"></span>AI dispute emails</li>
+          <li><span class="check-mark"></span>AI raise requests</li>
+          <li><span class="check-mark"></span>Performance reports</li>
+          <li><span class="check-mark"></span>Export to CSV</li>
+          <li><span class="check-mark"></span>Priority support</li>
         </ul>
-        <a href="app.html" class="btn btn-plan-primary magnetic" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
+        <a href="app.html" class="btn-plan btn-plan-primary magnetic" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
       </div>
       <div class="plan-card reveal-up delay-3">
-        <div class="plan-header">
-          <div class="plan-name">Career</div>
-          <div class="plan-price">$29<span>/mo</span></div>
-        </div>
-        <div class="plan-desc">Everything in Pro plus career tools.</div>
+        <div class="plan-name">Career</div>
+        <div class="plan-price">$29<span>/mo</span></div>
+        <div class="plan-desc">Everything in Pro plus AI-powered career coaching tools.</div>
         <ul class="plan-features">
-          <li><span class="check">✓</span>Everything in Pro</li>
-          <li><span class="check">✓</span>AI interview coach</li>
-          <li><span class="check">✓</span>STAR answer generator</li>
-          <li><span class="check">✓</span>LinkedIn profile audit</li>
-          <li><span class="check">✓</span>Salary negotiation scripts</li>
+          <li><span class="check-mark"></span>Everything in Pro</li>
+          <li><span class="check-mark"></span>AI interview coach</li>
+          <li><span class="check-mark"></span>STAR answer generator</li>
+          <li><span class="check-mark"></span>LinkedIn profile audit</li>
+          <li><span class="check-mark"></span>Salary negotiation scripts</li>
         </ul>
-        <a href="app.html" class="btn btn-plan-outline magnetic" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
+        <a href="app.html" class="btn-plan btn-plan-outline magnetic" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="section cta-section" id="cta">
+<section class="section cta-section">
   <div class="cta-inner reveal-up">
     <div class="cta-glow"></div>
     <div class="eyebrow-label">Get started today</div>
@@ -350,11 +347,11 @@
     <div class="cta-actions">
       <a href="app.html" class="btn btn-primary btn-xl magnetic">
         <span>Create free account</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a href="#pricing" class="btn btn-ghost-cta btn-xl">View pricing</a>
     </div>
-    <p class="cta-proof">7-day money back guarantee &nbsp;·&nbsp; Cancel anytime &nbsp;·&nbsp; Built for sales professionals</p>
+    <p class="cta-proof">7-day money back guarantee &nbsp;&middot;&nbsp; Cancel anytime &nbsp;&middot;&nbsp; Built for sales professionals</p>
   </div>
 </section>
 
@@ -381,79 +378,85 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Stackd. All rights reserved.</p>
-    <p>Built with ♥ for every rep who's ever been underpaid.</p>
+    <p>&copy; 2026 Stackd. All rights reserved.</p>
+    <p>Built for every rep who has ever been underpaid.</p>
   </div>
 </footer>
 
-<!-- COOKIE NOTICE -->
+<!-- COOKIE -->
 <div class="cookie-banner" id="cookie-banner">
   <p>We use essential cookies to keep you signed in. <a href="privacy.html">Learn more</a></p>
   <button onclick="acceptCookies()">Got it</button>
 </div>
 
 <script>
-// =====================
 // CURSOR GLOW
-// =====================
 const cursorGlow = document.getElementById('cursor-glow');
 document.addEventListener('mousemove', e => {
   cursorGlow.style.left = e.clientX + 'px';
   cursorGlow.style.top = e.clientY + 'px';
 });
 
-// =====================
-// PARTICLES
-// =====================
-const canvas = document.getElementById('particles');
+// GRID BACKGROUND
+const canvas = document.getElementById('grid-canvas');
 const ctx = canvas.getContext('2d');
-let particles = [];
+let W, H;
 
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+function resizeGrid() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
 }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+resizeGrid();
+window.addEventListener('resize', resizeGrid);
 
-class Particle {
-  constructor() { this.reset(); }
-  reset() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 1.5 + 0.5;
-    this.speedX = (Math.random() - 0.5) * 0.3;
-    this.speedY = (Math.random() - 0.5) * 0.3;
-    this.opacity = Math.random() * 0.4 + 0.1;
-    this.green = Math.random() > 0.85;
-  }
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
-  }
-  draw() {
+let gridOffset = 0;
+function drawGrid() {
+  ctx.clearRect(0, 0, W, H);
+  const cellSize = 60;
+  const lineColor = 'rgba(255,255,255,0.028)';
+  const accentColor = 'rgba(29,158,117,0.035)';
+  ctx.strokeStyle = lineColor;
+  ctx.lineWidth = 0.5;
+
+  // Vertical lines
+  for (let x = (gridOffset % cellSize); x < W; x += cellSize) {
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = this.green
-      ? `rgba(29,158,117,${this.opacity})`
-      : `rgba(255,255,255,${this.opacity * 0.4})`;
-    ctx.fill();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+    ctx.stroke();
   }
+
+  // Horizontal lines
+  for (let y = (gridOffset % cellSize); y < H; y += cellSize) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  }
+
+  // Accent dot at every 4th intersection
+  ctx.fillStyle = accentColor;
+  for (let x = (gridOffset % cellSize); x < W; x += cellSize * 4) {
+    for (let y = (gridOffset % cellSize); y < H; y += cellSize * 4) {
+      ctx.beginPath();
+      ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // Radial fade from center — overlay dark gradient to fade edges
+  const grad = ctx.createRadialGradient(W/2, H/2, H * 0.1, W/2, H/2, H * 0.85);
+  grad.addColorStop(0, 'rgba(8,8,8,0)');
+  grad.addColorStop(1, 'rgba(8,8,8,0.95)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  gridOffset += 0.15;
+  requestAnimationFrame(drawGrid);
 }
+drawGrid();
 
-for (let i = 0; i < 80; i++) particles.push(new Particle());
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => { p.update(); p.draw(); });
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-// =====================
 // SCROLL REVEAL
-// =====================
 const reveals = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -462,16 +465,13 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 reveals.forEach(el => observer.observe(el));
 
-// =====================
 // COUNTER ANIMATION
-// =====================
 function animateCounter(el) {
   const target = parseInt(el.dataset.count);
-  const prefix = el.dataset.prefix || '';
-  const suffix = el.dataset.suffix || '';
+  const format = el.dataset.format;
   const duration = 1800;
   const start = Date.now();
   function update() {
@@ -479,63 +479,56 @@ function animateCounter(el) {
     const progress = Math.min(elapsed / duration, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
     const current = Math.floor(eased * target);
-    if (target >= 1000000) {
-      el.textContent = prefix + '$' + (current / 1000000).toFixed(1) + 'M' + (suffix && suffix !== '$' ? '' : '');
-    } else if (target >= 1000) {
-      el.textContent = prefix + '$' + current.toLocaleString();
+    if (format === 'money') {
+      el.textContent = current >= 1000000
+        ? '$' + (current / 1000000).toFixed(1) + 'M'
+        : '$' + current.toLocaleString();
+    } else if (format === 'percent') {
+      el.textContent = current + '%';
+    } else if (format === 'seconds') {
+      el.textContent = current + 's';
     } else {
-      el.textContent = prefix + current + suffix;
+      el.textContent = current;
     }
     if (progress < 1) requestAnimationFrame(update);
   }
   update();
 }
 
-const counterObserver = new IntersectionObserver((entries) => {
+const counterObs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const counters = entry.target.querySelectorAll('[data-count]');
-      counters.forEach(c => animateCounter(c));
-      counterObserver.unobserve(entry.target);
+      entry.target.querySelectorAll('[data-count]').forEach(c => animateCounter(c));
+      counterObs.unobserve(entry.target);
     }
   });
 }, { threshold: 0.3 });
 
-document.querySelectorAll('.stat-ticker, .mock-metrics').forEach(el => counterObserver.observe(el));
+document.querySelectorAll('.stat-ticker, .mock-metrics').forEach(el => counterObs.observe(el));
 
-// =====================
-// DASHBOARD ANIMATIONS
-// =====================
+// DASHBOARD BAR
 setTimeout(() => {
   const bar = document.getElementById('mock-bar');
   if (bar) bar.style.width = '68%';
-}, 800);
+}, 900);
 
-// =====================
 // MAGNETIC BUTTONS
-// =====================
 document.querySelectorAll('.magnetic').forEach(btn => {
   btn.addEventListener('mousemove', e => {
     const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+    const x = (e.clientX - rect.left - rect.width / 2) * 0.15;
+    const y = (e.clientY - rect.top - rect.height / 2) * 0.15;
+    btn.style.transform = `translate(${x}px, ${y}px)`;
   });
-  btn.addEventListener('mouseleave', () => {
-    btn.style.transform = '';
-  });
+  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
 });
 
-// =====================
 // NAV SCROLL
-// =====================
 window.addEventListener('scroll', () => {
   document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
 });
 
-// =====================
 // MOBILE NAV
-// =====================
 function toggleMobileNav() {
   document.getElementById('nav-links').classList.toggle('open');
   document.getElementById('nav-toggle').classList.toggle('open');
@@ -545,9 +538,7 @@ function closeMobileNav() {
   document.getElementById('nav-toggle').classList.remove('open');
 }
 
-// =====================
 // SMOOTH SCROLL
-// =====================
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const target = document.querySelector(a.getAttribute('href'));
@@ -555,9 +546,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// =====================
 // COOKIE
-// =====================
 function acceptCookies() {
   document.getElementById('cookie-banner').style.display = 'none';
   localStorage.setItem('cookies-accepted', '1');
