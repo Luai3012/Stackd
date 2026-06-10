@@ -318,6 +318,103 @@ async function deleteDeal(id) {
   await loadDeals()
 }
 
+/* ============================================ EDIT DEAL */
+function openEditModal(id) {
+  const d = allDeals.find(x => x.id === id)
+  if(!d) return
+
+  const backdrop = document.getElementById('ai-modal-backdrop')
+  const modal = document.getElementById('ai-modal')
+  if(!backdrop || !modal) return
+
+  modal.innerHTML = `
+    <div class="ai-modal-header">
+      <div class="ai-modal-title">Edit deal</div>
+      <button class="ai-modal-close" onclick="closeAIModal()">✕</button>
+    </div>
+    <div class="add-form-grid" style="margin-bottom:0.75rem;">
+      <div class="form-field">
+        <label class="form-label">Deal name <span class="req">*</span></label>
+        <input type="text" id="e-name" value="${escHtml(d.name)}" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Client</label>
+        <input type="text" id="e-client" value="${escHtml(d.client||'')}" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Deal value ($) <span class="req">*</span></label>
+        <input type="number" id="e-value" value="${d.deal_value}" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Commission rate (%)</label>
+        <input type="number" id="e-rate" value="${d.commission_rate}" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Amount received ($)</label>
+        <input type="number" id="e-received" value="${d.amount_received||0}" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Status</label>
+        <select id="e-status">
+          <option value="pending" ${d.status==='pending'?'selected':''}>Pending</option>
+          <option value="closed" ${d.status==='closed'?'selected':''}>Closed</option>
+          <option value="disputed" ${d.status==='disputed'?'selected':''}>Disputed</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Close date</label>
+        <input type="date" id="e-date" value="${d.closed_date||''}" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Notes</label>
+        <input type="text" id="e-notes" value="${escHtml(d.notes||'')}" />
+      </div>
+    </div>
+    <p class="form-error" id="edit-error"></p>
+    <div class="form-actions">
+      <button class="btn-ghost" onclick="closeAIModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveEditDeal('${id}')">
+        <span class="ms" style="font-size:14px;">check</span> Save changes
+      </button>
+    </div>
+  `
+
+  backdrop.style.display = 'block'
+  modal.style.display = 'block'
+  setTimeout(() => document.getElementById('e-name')?.focus(), 50)
+}
+
+async function saveEditDeal(id) {
+  const name = document.getElementById('e-name')?.value.trim()
+  const client = document.getElementById('e-client')?.value.trim()
+  const value = parseFloat(document.getElementById('e-value')?.value)
+  const rate = parseFloat(document.getElementById('e-rate')?.value)
+  const received = parseFloat(document.getElementById('e-received')?.value) || 0
+  const status = document.getElementById('e-status')?.value
+  const date = document.getElementById('e-date')?.value || null
+  const notes = document.getElementById('e-notes')?.value.trim()
+  const errorEl = document.getElementById('edit-error')
+
+  if(!name || !value) { if(errorEl) errorEl.textContent = 'Name and value are required.'; return }
+
+  const {error} = await db.from('deals').update({
+    name, client, deal_value: value,
+    commission_rate: rate, amount_received: received,
+    status, closed_date: date, notes
+  }).eq('id', id)
+
+  if(error) { if(errorEl) errorEl.textContent = error.message; return }
+
+  closeAIModal()
+  showToast('Deal updated!', 'success')
+  await loadDeals()
+}
+
+function closeAIModal() {
+  document.getElementById('ai-modal-backdrop').style.display = 'none'
+  document.getElementById('ai-modal').style.display = 'none'
+}
+
 function filterDeals(q) {
   if(!q.trim()){deals=[...allDeals];renderDealsTable();return}
   const lower = q.toLowerCase()
@@ -424,7 +521,10 @@ function renderDealsTable() {
       <td><span class="deal-amount">$${Math.round(d.amount_received).toLocaleString()}</span></td>
       <td><span class="deal-status-badge ${badgeClass}">${d.status}</span></td>
       <td>${gapHtml}</td>
-      <td><button class="deal-delete-btn" onclick="deleteDeal('${d.id}')"><span class="ms">delete</span></button></td>
+      <td style="display:flex;gap:4px;">
+        <button class="deal-delete-btn edit-btn" onclick="openEditModal('${d.id}')" title="Edit deal"><span class="ms">edit</span></button>
+        <button class="deal-delete-btn" onclick="deleteDeal('${d.id}')" title="Delete deal"><span class="ms">delete</span></button>
+      </td>
     </tr>`
   }).join('')
 }
