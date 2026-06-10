@@ -721,8 +721,10 @@ function goToRaiseRequest() {
 /* ============================================ PERFORMANCE TAB */
 let perfFilter = null
 
-function renderPerformanceTab() {
-  perfFilter = null
+function renderPerformanceTab(resetFilter) {
+  // Only reset the filter when user explicitly changes period or calls directly
+  // Don't reset when called from filterByStage (which needs perfFilter preserved)
+  if(resetFilter !== false) perfFilter = null
   const period = document.getElementById('perf-period')?.value || 'all'
 
   // Filter deals by period
@@ -771,23 +773,26 @@ function renderPerformanceTab() {
   const labelsEl = document.getElementById('waterfall-labels')
   if(!barsEl) return
 
-  // Container width for percentage calculation — use 100% and CSS does the work
   barsEl.innerHTML = stages.map((s,i) => {
-    const pct = Math.max(Math.round((s.val/maxVal)*100), s.val>0?2:0)
-    const display = s.val >= 1000000 ? '$'+(s.val/1000000).toFixed(1)+'M'
-      : s.val >= 1000 ? '$'+(s.val/1000).toFixed(0)+'k'
-      : '$'+s.val
-    const isActive = perfFilter === s.status
+    // Cap at 85% so value label always has room to the right
+    const pct = s.val > 0 ? Math.max(Math.min(Math.round((s.val/maxVal)*85), 85), 2) : 0
+    const v = Math.round(s.val)
+    const display = v >= 1000000 ? '$'+(v/1000000).toFixed(1)+'M'
+      : v >= 1000 ? '$'+Math.round(v/1000)+'k'
+      : '$'+v
+    // Compare correctly — null status stored as string 'null'
+    const stageKey = s.status === null ? 'null' : s.status
+    const isActive = perfFilter === stageKey
     const count = s.status === null ? deals.length
       : deals.filter(d => d.status === s.status).length
-    return `<div class="waterfall-bar-wrap" onclick="filterByStage('${s.status}','${s.label}')">
+    return `<div class="waterfall-bar-wrap" onclick="filterByStage('${stageKey}','${s.label}')">
       <div class="waterfall-bar-label">
-        <span class="wbl-name" style="${isActive?'color:var(--green);':''}">${s.label}</span>
+        <span class="wbl-name" style="${isActive?'color:var(--green);font-weight:700;':''}">${s.label}</span>
         <span class="wbl-count">${count} deal${count!==1?'s':''}</span>
       </div>
       <div class="waterfall-bar-track">
-        <div class="waterfall-bar" style="width:${pct}%;background:${s.color};${isActive?'outline:1.5px solid var(--green);outline-offset:2px;':''};opacity:${isActive||perfFilter===null?'1':'0.45'};"></div>
-        <span class="waterfall-bar-val" style="${isActive?'color:var(--green)':''}">${display}</span>
+        <div class="waterfall-bar" style="width:${pct}%;background:${s.color};${isActive?'box-shadow:0 0 0 1.5px var(--green);':''}opacity:${isActive||!perfFilter?'1':'0.35'};transition:width 0.7s cubic-bezier(0.4,0,0.2,1),opacity 0.2s;"></div>
+        <span class="waterfall-bar-val" style="${isActive?'color:var(--green);font-weight:700;':''}">${display}</span>
       </div>
     </div>`
   }).join('')
@@ -842,13 +847,18 @@ function renderPerformanceTab() {
 }
 
 function filterByStage(status, label) {
-  perfFilter = status === 'null' ? null : status
+  // Set perfFilter FIRST so renderPerformanceTab reads it correctly
+  perfFilter = status === 'null' ? 'null' : status
+
+  // Toggle off if clicking same filter again
+  const prevFilter = perfFilter
   const filteredCard = document.getElementById('perf-filtered-card')
   const filteredTitle = document.getElementById('perf-filtered-title')
   const filteredTbody = document.getElementById('perf-filtered-tbody')
   if(!filteredCard||!filteredTitle||!filteredTbody) return
 
-  const filtered = status === 'null' || !status ? deals : deals.filter(d => d.status === status)
+  const filterStatus = status === 'null' ? null : status
+  const filtered = filterStatus === null ? deals : deals.filter(d => d.status === filterStatus)
 
   if(!filtered.length) {
     filteredCard.style.display = 'none'
@@ -869,9 +879,8 @@ function filterByStage(status, label) {
     }).join('')
   }
 
-  // Re-render bars with active state
-  renderPerformanceTab()
-  perfFilter = status
+  // Re-render bars — perfFilter is already set correctly above
+  renderPerformanceTab(false)
 }
 
 function clearPerfFilter() {
