@@ -189,12 +189,14 @@ html, body {
   top: 0; left: 0;
   height: 100vh;
   display: flex;
+  width: 400vw;
   will-change: transform;
   z-index: 1;
 }
 
 .slide {
   flex-shrink: 0;
+  width: 100vw;
   height: 100vh;
   position: relative;
   display: flex;
