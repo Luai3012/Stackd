@@ -23,73 +23,25 @@
   </style>
 </head>
 <body>
-<div class="cursor-dot" id="cursor-dot"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
-<nav class="nav" id="main-nav">
-  <a href="index.html" class="logo">stack<span>d</span></a>
-  <button class="nav-hamburger" id="nav-toggle" onclick="toggleNav()"><span></span><span></span><span></span></button>
-  <div class="nav-links" id="nav-links">
-    <a href="index.html#features" class="nav-link">Features</a>
-    <a href="index.html#pricing" class="nav-link">Pricing</a>
-    <a href="support.html" class="nav-link">Support</a>
-    <div class="nav-actions">
-      <a href="app.html" class="btn btn-ghost">Sign in</a>
-      <a href="app.html" class="btn btn-primary">Get started</a>
-    </div>
-  </div>
-</nav>
-<div class="page">
-  <h1 class="page-title">Privacy policy</h1>
-  <p class="updated">Last updated: June 2026</p>
-  <p>Stackd ("we", "us", "our") is committed to protecting your personal information. This policy explains what data we collect, how we use it, and your rights.</p>
-  <h2>What we collect</h2>
-  <p>When you use Stackd, we collect:</p>
-  <ul>
-    <li>Your name and email address (for your account)</li>
-    <li>Deal data you enter manually (names, values, commission rates, amounts received)</li>
-    <li>Your compensation plan details (commission rate, quota target)</li>
-    <li>Usage data (login times, feature usage)</li>
-  </ul>
-  <p>We do not collect any data from your employer's systems. Everything in Stackd is entered by you manually.</p>
-  <h2>How we use your data</h2>
-  <p>We use your data exclusively to provide the Stackd service — calculating commissions, detecting gaps, and generating alerts. We do not sell your data or share it with your employer or any third party for commercial purposes.</p>
-  <h2>Data security</h2>
-  <p>Your data is stored on Supabase infrastructure with encryption at rest and in transit. Row-level security ensures your data is only accessible to your authenticated account.</p>
-  <h2>Your rights</h2>
-  <p>You have the right to access, correct, or delete all data we hold about you. You can export your data at any time using the CSV export feature. To request deletion, email <a href="mailto:support@wearestackd.net">support@wearestackd.net</a>.</p>
-  <h2>Cookies</h2>
-  <p>We use only essential cookies required for authentication and session management. No advertising or tracking cookies are used.</p>
-  <h2>Third-party services</h2>
-  <p>Stackd uses Supabase (database and auth), Paddle (payments), and Anthropic (AI features). Each has their own privacy policy governing their use of your data.</p>
-  <h2>Contact</h2>
-  <p>Questions? Email <a href="mailto:support@wearestackd.net">support@wearestackd.net</a>.</p>
-</div>
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand"><a href="index.html" class="logo">stack<span>d</span></a><p class="footer-tagline">Built for the rep.</p></div>
-    <div class="footer-links-group">
-      <div class="footer-col"><div class="footer-col-title">Product</div><a href="index.html#features" class="footer-link">Features</a><a href="index.html#pricing" class="footer-link">Pricing</a><a href="app.html" class="footer-link">Sign in</a></div>
-      <div class="footer-col"><div class="footer-col-title">Company</div><a href="support.html" class="footer-link">Support</a><a href="privacy.html" class="footer-link">Privacy</a><a href="terms.html" class="footer-link">Terms</a></div>
-    </div>
-  </div>
-  <div class="footer-bottom"><p>© 2026 Stackd. All rights reserved.</p><p>Built with ♥ for every rep who's ever been underpaid.</p></div>
-</footer>
+<div class="cursor-dot" id="c-dot"></div>
+<div class="cursor-ring" id="c-ring"></div>
 <script>
-function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); document.getElementById('nav-toggle').classList.toggle('open'); }
-window.addEventListener('scroll', () => { document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10); });
-</script>
-<script>
-var _cd=document.getElementById("cursor-dot"),_cr=document.getElementById("cursor-ring"),_mx=window.innerWidth/2,_my=window.innerHeight/2,_rx=_mx,_ry=_my;
-if(_cd</body></body>_cr){
-document.addEventListener("mousemove",function(e){_mx=e.clientX;_my=e.clientY;});
-(function tick(){_cd.style.transform="translate("+_mx+"px,"+_my+"px) translate(-50%,-50%)";
-_rx+=(_mx-_rx)*0.1;_ry+=(_my-_ry)*0.1;
-_cr.style.transform="translate("+_rx+"px,"+_ry+"px) translate(-50%,-50%)";
-requestAnimationFrame(tick);})();
-document.querySelectorAll("a,button").forEach(function(el){
-el.addEventListener("mouseenter",function(){_cr.classList.add("ring-hover");_cd.classList.add("dot-hover");});
-el.addEventListener("mouseleave",function(){_cr.classList.remove("ring-hover");_cd.classList.remove("dot-hover");});
-});}
+(function(){
+  var d=document.getElementById("c-dot"),r=document.getElementById("c-ring");
+  if(!d||!r||window.matchMedia("(hover:none),(pointer:coarse)").matches)return;
+  var mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
+  document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;});
+  (function tick(){
+    d.style.left=mx+"px";d.style.top=my+"px";
+    rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;
+    r.style.left=rx+"px";r.style.top=ry+"px";
+    requestAnimationFrame(tick);
+  })();
+  document.querySelectorAll("a,button").forEach(function(el){
+    el.addEventListener("mouseenter",function(){r.classList.add("ring-hover");d.classList.add("dot-hover");});
+    el.addEventListener("mouseleave",function(){r.classList.remove("ring-hover");r.classList.remove("dot-hover");});
+  });
+})();
 </script>
 </body>
 </html>
