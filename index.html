@@ -4,241 +4,253 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stackd — Your deals. Your numbers. Always clear.</title>
-  <meta name="description" content="Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday. Built for sales reps, BDRs, and account managers." />
+  <meta name="description" content="Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday." />
   <meta property="og:title" content="Stackd — Your deals. Your numbers. Always clear." />
-  <meta property="og:description" content="Track your commissions, detect gaps, and walk into every payout conversation prepared." />
+  <meta property="og:description" content="The commission tracking tool built for the rep, not the manager." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://wearestackd.net" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231D9E75'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='600' fill='white'>S</text></svg>" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300D87F'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='700' fill='%230A0909'>S</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="landing.css" />
 </head>
 <body>
 
-<!-- GRID BACKGROUND -->
-<canvas id="grid-canvas" class="grid-canvas"></canvas>
-
-<!-- CURSOR GLOW -->
-<div class="cursor-glow" id="cursor-glow"></div>
+<canvas id="bg-canvas" class="bg-canvas"></canvas>
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
 
 <!-- NAV -->
 <nav class="nav" id="main-nav">
   <a href="index.html" class="logo">stack<span>d</span></a>
-  <button class="nav-hamburger" id="nav-toggle" aria-label="Open menu" onclick="toggleMobileNav()">
+  <button class="hamburger" id="nav-toggle" onclick="toggleNav()">
     <span></span><span></span><span></span>
   </button>
-  <div class="nav-links" id="nav-links">
-    <a href="#features" class="nav-link" onclick="closeMobileNav()">Features</a>
-    <a href="#pricing" class="nav-link" onclick="closeMobileNav()">Pricing</a>
+  <div class="nav-center" id="nav-links">
+    <a href="#features" class="nav-link" onclick="closeNav()">Features</a>
+    <a href="#pricing" class="nav-link" onclick="closeNav()">Pricing</a>
     <a href="support.html" class="nav-link">Support</a>
-    <div class="nav-actions">
-      <a href="app.html" class="btn btn-ghost-nav">Sign in</a>
-      <a href="app.html" class="btn btn-primary-nav">Get started free</a>
-    </div>
+  </div>
+  <div class="nav-right" id="nav-right">
+    <a href="app.html" class="nav-signin">Sign in</a>
+    <a href="app.html" class="nav-cta">
+      Get started
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-left">
-    <div class="hero-eyebrow reveal-left">
-      <span class="eyebrow-dot"></span>
-      For sales reps, BDRs &amp; account managers
+  <div class="hero-bg-text" aria-hidden="true">STACK</div>
+
+  <div class="hero-content">
+    <div class="hero-tag reveal" data-dir="up">
+      <span class="hero-tag-dot"></span>
+      Commission tracking for sales professionals
     </div>
-    <h1 class="hero-h1 reveal-left delay-1">
-      Your deals.<br>
-      Your numbers.<br>
-      <span class="hero-accent">Always clear.</span>
+
+    <h1 class="hero-h1">
+      <span class="h1-line reveal" data-dir="left" data-delay="0">Your deals.</span>
+      <span class="h1-line reveal" data-dir="left" data-delay="100">Your numbers.</span>
+      <span class="h1-line h1-accent reveal" data-dir="left" data-delay="200">Always clear.</span>
     </h1>
-    <p class="hero-sub reveal-left delay-2">
-      Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday — so you always walk in prepared.
+
+    <p class="hero-sub reveal" data-dir="up" data-delay="300">
+      Most sales reps are underpaid and don't know it.<br>
+      Stackd shows you exactly what you're owed — and what you're missing.
     </p>
-    <div class="hero-actions reveal-left delay-3">
-      <a href="app.html" class="btn btn-primary btn-lg magnetic">
-        <span>Get started free</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+    <div class="hero-actions reveal" data-dir="up" data-delay="400">
+      <a href="app.html" class="cta-primary">
+        <span class="cta-text">Start for free</span>
+        <span class="cta-arrow">→</span>
       </a>
-      <a href="#features" class="btn btn-outline-hero btn-lg">See how it works</a>
+      <a href="#calculator" class="cta-secondary">Try the calculator</a>
     </div>
-    <div class="hero-proof reveal-left delay-4">
-      <div class="proof-item">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1l1.5 3h3l-2.5 2 1 3L6 7.5 3 9l1-3L1.5 4h3z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
-        7-day guarantee
-      </div>
-      <div class="proof-divider"></div>
-      <div class="proof-item">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Free to start
-      </div>
-      <div class="proof-divider"></div>
-      <div class="proof-item">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><rect x="2" y="5" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 5V3.5a2 2 0 014 0V5" stroke="currentColor" stroke-width="1"/></svg>
-        Private &amp; secure
+  </div>
+
+  <div class="hero-visual reveal" data-dir="right" data-delay="200">
+    <div class="hero-card-stack">
+      <div class="hcard hcard-back"></div>
+      <div class="hcard hcard-mid"></div>
+      <div class="hcard hcard-front">
+        <div class="hcard-header">
+          <div class="hcard-dots">
+            <span class="hd red"></span>
+            <span class="hd amber"></span>
+            <span class="hd green"></span>
+          </div>
+          <span class="hcard-title">wearestackd.net</span>
+        </div>
+        <div class="hcard-body">
+          <div class="hcard-metrics">
+            <div class="hmetric">
+              <div class="hmetric-label">Expected</div>
+              <div class="hmetric-val green" id="h-expected">$4,820</div>
+              <div class="hmetric-delta up">+12%</div>
+            </div>
+            <div class="hmetric">
+              <div class="hmetric-label">Received</div>
+              <div class="hmetric-val" id="h-received">$4,480</div>
+              <div class="hmetric-delta warn">pending</div>
+            </div>
+            <div class="hmetric">
+              <div class="hmetric-label">Gap</div>
+              <div class="hmetric-val orange" id="h-gap">$340</div>
+              <div class="hmetric-delta danger">disputed</div>
+            </div>
+          </div>
+          <div class="hcard-bar-wrap">
+            <div class="hcard-bar-labels">
+              <span>Quota attainment</span>
+              <span class="green">68%</span>
+            </div>
+            <div class="hcard-bar-track">
+              <div class="hcard-bar-fill" id="hcard-bar"></div>
+            </div>
+          </div>
+          <div class="hcard-alert">
+            <div class="hcard-alert-pulse"></div>
+            <div class="hcard-alert-content">
+              <div class="hcard-alert-title">Gap detected — F&amp;B Q2</div>
+              <div class="hcard-alert-sub">$320 shortfall · AI draft ready</div>
+            </div>
+            <div class="hcard-alert-arrow">→</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="hero-right reveal-right delay-2">
-    <div class="dashboard-float">
-      <div class="dashboard-glow"></div>
-      <div class="dashboard-mock">
-        <div class="mock-topbar">
-          <div class="mock-dots">
-            <span class="mock-dot dot-red"></span>
-            <span class="mock-dot dot-amber"></span>
-            <span class="mock-dot dot-green"></span>
+
+  <div class="hero-scroll-hint reveal" data-dir="up" data-delay="600">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- LIVE CALCULATOR -->
+<section class="calc-section" id="calculator">
+  <div class="calc-inner">
+    <div class="calc-left reveal" data-dir="left">
+      <div class="section-tag">Live calculator</div>
+      <h2 class="calc-h2">How much are<br>you <span class="text-orange">actually</span> owed?</h2>
+      <p class="calc-sub">Type in your numbers. See the truth in real time.</p>
+      <div class="calc-inputs">
+        <div class="calc-field">
+          <label class="calc-label">Deal value</label>
+          <div class="calc-input-wrap">
+            <span class="calc-prefix">$</span>
+            <input type="number" id="calc-value" class="calc-input" value="20000" placeholder="20000" oninput="updateCalc()">
           </div>
-          <div class="mock-url">wearestackd.net/dashboard</div>
         </div>
-        <div class="mock-body">
-          <div class="mock-metrics">
-            <div class="mock-metric">
-              <div class="mock-label">Expected</div>
-              <div class="mock-value green" data-count="4820">$0</div>
-              <div class="mock-sub up">+12% vs last month</div>
-            </div>
-            <div class="mock-metric">
-              <div class="mock-label">Received</div>
-              <div class="mock-value" data-count="4480">$0</div>
-              <div class="mock-sub warn">1 pending</div>
-            </div>
-            <div class="mock-metric">
-              <div class="mock-label">Gap</div>
-              <div class="mock-value red" data-count="340">$0</div>
-              <div class="mock-sub red">1 disputed</div>
-            </div>
+        <div class="calc-field">
+          <label class="calc-label">Your commission rate</label>
+          <div class="calc-input-wrap">
+            <input type="number" id="calc-rate" class="calc-input" value="8" placeholder="8" oninput="updateCalc()">
+            <span class="calc-suffix">%</span>
           </div>
-          <div class="mock-bar-wrap">
-            <div class="mock-bar-track">
-              <div class="mock-bar-fill" id="mock-bar"></div>
-            </div>
-            <div class="mock-bar-labels">
-              <span>$34,000 closed</span>
-              <span>Target $50,000</span>
-            </div>
+        </div>
+        <div class="calc-field">
+          <label class="calc-label">Deals per month</label>
+          <div class="calc-input-wrap">
+            <input type="number" id="calc-deals" class="calc-input" value="4" placeholder="4" oninput="updateCalc()">
           </div>
-          <div class="mock-alert">
-            <div class="mock-alert-indicator"></div>
-            <div class="mock-alert-body">
-              <div class="mock-alert-title">Commission gap — F&amp;B Partnership Q2</div>
-              <div class="mock-alert-desc">Shortfall of $320 detected. Draft dispute email</div>
-            </div>
-          </div>
-          <div class="mock-deals">
-            <div class="mock-deal">
-              <div class="mock-deal-name">Marriott MENA expansion</div>
-              <span class="mock-badge closed">Closed</span>
-              <span class="mock-gap-ok">+</span>
-            </div>
-            <div class="mock-deal">
-              <div class="mock-deal-name">Corporate travel block</div>
-              <span class="mock-badge pending">Pending</span>
-            </div>
-            <div class="mock-deal">
-              <div class="mock-deal-name">F&amp;B partnership Q2</div>
-              <span class="mock-badge disputed">Disputed</span>
-              <span class="mock-gap-neg">-$320</span>
-            </div>
-          </div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-right reveal" data-dir="right">
+      <div class="calc-result-card">
+        <div class="calc-result-row">
+          <span class="calc-result-label">Monthly expected</span>
+          <span class="calc-result-val green" id="calc-monthly">$6,400</span>
+        </div>
+        <div class="calc-result-row">
+          <span class="calc-result-label">Annual expected</span>
+          <span class="calc-result-val green" id="calc-annual">$76,800</span>
+        </div>
+        <div class="calc-result-divider"></div>
+        <div class="calc-result-row">
+          <span class="calc-result-label">Typical gap (8%)</span>
+          <span class="calc-result-val orange" id="calc-gap-month">$512</span>
+        </div>
+        <div class="calc-result-row big">
+          <span class="calc-result-label">You could be losing annually</span>
+          <span class="calc-result-val orange big" id="calc-gap-year">$6,144</span>
+        </div>
+        <div class="calc-cta-wrap">
+          <a href="app.html" class="calc-cta">Track it with Stackd — free</a>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- STAT TICKER -->
-<div class="stat-ticker reveal-up">
-  <div class="ticker-inner">
-    <div class="ticker-item">
-      <span class="ticker-num" data-count="2400000" data-format="money">$0</span>
-      <span class="ticker-label">in gaps detected</span>
-    </div>
-    <div class="ticker-divider"></div>
-    <div class="ticker-item">
-      <span class="ticker-num" data-count="98" data-format="percent">0</span>
-      <span class="ticker-label">commission accuracy</span>
-    </div>
-    <div class="ticker-divider"></div>
-    <div class="ticker-item">
-      <span class="ticker-num" data-count="30" data-format="seconds">0</span>
-      <span class="ticker-label">to log a deal</span>
-    </div>
-    <div class="ticker-divider"></div>
-    <div class="ticker-item">
-      <span class="ticker-num" data-count="3" data-format="plain">0</span>
-      <span class="ticker-label">AI tools built in</span>
-    </div>
-  </div>
-</div>
 
 <!-- FEATURES -->
-<section class="section features-section" id="features">
-  <div class="section-inner">
-    <div class="section-header reveal-up">
-      <div class="eyebrow-label">What Stackd does</div>
-      <h2 class="section-h2">Every tool in your stack<br><span class="text-accent">was built for your manager.</span></h2>
-      <p class="section-sub">Stackd is the first one built for you.</p>
-    </div>
-    <div class="features-grid">
+<section class="features-section" id="features">
+  <div class="features-header reveal" data-dir="up">
+    <div class="section-tag">What Stackd does</div>
+    <h2 class="features-h2">The tools your<br>company <em>won't</em> give you.</h2>
+  </div>
 
-      <div class="feature-card reveal-left delay-1">
-        <div class="feature-icon-wrap">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="2" y="10" width="3" height="6" rx="1" fill="currentColor"/><rect x="7.5" y="6" width="3" height="10" rx="1" fill="currentColor"/><rect x="13" y="2" width="3" height="14" rx="1" fill="currentColor"/></svg>
+  <div class="features-scroll-track">
+    <div class="features-scroll-inner">
+
+      <div class="feat-card feat-large reveal" data-dir="left">
+        <div class="feat-number">01</div>
+        <div class="feat-icon-line">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="15" width="5" height="10" rx="1.5" fill="currentColor" opacity=".4"/><rect x="11.5" y="9" width="5" height="16" rx="1.5" fill="currentColor" opacity=".7"/><rect x="20" y="3" width="5" height="22" rx="1.5" fill="currentColor"/></svg>
         </div>
-        <div class="feature-content">
-          <div class="feature-title">Deal tracking</div>
-          <div class="feature-desc">Log every deal with value, rate, and expected commission. Your personal source of truth, always up to date.</div>
+        <h3 class="feat-title">Deal tracking</h3>
+        <p class="feat-desc">Log every deal as you close it. Value, client, commission rate. Your personal source of truth that lives outside your company's systems.</p>
+        <div class="feat-stat"><span class="feat-stat-num">30s</span><span class="feat-stat-label">to log a deal</span></div>
+      </div>
+
+      <div class="feat-card reveal" data-dir="up" data-delay="100">
+        <div class="feat-number">02</div>
+        <div class="feat-icon-line">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4v20M4 14h20" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".3"/><circle cx="14" cy="14" r="5" stroke="currentColor" stroke-width="2"/><circle cx="14" cy="14" r="2" fill="currentColor"/></svg>
+        </div>
+        <h3 class="feat-title">Gap detection</h3>
+        <p class="feat-desc">Stackd compares what you're owed against what landed in your account. Discrepancies surface instantly.</p>
+      </div>
+
+      <div class="feat-card feat-tall reveal" data-dir="up" data-delay="150">
+        <div class="feat-number">03</div>
+        <div class="feat-icon-line">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="4" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M9 10h10M9 14h7M9 18h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-title">AI dispute emails</h3>
+        <p class="feat-desc">One click. Claude reads your gap, understands your situation, and writes a professional dispute email that gets results — not one that gets you fired.</p>
+        <div class="feat-preview">
+          <div class="feat-preview-line"></div>
+          <div class="feat-preview-line short"></div>
+          <div class="feat-preview-line medium"></div>
+          <div class="feat-preview-line short"></div>
         </div>
       </div>
 
-      <div class="feature-card reveal-right delay-1">
-        <div class="feature-icon-wrap">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 5v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="feat-card reveal" data-dir="up" data-delay="200">
+        <div class="feat-number">04</div>
+        <div class="feat-icon-line">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 20l6-6 4 4 6-8 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <div class="feature-content">
-          <div class="feature-title">Gap detection</div>
-          <div class="feature-desc">Stackd compares what you're owed vs what you received and flags discrepancies the moment they appear.</div>
-        </div>
+        <h3 class="feat-title">Quota attainment</h3>
+        <p class="feat-desc">Always know where you stand. Never be surprised at review time.</p>
       </div>
 
-      <div class="feature-card reveal-left delay-2">
-        <div class="feature-icon-wrap">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 4h12M3 8h9M3 12h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="feat-card feat-large reveal" data-dir="right" data-delay="100">
+        <div class="feat-number">05</div>
+        <div class="feat-icon-line">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="10" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M5 24c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </div>
-        <div class="feature-content">
-          <div class="feature-title">AI dispute emails</div>
-          <div class="feature-desc">One click generates a professional, measured message to your manager — factual, not emotional.</div>
-        </div>
-      </div>
-
-      <div class="feature-card reveal-right delay-2">
-        <div class="feature-icon-wrap">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M9 2v2M9 14v2M2 9h2M14 9h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <div class="feature-content">
-          <div class="feature-title">Quota attainment</div>
-          <div class="feature-desc">See exactly where you stand against target at any point in the month, quarter, or year.</div>
-        </div>
-      </div>
-
-      <div class="feature-card reveal-left delay-3">
-        <div class="feature-icon-wrap">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 13l4-4 3 3 4-5 3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="feature-content">
-          <div class="feature-title">Earnings trends</div>
-          <div class="feature-desc">Month-over-month charts so you can spot patterns, plan better, and show your value at review time.</div>
-        </div>
-      </div>
-
-      <div class="feature-card reveal-right delay-3">
-        <div class="feature-icon-wrap">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="2" y="2" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h6M6 12h4M6 6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <div class="feature-content">
-          <div class="feature-title">Career coaching</div>
-          <div class="feature-desc">AI-powered interview prep, STAR answers, LinkedIn audit, and salary negotiation scripts. Career plan only.</div>
+        <h3 class="feat-title">Career coaching</h3>
+        <p class="feat-desc">Interview prep, STAR answers, LinkedIn rewrites, salary negotiation scripts. Your deal history becomes your career ammunition.</p>
+        <div class="feat-badge-row">
+          <span class="feat-badge violet">Interview coach</span>
+          <span class="feat-badge violet">STAR answers</span>
+          <span class="feat-badge violet">LinkedIn audit</span>
         </div>
       </div>
 
@@ -246,112 +258,141 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="section steps-section">
-  <div class="section-inner">
-    <div class="section-header reveal-up">
-      <div class="eyebrow-label">How it works</div>
-      <h2 class="section-h2">Up and running<br><span class="text-accent">in minutes.</span></h2>
-      <p class="section-sub">No integrations. No IT approvals. No CRM access required.</p>
+<!-- HOW IT WORKS — editorial timeline -->
+<section class="timeline-section">
+  <div class="timeline-inner">
+    <div class="timeline-header reveal" data-dir="up">
+      <div class="section-tag">How it works</div>
+      <h2 class="timeline-h2">Four steps.<br><span class="text-green">Zero confusion.</span></h2>
     </div>
-    <div class="steps-grid">
-      <div class="step-item reveal-up delay-1">
-        <div class="step-number">01</div>
-        <div class="step-title">Set up your comp plan</div>
-        <div class="step-desc">Enter your commission rate and quota target once. Stackd uses it on every deal automatically.</div>
+    <div class="timeline-body">
+      <div class="timeline-line"></div>
+      <div class="timeline-step reveal" data-dir="left">
+        <div class="tstep-marker">
+          <span class="tstep-num">01</span>
+        </div>
+        <div class="tstep-content">
+          <h3 class="tstep-title">Set up your comp plan</h3>
+          <p class="tstep-desc">Enter your commission rate and quota once. Stackd calculates everything from there. Takes under two minutes.</p>
+        </div>
       </div>
-      <div class="step-item reveal-up delay-2">
-        <div class="step-number">02</div>
-        <div class="step-title">Log your deals</div>
-        <div class="step-desc">Add each deal as you close it — value, client, status. Takes 30 seconds per deal.</div>
+      <div class="timeline-step reveal" data-dir="right" data-delay="100">
+        <div class="tstep-marker">
+          <span class="tstep-num">02</span>
+        </div>
+        <div class="tstep-content">
+          <h3 class="tstep-title">Log deals as you close them</h3>
+          <p class="tstep-desc">30 seconds per deal. Client, value, status. Your personal pipeline — separate from anything your company controls.</p>
+        </div>
       </div>
-      <div class="step-item reveal-up delay-3">
-        <div class="step-number">03</div>
-        <div class="step-title">Track what you're owed</div>
-        <div class="step-desc">Stackd calculates your expected commission and watches for gaps every pay cycle.</div>
+      <div class="timeline-step reveal" data-dir="left" data-delay="150">
+        <div class="tstep-marker">
+          <span class="tstep-num">03</span>
+        </div>
+        <div class="tstep-content">
+          <h3 class="tstep-title">Watch for gaps</h3>
+          <p class="tstep-desc">Stackd flags the moment your received commission doesn't match what you're owed. You'll know before payday, not after.</p>
+        </div>
       </div>
-      <div class="step-item reveal-up delay-4">
-        <div class="step-number">04</div>
-        <div class="step-title">Act with confidence</div>
-        <div class="step-desc">Walk into every payout conversation with your numbers, not theirs.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="section pricing-section" id="pricing">
-  <div class="section-inner">
-    <div class="section-header reveal-up">
-      <div class="eyebrow-label">Pricing</div>
-      <h2 class="section-h2">Simple pricing.<br><span class="text-accent">No surprises.</span></h2>
-      <p class="section-sub">Start free. Upgrade when Stackd saves you more than it costs — which usually happens in month one.</p>
-      <div class="guarantee-row reveal-up delay-1">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1l1.5 3.5h3.5L9.5 6.5l1 3.5L7 8 3.5 10l1-3.5L2 4.5h3.5z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
-        7-day money back guarantee on all paid plans — no questions asked
-      </div>
-    </div>
-    <div class="pricing-grid">
-      <div class="plan-card reveal-up delay-1">
-        <div class="plan-name">Free</div>
-        <div class="plan-price">$0<span>/mo</span></div>
-        <div class="plan-desc">Perfect for getting started and validating your numbers.</div>
-        <ul class="plan-features">
-          <li><span class="check-mark"></span>Up to 5 deals per month</li>
-          <li><span class="check-mark"></span>Gap detection</li>
-          <li><span class="check-mark"></span>Quota tracker</li>
-          <li><span class="check-mark"></span>Basic dashboard</li>
-        </ul>
-        <a href="app.html" class="btn-plan btn-plan-outline magnetic">Get started</a>
-      </div>
-      <div class="plan-card plan-featured reveal-up delay-2">
-        <div class="plan-glow"></div>
-        <div class="plan-label">Most popular</div>
-        <div class="plan-name">Pro</div>
-        <div class="plan-price">$19<span>/mo</span></div>
-        <div class="plan-desc">For reps serious about tracking every dollar and growing fast.</div>
-        <ul class="plan-features">
-          <li><span class="check-mark"></span>Unlimited deals</li>
-          <li><span class="check-mark"></span>AI dispute emails</li>
-          <li><span class="check-mark"></span>AI raise requests</li>
-          <li><span class="check-mark"></span>Performance reports</li>
-          <li><span class="check-mark"></span>Export to CSV</li>
-          <li><span class="check-mark"></span>Priority support</li>
-        </ul>
-        <a href="app.html" class="btn-plan btn-plan-primary magnetic" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
-      </div>
-      <div class="plan-card reveal-up delay-3">
-        <div class="plan-name">Career</div>
-        <div class="plan-price">$29<span>/mo</span></div>
-        <div class="plan-desc">Everything in Pro plus AI-powered career coaching tools.</div>
-        <ul class="plan-features">
-          <li><span class="check-mark"></span>Everything in Pro</li>
-          <li><span class="check-mark"></span>AI interview coach</li>
-          <li><span class="check-mark"></span>STAR answer generator</li>
-          <li><span class="check-mark"></span>LinkedIn profile audit</li>
-          <li><span class="check-mark"></span>Salary negotiation scripts</li>
-        </ul>
-        <a href="app.html" class="btn-plan btn-plan-outline magnetic" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
+      <div class="timeline-step reveal" data-dir="right" data-delay="200">
+        <div class="tstep-marker">
+          <span class="tstep-num">04</span>
+        </div>
+        <div class="tstep-content">
+          <h3 class="tstep-title">Act with confidence</h3>
+          <p class="tstep-desc">Walk into every payout conversation with receipts. Use the AI to draft your dispute. Use your data to ask for a raise. Own the room.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="section cta-section">
-  <div class="cta-inner reveal-up">
-    <div class="cta-glow"></div>
-    <div class="eyebrow-label">Get started today</div>
-    <h2 class="cta-h2">Start stacking<br>your commissions.</h2>
-    <p class="cta-sub">Free to start. Upgrade when you're ready. No credit card required.</p>
-    <div class="cta-actions">
-      <a href="app.html" class="btn btn-primary btn-xl magnetic">
-        <span>Create free account</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2.5 7h9M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#pricing" class="btn btn-ghost-cta btn-xl">View pricing</a>
+<!-- PRICING — horizontal stacked -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header reveal" data-dir="up">
+      <div class="section-tag">Pricing</div>
+      <h2 class="pricing-h2">Straightforward.<br><span class="text-green">Like your commission should be.</span></h2>
+      <div class="pricing-guarantee reveal" data-dir="up" data-delay="100">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L8.5 5h3.5L9.5 7.5l1 3.5L7 9l-3.5 2 1-3.5L2 5h3.5z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+        7-day money back guarantee — no questions, no hassle
+      </div>
     </div>
-    <p class="cta-proof">7-day money back guarantee &nbsp;&middot;&nbsp; Cancel anytime &nbsp;&middot;&nbsp; Built for sales professionals</p>
+
+    <div class="plans-stack">
+
+      <div class="plan-row reveal" data-dir="up" data-delay="100">
+        <div class="plan-row-left">
+          <div class="plan-row-name">Free</div>
+          <div class="plan-row-price">$0<span>/month</span></div>
+          <p class="plan-row-desc">Get started, validate your numbers, feel what Stackd does.</p>
+        </div>
+        <div class="plan-row-features">
+          <div class="plan-feat"><span class="pfeat-dot"></span>Up to 5 deals per month</div>
+          <div class="plan-feat"><span class="pfeat-dot"></span>Commission gap detection</div>
+          <div class="plan-feat"><span class="pfeat-dot"></span>Quota tracker</div>
+          <div class="plan-feat"><span class="pfeat-dot"></span>Basic dashboard</div>
+        </div>
+        <div class="plan-row-action">
+          <a href="app.html" class="plan-btn plan-btn-outline">Get started</a>
+        </div>
+      </div>
+
+      <div class="plan-row plan-row-featured reveal" data-dir="up" data-delay="180">
+        <div class="plan-row-glow"></div>
+        <div class="plan-row-left">
+          <div class="plan-row-badge">Most popular</div>
+          <div class="plan-row-name">Pro</div>
+          <div class="plan-row-price">$19<span>/month</span></div>
+          <p class="plan-row-desc">For reps serious about every dollar they've earned.</p>
+        </div>
+        <div class="plan-row-features">
+          <div class="plan-feat"><span class="pfeat-dot green"></span>Unlimited deals</div>
+          <div class="plan-feat"><span class="pfeat-dot green"></span>AI dispute emails</div>
+          <div class="plan-feat"><span class="pfeat-dot green"></span>AI raise requests</div>
+          <div class="plan-feat"><span class="pfeat-dot green"></span>Performance reports</div>
+          <div class="plan-feat"><span class="pfeat-dot green"></span>CSV export</div>
+          <div class="plan-feat"><span class="pfeat-dot green"></span>Priority support</div>
+        </div>
+        <div class="plan-row-action">
+          <a href="app.html" class="plan-btn plan-btn-primary" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
+        </div>
+      </div>
+
+      <div class="plan-row plan-row-career reveal" data-dir="up" data-delay="260">
+        <div class="plan-row-left">
+          <div class="plan-row-name">Career</div>
+          <div class="plan-row-price">$29<span>/month</span></div>
+          <p class="plan-row-desc">Everything in Pro, plus tools that build your next move.</p>
+        </div>
+        <div class="plan-row-features">
+          <div class="plan-feat"><span class="pfeat-dot violet"></span>Everything in Pro</div>
+          <div class="plan-feat"><span class="pfeat-dot violet"></span>AI interview coach</div>
+          <div class="plan-feat"><span class="pfeat-dot violet"></span>STAR answer generator</div>
+          <div class="plan-feat"><span class="pfeat-dot violet"></span>LinkedIn profile audit</div>
+          <div class="plan-feat"><span class="pfeat-dot violet"></span>Salary negotiation scripts</div>
+        </div>
+        <div class="plan-row-action">
+          <a href="app.html" class="plan-btn plan-btn-violet" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA — full screen moment -->
+<section class="final-cta">
+  <div class="final-cta-bg" aria-hidden="true">STACKD</div>
+  <div class="final-cta-content reveal" data-dir="up">
+    <div class="section-tag">One last thing</div>
+    <h2 class="final-h2">Your company tracks<br>everything you do.</h2>
+    <p class="final-sub">It's time you tracked what they owe you.</p>
+    <a href="app.html" class="final-btn">
+      <span>Start tracking — it's free</span>
+      <span class="final-btn-arrow">→</span>
+    </a>
+    <p class="final-proof">No credit card &nbsp;&middot;&nbsp; 7-day guarantee &nbsp;&middot;&nbsp; Cancel anytime</p>
   </div>
 </section>
 
@@ -359,14 +400,16 @@
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <a href="index.html" class="logo footer-logo">stack<span>d</span></a>
+      <a href="index.html" class="logo">stack<span>d</span></a>
       <p class="footer-tagline">Built for the rep.</p>
+      <p class="footer-made">Made with honesty, in Amman.</p>
     </div>
-    <div class="footer-links-group">
+    <div class="footer-cols">
       <div class="footer-col">
         <div class="footer-col-title">Product</div>
         <a href="#features" class="footer-link">Features</a>
         <a href="#pricing" class="footer-link">Pricing</a>
+        <a href="#calculator" class="footer-link">Calculator</a>
         <a href="app.html" class="footer-link">Sign in</a>
       </div>
       <div class="footer-col">
@@ -379,331 +422,279 @@
   </div>
   <div class="footer-bottom">
     <p>&copy; 2026 Stackd. All rights reserved.</p>
-    <p>Built for every rep who has ever been underpaid.</p>
+    <p>Every rep deserves to know their number.</p>
   </div>
 </footer>
 
-<!-- COOKIE -->
-<div class="cookie-banner" id="cookie-banner">
-  <p>We use essential cookies to keep you signed in. <a href="privacy.html">Learn more</a></p>
-  <button onclick="acceptCookies()">Got it</button>
+<div class="cookie-bar" id="cookie-bar">
+  <p>Essential cookies only. <a href="privacy.html">Privacy policy</a></p>
+  <button onclick="acceptCookies()">Accept</button>
 </div>
 
 <script>
-// =============================================
-// CURSOR GLOW — follows entire page, not just viewport
-// =============================================
-const cursorGlow = document.getElementById('cursor-glow');
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
-let glowX = mouseX;
-let glowY = mouseY;
+/* ============================================
+   STACKD — LANDING INTERACTIONS v5
+   Custom cursor · Animated canvas · Bidirectional
+   scroll · Live calculator · Button effects
+============================================ */
 
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
+// CUSTOM CURSOR
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = window.innerWidth/2, my = window.innerHeight/2;
+let rx = mx, ry = my;
 
-// Smooth lerp so glow trails the cursor elegantly
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
 function animateCursor() {
-  glowX += (mouseX - glowX) * 0.12;
-  glowY += (mouseY - glowY) * 0.12;
-  cursorGlow.style.left = glowX + 'px';
-  cursorGlow.style.top = glowY + 'px';
+  dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+  rx += (mx - rx) * 0.1;
+  ry += (my - ry) * 0.1;
+  ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
   requestAnimationFrame(animateCursor);
 }
 animateCursor();
 
-// =============================================
-// CANVAS — Grid + Particles combined
-// =============================================
-const canvas = document.getElementById('grid-canvas');
+// Cursor states
+document.querySelectorAll('a,button,input,.calc-input').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ring.classList.add('ring-hover');
+    dot.classList.add('dot-hover');
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.classList.remove('ring-hover');
+    dot.classList.remove('dot-hover');
+  });
+});
+
+// CANVAS — grid + particles + flowing lines
+const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 let W, H;
 
-function resizeCanvas() {
+function resize() {
   W = canvas.width = window.innerWidth;
   H = canvas.height = document.documentElement.scrollHeight;
 }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+resize();
+window.addEventListener('resize', resize);
 
 // Particles
-const PARTICLE_COUNT = 120;
-const particles = [];
+const PTS = 150;
+const pts = Array.from({length: PTS}, () => ({
+  x: Math.random() * 2000,
+  y: Math.random() * 3000,
+  vx: (Math.random() - 0.5) * 0.35,
+  vy: -(Math.random() * 0.4 + 0.1),
+  r: Math.random() * 1.6 + 0.3,
+  a: Math.random(),
+  phase: Math.random() * Math.PI * 2,
+  green: Math.random() > 0.65,
+  orange: Math.random() > 0.9
+}));
 
-class Particle {
-  constructor() { this.reset(true); }
-  reset(randomY = false) {
-    this.x = Math.random() * W;
-    this.y = randomY ? Math.random() * H : H + 10;
-    this.size = Math.random() * 1.8 + 0.4;
-    this.speedX = (Math.random() - 0.5) * 0.4;
-    this.speedY = -(Math.random() * 0.5 + 0.15);
-    this.opacity = Math.random() * 0.5 + 0.1;
-    this.green = Math.random() > 0.72;
-    this.pulse = Math.random() * Math.PI * 2;
-  }
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    this.pulse += 0.02;
-    this.opacity = (Math.sin(this.pulse) * 0.15 + 0.35) * (this.green ? 1 : 0.5);
-    if (this.y < -10 || this.x < -10 || this.x > W + 10) this.reset();
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = this.green
-      ? `rgba(29,158,117,${this.opacity})`
-      : `rgba(255,255,255,${this.opacity})`;
-    ctx.fill();
-  }
-}
+// Flowing bezier lines
+const LINES = Array.from({length: 6}, (_, i) => ({
+  x: (i / 5) * 1200 + 100,
+  amp: 40 + Math.random() * 60,
+  speed: 0.0003 + Math.random() * 0.0004,
+  phase: (i / 6) * Math.PI * 2,
+  green: i % 3 === 0
+}));
 
-for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
-
-let gridOffset = 0;
+let t = 0;
 let scrollY = 0;
+window.addEventListener('scroll', () => scrollY = window.scrollY);
 
-window.addEventListener('scroll', () => { scrollY = window.scrollY; });
-
-function drawFrame() {
+function draw() {
   ctx.clearRect(0, 0, W, H);
+  t += 0.01;
 
-  const cellSize = 56;
-  const offset = gridOffset % cellSize;
+  const cell = 54;
 
-  // Grid lines — more prominent
-  ctx.strokeStyle = 'rgba(255,255,255,0.045)';
+  // Grid
   ctx.lineWidth = 0.5;
-
-  for (let x = offset; x < W; x += cellSize) {
+  for (let x = 0; x < W; x += cell) {
+    ctx.strokeStyle = x % (cell*4) === 0 ? 'rgba(0,216,127,0.05)' : 'rgba(255,255,255,0.04)';
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
   }
-  for (let y = offset; y < H; y += cellSize) {
+  for (let y = 0; y < H; y += cell) {
+    ctx.strokeStyle = y % (cell*4) === 0 ? 'rgba(0,216,127,0.05)' : 'rgba(255,255,255,0.04)';
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
   }
 
-  // Green accent lines — every 4th
-  ctx.strokeStyle = 'rgba(29,158,117,0.06)';
-  ctx.lineWidth = 0.5;
-  for (let x = offset; x < W; x += cellSize * 4) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let y = offset; y < H; y += cellSize * 4) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
-
-  // Intersection dots
-  ctx.fillStyle = 'rgba(29,158,117,0.07)';
-  for (let x = offset; x < W; x += cellSize * 4) {
-    for (let y = offset; y < H; y += cellSize * 4) {
-      ctx.beginPath(); ctx.arc(x, y, 1.8, 0, Math.PI * 2); ctx.fill();
+  // Dot intersections
+  for (let x = 0; x < W; x += cell*4) {
+    for (let y = 0; y < H; y += cell*4) {
+      ctx.beginPath();
+      ctx.arc(x, y, 1.5, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(0,216,127,0.08)';
+      ctx.fill();
     }
   }
 
-  // Particles
-  particles.forEach(p => { p.update(); p.draw(); });
+  // Flowing lines
+  LINES.forEach(line => {
+    ctx.beginPath();
+    ctx.moveTo(0, line.x + Math.sin(t * line.speed * 1000 + line.phase) * line.amp);
+    for (let x = 0; x <= W; x += 20) {
+      const y = line.x + Math.sin((x * 0.005) + t * line.speed * 1000 + line.phase) * line.amp
+              + Math.sin((x * 0.002) + t * line.speed * 500) * line.amp * 0.5;
+      ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = line.green ? 'rgba(0,216,127,0.04)' : 'rgba(255,107,53,0.03)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
 
-  // Edge vignette — fade grid at page edges only (not full page)
-  const vignette = ctx.createRadialGradient(W/2, scrollY + window.innerHeight/2, window.innerHeight * 0.15, W/2, scrollY + window.innerHeight/2, window.innerHeight * 0.85);
-  vignette.addColorStop(0, 'rgba(8,8,8,0)');
-  vignette.addColorStop(1, 'rgba(8,8,8,0.88)');
-  ctx.fillStyle = vignette;
+  // Particles
+  pts.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.phase += 0.015;
+    const opacity = (Math.sin(p.phase) * 0.2 + 0.3) * p.a;
+    if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+    if (p.x < -10 || p.x > W + 10) { p.x = Math.random() * W; }
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = p.orange ? `rgba(255,107,53,${opacity})`
+      : p.green ? `rgba(0,216,127,${opacity})`
+      : `rgba(255,255,255,${opacity * 0.4})`;
+    ctx.fill();
+  });
+
+  // Vignette follows scroll
+  const gy = scrollY + window.innerHeight/2;
+  const grad = ctx.createRadialGradient(W/2, gy, window.innerHeight * 0.1, W/2, gy, window.innerHeight * 0.9);
+  grad.addColorStop(0, 'rgba(10,9,9,0)');
+  grad.addColorStop(0.7, 'rgba(10,9,9,0.4)');
+  grad.addColorStop(1, 'rgba(10,9,9,0.92)');
+  ctx.fillStyle = grad;
   ctx.fillRect(0, scrollY, W, window.innerHeight);
 
-  gridOffset += 0.18;
-  requestAnimationFrame(drawFrame);
+  requestAnimationFrame(draw);
 }
-drawFrame();
+draw();
 
-// =============================================
-// BIDIRECTIONAL SCROLL REVEAL — elevator doors
-// =============================================
-const revealEls = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up');
+// Dashboard bar animation
+setTimeout(() => {
+  const b = document.getElementById('hcard-bar');
+  if (b) b.style.width = '68%';
+}, 1000);
 
-const revealObserver = new IntersectionObserver((entries) => {
+// BIDIRECTIONAL SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const revObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('revealed');
-      entry.target.classList.remove('retracted');
+      const delay = entry.target.dataset.delay || 0;
+      setTimeout(() => entry.target.classList.add('visible'), parseInt(delay));
+      entry.target.classList.remove('hidden-back');
     } else {
-      // Only retract if element is above viewport (scrolled past it going up)
       const rect = entry.target.getBoundingClientRect();
-      if (rect.top > window.innerHeight * 0.1) {
-        // Element is below viewport — not yet seen, keep hidden
+      if (rect.top < 0) {
+        // Above viewport — retract upward
+        entry.target.classList.remove('visible');
+        entry.target.classList.add('hidden-back');
       } else {
-        // Element is above viewport — retract it
-        entry.target.classList.remove('revealed');
-        entry.target.classList.add('retracted');
+        // Below viewport — reset to initial hidden state
+        entry.target.classList.remove('visible');
+        entry.target.classList.remove('hidden-back');
       }
     }
   });
-}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
 
-revealEls.forEach(el => revealObserver.observe(el));
+revealEls.forEach(el => revObs.observe(el));
 
-// =============================================
-// COUNTER ANIMATION
-// =============================================
-const counterMap = new Map();
+// LIVE CALCULATOR
+function updateCalc() {
+  const val = parseFloat(document.getElementById('calc-value').value) || 0;
+  const rate = parseFloat(document.getElementById('calc-rate').value) || 0;
+  const deals = parseFloat(document.getElementById('calc-deals').value) || 0;
+  const monthly = val * (rate/100) * deals;
+  const annual = monthly * 12;
+  const gapMonthly = monthly * 0.08;
+  const gapAnnual = gapMonthly * 12;
 
-function animateCounter(el) {
-  if (counterMap.get(el)) return;
-  counterMap.set(el, true);
-  const target = parseInt(el.dataset.count);
-  const format = el.dataset.format;
-  const duration = 1800;
-  const start = Date.now();
+  animNum('calc-monthly', monthly, '$');
+  animNum('calc-annual', annual, '$');
+  animNum('calc-gap-month', gapMonthly, '$');
+  animNum('calc-gap-year', gapAnnual, '$');
+}
+
+function animNum(id, target, prefix = '') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const start = parseFloat(el.dataset.current || 0);
+  el.dataset.current = target;
+  const duration = 400;
+  const startTime = Date.now();
   function update() {
-    const elapsed = Date.now() - start;
-    const progress = Math.min(elapsed / duration, 1);
+    const progress = Math.min((Date.now() - startTime) / duration, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
-    const current = Math.floor(eased * target);
-    if (format === 'money') {
-      el.textContent = current >= 1000000 ? '$' + (current/1000000).toFixed(1) + 'M' : '$' + current.toLocaleString();
-    } else if (format === 'percent') {
-      el.textContent = current + '%';
-    } else if (format === 'seconds') {
-      el.textContent = current + 's';
-    } else {
-      el.textContent = current;
-    }
+    const current = start + (target - start) * eased;
+    el.textContent = prefix + '$' + Math.round(current).toLocaleString();
     if (progress < 1) requestAnimationFrame(update);
-    else counterMap.delete(el);
   }
   update();
 }
 
-const counterObs = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.querySelectorAll('[data-count]').forEach(c => animateCounter(c));
-    }
-  });
-}, { threshold: 0.3 });
+updateCalc();
 
-document.querySelectorAll('.stat-ticker, .mock-metrics').forEach(el => counterObs.observe(el));
-
-// =============================================
-// DASHBOARD BAR
-// =============================================
-setTimeout(() => {
-  const bar = document.getElementById('mock-bar');
-  if (bar) bar.style.width = '68%';
-}, 900);
-
-// =============================================
-// BUTTON ANIMATIONS — all clickable elements
-// =============================================
-function addButtonAnimations() {
-  const allClickable = document.querySelectorAll(
-    'a, button, .btn, .btn-plan, .nav-link, .footer-link, .auth-tab, .app-tab-btn, .btn-ai, .delete-btn, .btn-alert, .nav-hamburger'
-  );
-
-  allClickable.forEach(el => {
-    // Ripple effect on click
+// BUTTON RIPPLE + PRESS
+function addInteractions() {
+  document.querySelectorAll('a, button, .plan-btn, .cta-primary, .cta-secondary, .final-btn, .calc-cta').forEach(el => {
     el.addEventListener('click', function(e) {
-      const ripple = document.createElement('span');
-      ripple.className = 'btn-ripple';
-      const rect = el.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height) * 2;
-      ripple.style.cssText = `
-        width: ${size}px;
-        height: ${size}px;
-        left: ${e.clientX - rect.left - size/2}px;
-        top: ${e.clientY - rect.top - size/2}px;
-      `;
-      // Only add ripple to elements with relative/absolute positioning
-      const pos = window.getComputedStyle(el).position;
-      if (pos === 'static') el.style.position = 'relative';
+      if (window.getComputedStyle(el).position === 'static') el.style.position = 'relative';
       el.style.overflow = 'hidden';
-      el.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 600);
+      const r = document.createElement('span');
+      r.className = 'ripple';
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 2.2;
+      r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+      el.appendChild(r);
+      setTimeout(() => r.remove(), 700);
     });
-
-    // Press down effect
-    el.addEventListener('mousedown', function() {
-      if (!el.classList.contains('magnetic')) {
-        el.style.transform = 'scale(0.96)';
-      }
+    el.addEventListener('mousedown', () => {
+      if (!el.classList.contains('no-press')) el.style.transform = 'scale(0.96)';
     });
-
-    el.addEventListener('mouseup', function() {
-      el.style.transform = '';
-    });
-
-    el.addEventListener('mouseleave', function() {
-      el.style.transform = '';
-    });
+    el.addEventListener('mouseup', () => el.style.transform = '');
+    el.addEventListener('mouseleave', () => el.style.transform = '');
   });
 }
+addInteractions();
 
-addButtonAnimations();
-
-// =============================================
-// MAGNETIC BUTTONS
-// =============================================
-document.querySelectorAll('.magnetic').forEach(btn => {
-  btn.addEventListener('mousemove', e => {
-    const rect = btn.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) * 0.18;
-    const y = (e.clientY - rect.top - rect.height / 2) * 0.18;
-    btn.style.transform = `translate(${x}px, ${y}px)`;
-  });
-  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
-  btn.addEventListener('mousedown', () => {
-    const rect = btn.getBoundingClientRect();
-    const x = parseFloat(btn.style.transform.replace(/[^-\d.]/g, '') || 0);
-    btn.style.transform = `translate(${x * 0.5}px, ${x * 0.5}px) scale(0.95)`;
-  });
-  btn.addEventListener('mouseup', e => {
-    const rect = btn.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) * 0.18;
-    const y = (e.clientY - rect.top - rect.height / 2) * 0.18;
-    btn.style.transform = `translate(${x}px, ${y}px)`;
-  });
-});
-
-// =============================================
 // NAV SCROLL
-// =============================================
 window.addEventListener('scroll', () => {
-  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 30);
 });
 
-// =============================================
 // MOBILE NAV
-// =============================================
-function toggleMobileNav() {
+function toggleNav() {
   document.getElementById('nav-links').classList.toggle('open');
+  document.getElementById('nav-right').classList.toggle('open');
   document.getElementById('nav-toggle').classList.toggle('open');
 }
-function closeMobileNav() {
+function closeNav() {
   document.getElementById('nav-links').classList.remove('open');
+  document.getElementById('nav-right').classList.remove('open');
   document.getElementById('nav-toggle').classList.remove('open');
 }
 
-// =============================================
 // SMOOTH SCROLL
-// =============================================
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
   });
 });
 
-// =============================================
 // COOKIE
-// =============================================
 function acceptCookies() {
-  document.getElementById('cookie-banner').style.display = 'none';
-  localStorage.setItem('cookies-accepted', '1');
+  document.getElementById('cookie-bar').style.display = 'none';
+  localStorage.setItem('stackd-cookies', '1');
 }
-if (!localStorage.getItem('cookies-accepted')) {
-  document.getElementById('cookie-banner').style.display = 'flex';
+if (!localStorage.getItem('stackd-cookies')) {
+  document.getElementById('cookie-bar').style.display = 'flex';
 }
 </script>
 </body>
