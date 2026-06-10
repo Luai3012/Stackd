@@ -432,11 +432,7 @@
 </div>
 
 <script>
-/* ============================================
-   STACKD — LANDING INTERACTIONS v5
-   Custom cursor · Animated canvas · Bidirectional
-   scroll · Live calculator · Button effects
-============================================ */
+try {
 
 // CUSTOM CURSOR
 const dot = document.getElementById('cursor-dot');
@@ -470,14 +466,23 @@ document.querySelectorAll('a,button,input,.calc-input').forEach(el => {
 // CANVAS — grid + particles + flowing lines
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
-let W, H;
+let W = window.innerWidth;
+let H = Math.max(window.innerHeight, document.documentElement.scrollHeight || 3000);
 
 function resize() {
   W = canvas.width = window.innerWidth;
-  H = canvas.height = document.documentElement.scrollHeight;
+  H = canvas.height = Math.max(window.innerHeight * 4, document.documentElement.scrollHeight || 3000);
 }
-resize();
+
+// Delay resize so page has rendered first
+window.addEventListener('load', resize);
 window.addEventListener('resize', resize);
+setTimeout(resize, 100);
+setTimeout(resize, 500);
+
+// Set initial canvas size immediately
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight * 5;
 
 // Particles
 const PTS = 150;
@@ -561,14 +566,15 @@ function draw() {
     ctx.fill();
   });
 
-  // Vignette follows scroll
-  const gy = scrollY + window.innerHeight/2;
-  const grad = ctx.createRadialGradient(W/2, gy, window.innerHeight * 0.1, W/2, gy, window.innerHeight * 0.9);
+  // Vignette — covers viewport
+  const vh = window.innerHeight;
+  const vw = window.innerWidth;
+  const grad = ctx.createRadialGradient(vw/2, vh/2, vh * 0.1, vw/2, vh/2, vh * 0.9);
   grad.addColorStop(0, 'rgba(10,9,9,0)');
-  grad.addColorStop(0.7, 'rgba(10,9,9,0.4)');
+  grad.addColorStop(0.65, 'rgba(10,9,9,0.35)');
   grad.addColorStop(1, 'rgba(10,9,9,0.92)');
   ctx.fillStyle = grad;
-  ctx.fillRect(0, scrollY, W, window.innerHeight);
+  ctx.fillRect(0, 0, vw, vh);
 
   requestAnimationFrame(draw);
 }
@@ -696,6 +702,7 @@ function acceptCookies() {
 if (!localStorage.getItem('stackd-cookies')) {
   document.getElementById('cookie-bar').style.display = 'flex';
 }
+} catch(e) { console.error('Stackd init error:', e); }
 </script>
 </body>
 </html>
