@@ -2,12 +2,15 @@
   const container = document.getElementById('hero-3d-canvas')
   if (!container || typeof THREE === 'undefined') return
 
-  const W = container.clientWidth || 500
-  const H = container.clientHeight || 520
+  // Wait a frame so container has its final dimensions
+  requestAnimationFrame(function() {
+
+  const W = container.clientWidth || 560
+  const H = container.clientHeight || 580
 
   const scene = new THREE.Scene()
-  const camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 100)
-  camera.position.set(0, 0, 8)
+  const camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100)
+  camera.position.set(0, 0, 7.5)
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.setSize(W, H)
@@ -281,8 +284,8 @@
       transparent: true, opacity: 0,
       blending: THREE.AdditiveBlending, depthWrite: false,
     })
-    const halo = new THREE.Mesh(new THREE.PlaneGeometry(cw * 2.4, ch * 2.4), haloMat)
-    halo.position.z = -depth / 2 - 0.01
+    const halo = new THREE.Mesh(new THREE.PlaneGeometry(cw * 3.2, ch * 3.2), haloMat)
+    halo.position.z = -depth / 2 - 0.08
     group.add(halo)
 
     group._face = face
@@ -387,4 +390,6 @@
     const nw=container.clientWidth, nh=container.clientHeight
     camera.aspect=nw/nh; camera.updateProjectionMatrix(); renderer.setSize(nw,nh)
   })
+
+  }) // end requestAnimationFrame
 })()
