@@ -16,6 +16,7 @@
   renderer.setSize(W, H)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
   renderer.setClearColor(0x000000, 0)
+  renderer.sortObjects = true
   container.appendChild(renderer.domElement)
   renderer.domElement.style.cursor = 'pointer'
   renderer.domElement.addEventListener('click', () => window.location.href = 'app.html')
@@ -268,24 +269,30 @@
     back.rotation.y = Math.PI
     group.add(back)
 
-    // Halo — soft glow plane, additive, hidden until hover
+    // Halo — enormous soft glow, additive blending, no depth test
     const hcv = document.createElement('canvas')
-    hcv.width = 256; hcv.height = 256
+    hcv.width = 512; hcv.height = 512
     const hctx = hcv.getContext('2d')
-    const hg = hctx.createRadialGradient(128, 128, 0, 128, 128, 128)
+    const hg = hctx.createRadialGradient(256, 256, 0, 256, 256, 256)
     const hex = '#' + glowHex.toString(16).padStart(6,'0')
-    hg.addColorStop(0, hex + 'BB')
-    hg.addColorStop(0.35, hex + '55')
-    hg.addColorStop(0.7, hex + '18')
-    hg.addColorStop(1, hex + '00')
-    hctx.fillStyle = hg; hctx.fillRect(0,0,256,256)
+    hg.addColorStop(0,    hex + '50')
+    hg.addColorStop(0.12, hex + '3A')
+    hg.addColorStop(0.28, hex + '22')
+    hg.addColorStop(0.48, hex + '10')
+    hg.addColorStop(0.65, hex + '07')
+    hg.addColorStop(0.80, hex + '03')
+    hg.addColorStop(0.92, hex + '01')
+    hg.addColorStop(1,    hex + '00')
+    hctx.fillStyle = hg; hctx.fillRect(0,0,512,512)
     const haloMat = new THREE.MeshBasicMaterial({
       map: new THREE.CanvasTexture(hcv),
       transparent: true, opacity: 0,
-      blending: THREE.AdditiveBlending, depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      depthTest: false,
     })
-    const halo = new THREE.Mesh(new THREE.PlaneGeometry(cw * 3.2, ch * 3.2), haloMat)
-    halo.position.z = -depth / 2 - 0.08
+    const halo = new THREE.Mesh(new THREE.PlaneGeometry(cw * 9, ch * 9), haloMat)
+    halo.position.z = depth / 2 + 0.01
     group.add(halo)
 
     group._face = face
@@ -370,16 +377,25 @@
       card._hovered += (target - card._hovered) * 0.1
       const h = card._hovered
 
-      // Halo — glow only appears on hover, sits BEHIND card so it doesn't wash out face
-      card._haloMat.opacity = h * 0.65
+      // Halo fade in/out
+      card._haloMat.opacity = h * 0.9
 
       // Edges brighter on hover
       card._edgeMats.forEach(m => m.opacity = 0.5 + h * 0.45)
 
       // Scale + lift
-      const s = 1 + h * 0.04
+      const s = 1 + h * 0.06
       card.scale.set(s, s, s)
-      card.position.z += (card._baseZ + h * 0.32 - card.position.z) * 0.1
+      card.position.z += (card._baseZ + h * 1.2 - card.position.z) * 0.1
+
+      // Render order — hovered card always draws on top of everything
+      const ro = h > 0.05 ? 999 : 0
+      card.traverse(obj => {
+        obj.renderOrder = ro
+        if(obj.material) {
+          obj.material.depthTest = ro === 0
+        }
+      })
     })
 
     renderer.render(scene, camera)
