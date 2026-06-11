@@ -208,9 +208,15 @@ html, body {
 
 /* First slide — hero canvas glow needs to bleed */
 .slide:first-child {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
   overflow: visible;
-  /* Still clip horizontally so adjacent slides don't show */
-  clip-path: inset(0 0 0 0);
+  clip-path: inset(0 -200px 0 -200px);
+  padding: 80px 6vw;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 /* ============================================
@@ -325,15 +331,6 @@ html, body {
 /* ============================================
    SLIDE 1 — HERO
 ============================================ */
-.slide:first-child {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  overflow: visible;
-}
 
 .hero-visual {
   position: relative;
@@ -445,9 +442,8 @@ html, body {
    3D GLASS CARD CANVAS
 ============================================ */
 .hero-3d-canvas {
-  width: 120%;
-  margin-left: -10%;
-  height: 580px;
+  width: 100%;
+  height: 560px;
   position: relative;
   overflow: visible;
 }
@@ -455,10 +451,11 @@ html, body {
 .hero-3d-canvas canvas {
   width: 100% !important;
   height: 100% !important;
+  overflow: visible;
 }
 
 @media (max-width: 900px) {
-  .hero-3d-canvas { width: 100%; margin-left: 0; height: 400px; }
+  .hero-3d-canvas { height: 420px; }
 }
 
 @media (max-width: 640px) {
@@ -912,6 +909,8 @@ html, body {
     padding-bottom: 60px;
     align-items: start;
     overflow-y: auto;
+    overflow-x: hidden;
+    clip-path: none;
   }
   .hero-visual { order: -1; }
   .pay-slip { max-width: 100%; margin: 0; }
