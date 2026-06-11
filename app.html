@@ -8,7 +8,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300D87F'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='700' fill='%230A0909'>S</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="app.css" />
@@ -56,8 +56,13 @@
           <label class="form-label">Password</label>
           <input type="password" id="signup-password" placeholder="At least 6 characters" />
         </div>
+        <label class="consent-row">
+          <input type="checkbox" id="signup-consent" />
+          <span class="consent-text">
+            I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>. I confirm I am 18 or older.
+          </span>
+        </label>
         <button class="btn-auth-primary" onclick="signUp()">Create account</button>
-        <p class="auth-legal">By signing up you agree to our <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</p>
       </div>
 
       <div id="form-forgot" style="display:none;">
@@ -840,7 +845,7 @@
             </div>
             <div class="plan-upgrade-btns">
               <button class="btn-outline btn-sm" onclick="openUpgradeModal('pro')">Upgrade to Pro — $19/mo</button>
-              <button class="btn-primary btn-sm" onclick="openUpgradeModal('career')">Career — $29/mo</button>
+              <button class="btn-career btn-sm" onclick="openUpgradeModal('career')">Career — $29/mo</button>
             </div>
           </div>
           <div class="guarantee-note">
