@@ -513,6 +513,8 @@ function triggerReveals(slideIndex) {
       revealed.add(key)
     }, delay)
   })
+  // Init tilt cards when features slide becomes visible
+  if(slideIndex === 1) setTimeout(initLandingTilt, 500)
 }
 
 // Trigger first slide immediately
