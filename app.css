@@ -905,7 +905,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.12s ease-out;
   position: relative;
   overflow: hidden;
   transform-style: preserve-3d;
@@ -916,13 +916,18 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,216,127,0.07) 0%, transparent 60%);
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,216,127,0.12) 0%, transparent 58%);
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
+  z-index: 0;
 }
 .accel-card:hover::before { opacity: 1; }
-.accel-card:hover { border-color: rgba(0,216,127,0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+.accel-card:hover {
+  border-color: rgba(0,216,127,0.35);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 24px rgba(0,216,127,0.1);
+  transform: translateY(-3px);
+}
 .accel-card.accel-active { border-color: rgba(0,216,127,0.2); }
 .accel-card.accel-locked { opacity: 0.5; }
 
@@ -1177,20 +1182,37 @@ body {
   overflow: hidden;
   transform-style: preserve-3d;
   will-change: transform;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.12s ease-out;
   backdrop-filter: blur(10px);
 }
 .settings-block::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,216,127,0.06) 0%, transparent 60%);
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,216,127,0.11) 0%, transparent 58%);
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
+  z-index: 0;
+}
+.settings-block::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  box-shadow: 0 0 0 0 rgba(0,216,127,0);
+  transition: box-shadow 0.3s;
+  pointer-events: none;
+  z-index: 0;
 }
 .settings-block:hover::before { opacity: 1; }
-.settings-block:hover { border-color: rgba(255,255,255,0.14); }
+.settings-block:hover::after { box-shadow: 0 0 28px rgba(0,216,127,0.1) inset; }
+.settings-block:hover {
+  border-color: rgba(0,216,127,0.3);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(0,216,127,0.08);
+  transform: translateY(-2px);
+}
+.plan-block:hover { border-color: rgba(0,216,127,0.4) !important; }
 
 .settings-block-title {
   font-family: var(--font-m);
