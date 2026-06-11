@@ -11,7 +11,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0A0909; --bg-2: #0F0E0E; --bg-3: #141313;
+      --bg: #0A0909; --bg-2: #0F0E0E;
       --border: rgba(255,255,255,0.055); --border-2: rgba(255,255,255,0.1);
       --green: #00D87F; --text: #F0F0F0; --text-2: #7A7878; --text-3: #3A3838;
       --font-d: 'DM Sans', sans-serif; --font-b: 'Inter', sans-serif; --font-m: 'JetBrains Mono', monospace;
@@ -23,7 +23,6 @@
     .cursor-dot.dot-hover { width: 10px; height: 10px; background: #FF6B35; }
     .cursor-ring.ring-hover { width: 50px; height: 50px; }
     @media (max-width: 768px), (hover: none) { .cursor-dot, .cursor-ring { display: none; } body { cursor: auto !important; } }
-
     .nav { height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; background: rgba(10,9,9,0.9); backdrop-filter: blur(24px); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 100; }
     .logo { font-family: var(--font-d); font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; color: var(--text); }
     .logo span { color: var(--green); }
@@ -32,26 +31,34 @@
     .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
     .nav-cta { font-size: 14px; font-family: var(--font-d); font-weight: 700; color: #000; text-decoration: none; padding: 7px 18px; border-radius: 6px; background: var(--green); transition: background .15s; white-space: nowrap; }
     .nav-cta:hover { background: #00F090; }
-
     .page { max-width: 680px; margin: 0 auto; padding: 4rem 2.5rem 6rem; }
+    .page-eyebrow { font-family: var(--font-m); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 8px; }
+    .page-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--green); }
     .page-title { font-family: var(--font-d); font-size: 36px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 0.35rem; }
     .updated { font-family: var(--font-m); font-size: 11px; color: var(--text-3); margin-bottom: 3rem; letter-spacing: 0.5px; }
-    h2 { font-family: var(--font-d); font-size: 18px; font-weight: 700; margin: 2.5rem 0 0.75rem; }
+    h2 { font-family: var(--font-d); font-size: 18px; font-weight: 700; margin: 2.5rem 0 0.75rem; color: var(--text); }
     p { font-size: 15px; color: var(--text-2); margin-bottom: 1rem; line-height: 1.75; }
+    ul { padding-left: 1.25rem; margin-bottom: 1rem; }
+    li { font-size: 15px; color: var(--text-2); line-height: 1.75; margin-bottom: 0.4rem; }
+    strong { color: var(--text); font-weight: 600; }
     a { color: var(--green); text-decoration: none; } a:hover { text-decoration: underline; }
-
+    .data-table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; }
+    .data-table th { font-family: var(--font-m); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); text-align: left; padding: 8px 12px; border-bottom: 0.5px solid var(--border-2); }
+    .data-table td { font-size: 13px; color: var(--text-2); padding: 10px 12px; border-bottom: 0.5px solid var(--border); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .notice { background: rgba(0,216,127,0.05); border: 0.5px solid rgba(0,216,127,0.2); border-radius: 10px; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .notice p { margin: 0; font-size: 14px; }
     .footer { border-top: 0.5px solid var(--border); padding: 2rem 2.5rem; }
     .footer-inner { max-width: 680px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
     .footer-links { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
     .footer-link { font-size: 13px; color: var(--text-3); text-decoration: none; transition: color .15s; } .footer-link:hover { color: var(--text); }
     .footer-copy { font-family: var(--font-m); font-size: 11px; color: var(--text-3); }
-    @media (max-width: 640px) { .nav { padding: 0 1.25rem; } .nav-links { display: none; } .page { padding: 2.5rem 1.25rem 4rem; } .page-title { font-size: 28px; } }
+    @media (max-width: 640px) { .nav { padding: 0 1.25rem; } .nav-links { display: none; } .page { padding: 2.5rem 1.25rem 4rem; } .page-title { font-size: 28px; } .data-table { font-size: 12px; } }
   </style>
 </head>
 <body>
 <div class="cursor-dot" id="c-dot"></div>
 <div class="cursor-ring" id="c-ring"></div>
-
 <nav class="nav">
   <a href="index.html" class="logo">stack<span>d</span></a>
   <div class="nav-links">
@@ -66,35 +73,92 @@
 </nav>
 
 <div class="page">
+  <div class="page-eyebrow">Legal</div>
   <h1 class="page-title">Privacy policy</h1>
-  <p class="updated">Last updated: June 2026</p>
-  <p>Stackd ("we", "us", "our") is committed to protecting your personal information. This policy explains what data we collect, how we use it, and your rights.</p>
-  <h2>What we collect</h2>
-  <p>When you use Stackd, we collect your name and email address, deal data you enter manually, your compensation plan details, and basic usage data. We do not collect any data from your employer's systems.</p>
-  <h2>How we use your data</h2>
-  <p>We use your data exclusively to provide the Stackd service. We do not sell your data or share it with your employer or any third party for commercial purposes.</p>
-  <h2>Data security</h2>
-  <p>Your data is stored on Supabase infrastructure with encryption at rest and in transit. Row-level security ensures your data is only accessible to your authenticated account.</p>
-  <h2>Your rights</h2>
-  <p>You have the right to access, correct, or delete all data we hold about you. You can export your data at any time using the CSV export feature. To request deletion, email <a href="mailto:support@wearestackd.net">support@wearestackd.net</a>.</p>
-  <h2>Cookies</h2>
-  <p>We use only essential cookies required for authentication and session management. No advertising or tracking cookies are used.</p>
-  <h2>Third-party services</h2>
-  <p>Stackd uses Supabase (database and auth), Paddle (payments), and Anthropic (AI features). Each has their own privacy policy governing their use of your data.</p>
-  <h2>Contact</h2>
-  <p>Questions? Email <a href="mailto:support@wearestackd.net">support@wearestackd.net</a>.</p>
+  <p class="updated">Last updated: June 2026 · Stackd (wearestackd.net)</p>
+
+  <p><strong>Stackd</strong> ("we", "us", "our") is committed to protecting your personal information. This policy explains what data we collect, how we use it, how long we keep it, and your rights. By using the Service you agree to the practices described here.</p>
+
+  <h2>1. Data we collect</h2>
+  <table class="data-table">
+    <thead><tr><th>Data type</th><th>What it includes</th><th>Why we collect it</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Account data</strong></td><td>Email address, name, password (hashed)</td><td>To create and manage your account</td></tr>
+      <tr><td><strong>Deal & commission data</strong></td><td>Deal names, values, commission rates, gap amounts — all entered manually by you</td><td>To power the core tracking features</td></tr>
+      <tr><td><strong>Compensation plan data</strong></td><td>Quota targets, commission tiers, plan details you enter</td><td>To calculate attainment and gaps</td></tr>
+      <tr><td><strong>Usage data</strong></td><td>Pages visited, features used, login timestamps, browser type, IP address</td><td>To improve the Service and diagnose issues</td></tr>
+      <tr><td><strong>Payment data</strong></td><td>Subscription status and plan tier only — no card numbers</td><td>Card data is held by Paddle, not us</td></tr>
+    </tbody>
+  </table>
+  <p>We do not collect any data from your employer's systems. We do not access your work email, CRM, or any external platform.</p>
+
+  <h2>2. How we use your data</h2>
+  <p>We use your data exclusively to:</p>
+  <ul>
+    <li>Provide, maintain, and improve the Stackd Service</li>
+    <li>Send transactional emails (account confirmation, password reset, billing receipts)</li>
+    <li>Respond to your support requests</li>
+    <li>Detect and prevent fraud or abuse</li>
+    <li>Comply with legal obligations</li>
+  </ul>
+  <p><strong>We do not sell your data.</strong> We do not share your data with your employer, with advertisers, or with any third party for commercial purposes.</p>
+
+  <h2>3. AI features and data handling</h2>
+  <p>When you use AI features (dispute emails, raise requests, STAR answers, etc.), your input is sent to <strong>Anthropic's API</strong> to generate a response. This means Anthropic processes the text you submit as a prompt.</p>
+  <p>We use Anthropic's API under their standard commercial terms. Anthropic states that API inputs and outputs are not used to train their models by default. However, we recommend you do not include sensitive personal identifiers (national ID numbers, passport details, bank account numbers) in your AI prompts. See <a href="https://www.anthropic.com/privacy" target="_blank">Anthropic's Privacy Policy</a> for full details.</p>
+
+  <h2>4. Third-party services</h2>
+  <table class="data-table">
+    <thead><tr><th>Provider</th><th>Purpose</th><th>Data shared</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Supabase</strong></td><td>Database and authentication</td><td>All account and deal data (stored on their infrastructure)</td></tr>
+      <tr><td><strong>Paddle</strong></td><td>Payment processing</td><td>Email, subscription status</td></tr>
+      <tr><td><strong>Anthropic</strong></td><td>AI content generation</td><td>Text you enter into AI prompts</td></tr>
+      <tr><td><strong>Vercel</strong></td><td>Hosting and edge functions</td><td>IP address, request logs</td></tr>
+    </tbody>
+  </table>
+  <p>Each provider operates under their own privacy policy and data processing agreements. We select providers that maintain appropriate security standards.</p>
+
+  <h2>5. Data security</h2>
+  <p>Your data is stored on Supabase infrastructure with encryption at rest (AES-256) and in transit (TLS). Row-level security (RLS) policies ensure your data is only accessible to your authenticated account — no other user can access your deals or compensation data. We do not store plain-text passwords.</p>
+  <p>While we take security seriously, no system is perfectly secure. In the event of a data breach that affects your personal data, we will notify you by email within 72 hours of becoming aware of it.</p>
+
+  <h2>6. Data retention</h2>
+  <p>We retain your data for as long as your account is active. If you delete your account, we will delete your personal data and deal records within <strong>30 days</strong>, except where we are required to retain it by law (for example, billing records which we keep for 7 years for tax purposes). Anonymised, aggregated usage statistics may be retained indefinitely as they cannot identify you.</p>
+
+  <h2>7. Cookies</h2>
+  <p>We use only essential cookies required for authentication and session management. We do not use advertising cookies, tracking pixels, or third-party analytics cookies. A cookie consent notice is shown on first visit — you can dismiss it to accept essential cookies only.</p>
+
+  <h2>8. Your rights</h2>
+  <p>Depending on your location, you may have the following rights regarding your personal data:</p>
+  <ul>
+    <li><strong>Access</strong> — request a copy of the data we hold about you</li>
+    <li><strong>Correction</strong> — ask us to correct inaccurate data</li>
+    <li><strong>Deletion</strong> — request deletion of your account and personal data</li>
+    <li><strong>Export</strong> — download your deal data at any time via the CSV export feature in the app</li>
+    <li><strong>Objection</strong> — object to certain processing of your data</li>
+  </ul>
+  <p>To exercise any of these rights, email <a href="mailto:support@wearestackd.net">support@wearestackd.net</a>. We will respond within 30 days.</p>
+
+  <h2>9. Children</h2>
+  <p>The Service is not directed at children under 18. We do not knowingly collect personal data from anyone under 18. If you believe we have inadvertently collected data from a minor, please contact us immediately and we will delete it.</p>
+
+  <h2>10. Changes to this policy</h2>
+  <p>We may update this policy from time to time. When we do, we will update the "Last updated" date at the top of this page. Continued use of the Service after changes constitutes acceptance of the updated policy. For material changes, we will notify you by email.</p>
+
+  <h2>11. Contact</h2>
+  <p>Questions about this policy or your data? Email <a href="mailto:support@wearestackd.net">support@wearestackd.net</a> and we'll respond within 2 business days.</p>
 </div>
 
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-links">
       <a href="index.html" class="logo" style="font-size:17px;">stack<span style="color:var(--green)">d</span></a>
-      <a href="support.html" class="footer-link">Support</a>
       <a href="terms.html" class="footer-link">Terms</a>
       <a href="refund.html" class="footer-link">Refund Policy</a>
-      <a href="pricing.html" class="footer-link">Pricing</a>
+      <a href="support.html" class="footer-link">Support</a>
     </div>
-    <span class="footer-copy">© 2026 Stackd · Made with honesty, in Amman.</span>
+    <span class="footer-copy">© 2026 Stackd · wearestackd.net</span>
   </div>
 </footer>
 
