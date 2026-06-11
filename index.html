@@ -5,11 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stackd — Your deals. Your numbers. Always clear.</title>
   <meta name="description" content="Stackd tracks every deal you close, calculates what you're owed, and flags commission gaps before payday." />
+  <meta property="og:title" content="Stackd — Your deals. Your numbers. Always clear." />
+  <meta property="og:description" content="The commission tracking tool built for the rep, not the manager." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://wearestackd.net" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300D87F'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='system-ui' font-weight='700' fill='%230A0909'>S</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="landing.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
@@ -24,300 +29,211 @@
     <span></span><span></span><span></span>
   </button>
   <div class="nav-center" id="nav-links">
-    <a href="#features" class="nav-link" onclick="closeNav()">Features</a>
-    <a href="#pricing" class="nav-link" onclick="closeNav()">Pricing</a>
+    <a href="#" class="nav-link" onclick="goToSlide(1);closeNav()">Features</a>
+    <a href="pricing.html" class="nav-link">Pricing</a>
     <a href="support.html" class="nav-link">Support</a>
+    <a href="privacy.html" class="nav-link">Privacy</a>
+    <a href="terms.html" class="nav-link">Terms</a>
+    <a href="refund.html" class="nav-link">Refund Policy</a>
   </div>
   <div class="nav-right" id="nav-right">
     <a href="app.html" class="nav-signin">Sign in</a>
-    <a href="app.html" class="nav-cta">Get started <span>→</span></a>
+    <a href="app.html" class="nav-cta">
+      Get started
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-bg-word" aria-hidden="true">STACK</div>
-  <div class="hero-left">
-    <div class="hero-tag reveal" data-dir="up">
-      <span class="hero-tag-dot"></span>
-      Commission tracking for sales professionals
-    </div>
-    <h1 class="hero-h1">
-      <span class="h1-line reveal" data-dir="left" data-delay="0">Your deals.</span>
-      <span class="h1-line reveal" data-dir="left" data-delay="100">Your numbers.</span>
-      <span class="h1-line h1-green reveal" data-dir="left" data-delay="200">Always clear.</span>
-    </h1>
-    <p class="hero-sub reveal" data-dir="up" data-delay="300">
-      Most sales reps are underpaid and don't know it.<br>
-      Stackd shows you exactly what you're owed — and what you're missing.
-    </p>
-    <div class="hero-actions reveal" data-dir="up" data-delay="400">
-      <a href="app.html" class="btn-primary-hero">
-        <span>Start for free</span>
-        <span class="btn-arrow">→</span>
-      </a>
-      <a href="#pricing" class="btn-outline-hero">See pricing</a>
-    </div>
-    <div class="hero-proof reveal" data-dir="up" data-delay="500">
-      <span class="proof-item">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        7-day guarantee
-      </span>
-      <span class="proof-div"></span>
-      <span class="proof-item">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
-        Free to start
-      </span>
-      <span class="proof-div"></span>
-      <span class="proof-item">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="2" y="5" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 5V3.5a2 2 0 014 0V5" stroke="currentColor" stroke-width="1"/></svg>
-        Private &amp; secure
-      </span>
-    </div>
-  </div>
-  <div class="hero-right reveal" data-dir="right" data-delay="150">
-    <div class="dash-float">
-      <div class="dash-glow"></div>
-      <div class="dash-card">
-        <div class="dash-bar">
-          <div class="dash-dots"><span class="dd red"></span><span class="dd amber"></span><span class="dd green"></span></div>
-          <span class="dash-url">wearestackd.net</span>
+<!-- SLIDE TRACK -->
+<div class="slide-track" id="slide-track">
+
+  <!-- SLIDE 1: HERO -->
+  <section class="slide" id="slide-0">
+    <div class="hero-bg-text" aria-hidden="true">STACK</div>
+    <div class="hero-content">
+      <div class="hero-tag reveal" data-dir="up">
+        <span class="hero-tag-dot"></span>
+        Commission tracking for sales professionals
+      </div>
+      <h1 class="hero-h1">
+        <span class="h1-line reveal" data-dir="left" data-delay="0">Your deals.</span>
+        <span class="h1-line reveal" data-dir="left" data-delay="100">Your numbers.</span>
+        <span class="h1-line h1-accent reveal" data-dir="left" data-delay="200">Always clear.</span>
+      </h1>
+      <p class="hero-sub reveal" data-dir="up" data-delay="300">
+        Most sales reps are underpaid and don't know it.<br>
+        Stackd shows you exactly what you're owed — and what you're missing.
+      </p>
+      <p class="hero-descriptor reveal" data-dir="up" data-delay="350">
+        Stackd is a commission and earnings tracking platform for BDRs, SDRs and sales professionals. Track performance, commission payouts, quotas, disputes and sales metrics.
+      </p>
+      <div class="hero-actions reveal" data-dir="up" data-delay="400">
+        <a href="app.html" class="cta-primary">
+          <span>Start for free</span>
+          <span class="cta-arrow">→</span>
+        </a>
+        <a href="pricing.html" class="cta-secondary">See pricing</a>
+      </div>
+      <div class="hero-proof reveal" data-dir="up" data-delay="500">
+        <div class="proof-item">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          7-day guarantee
         </div>
-        <div class="dash-body">
-          <div class="dash-metrics">
-            <div class="dmetric"><div class="dm-label">Expected</div><div class="dm-val green" data-count="4820">$0</div><div class="dm-delta up">+12%</div></div>
-            <div class="dmetric"><div class="dm-label">Received</div><div class="dm-val" data-count="4480">$0</div><div class="dm-delta warn">pending</div></div>
-            <div class="dmetric"><div class="dm-label">Gap</div><div class="dm-val orange" data-count="340">$0</div><div class="dm-delta danger">disputed</div></div>
-          </div>
-          <div class="dash-quota">
-            <div class="dq-labels"><span>Quota attainment</span><span class="green">68%</span></div>
-            <div class="dq-track"><div class="dq-fill" id="dq-fill"></div></div>
-          </div>
-          <div class="dash-alert">
-            <div class="da-pulse"></div>
-            <div class="da-body">
-              <div class="da-title">Gap detected — F&amp;B Q2</div>
-              <div class="da-sub">$320 shortfall · AI draft ready</div>
-            </div>
-            <span class="da-arrow">→</span>
-          </div>
-          <div class="dash-deals">
-            <div class="ddeal"><span class="ddeal-name">Marriott MENA expansion</span><span class="dbadge closed">Closed</span></div>
-            <div class="ddeal"><span class="ddeal-name">Corporate travel block</span><span class="dbadge pending">Pending</span></div>
-            <div class="ddeal"><span class="ddeal-name">F&amp;B partnership Q2</span><span class="dbadge disputed">Disputed</span><span class="dgap">-$320</span></div>
-          </div>
+        <div class="proof-divider"></div>
+        <div class="proof-item">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1"/><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+          Free to start
+        </div>
+        <div class="proof-divider"></div>
+        <div class="proof-item">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="2" y="5" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1"/><path d="M4 5V3.5a2 2 0 014 0V5" stroke="currentColor" stroke-width="1"/></svg>
+          Private &amp; secure
         </div>
       </div>
     </div>
-  </div>
-</section>
+    <div class="hero-visual reveal" data-dir="right" data-delay="200">
+      <div id="hero-3d-canvas" class="hero-3d-canvas"></div>
+    </div>
+    <div class="slide-indicator">
+      <span class="slide-num">01</span><span class="slide-sep">/</span><span class="slide-total">04</span>
+    </div>
+  </section>
 
-<!-- STATS BAR -->
-<div class="stats-bar reveal" data-dir="up">
-  <div class="stats-inner">
-    <div class="stat-item"><span class="stat-num" data-count="2400000" data-format="money">$0</span><span class="stat-lbl">in gaps detected</span></div>
-    <div class="stat-div"></div>
-    <div class="stat-item"><span class="stat-num" data-count="98" data-format="pct">0</span><span class="stat-lbl">commission accuracy</span></div>
-    <div class="stat-div"></div>
-    <div class="stat-item"><span class="stat-num" data-count="30" data-format="sec">0</span><span class="stat-lbl">to log a deal</span></div>
-    <div class="stat-div"></div>
-    <div class="stat-item"><span class="stat-num" data-count="3" data-format="plain">0</span><span class="stat-lbl">AI tools built in</span></div>
-  </div>
+  <!-- SLIDE 2: FEATURES -->
+  <section class="slide slide-features" id="slide-1">
+    <div class="slide-section-tag">What Stackd does</div>
+    <h2 class="slide-h2">Every tool in your stack<br>was built for <em>your manager.</em><br><span class="text-green">This one's for you.</span></h2>
+    <div class="features-bento">
+      <div class="fb-card fb-large reveal" data-dir="left">
+        <div class="fb-num">01</div>
+        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="14" width="4" height="7" rx="1" fill="currentColor" opacity=".4"/><rect x="10" y="9" width="4" height="12" rx="1" fill="currentColor" opacity=".7"/><rect x="17" y="4" width="4" height="17" rx="1" fill="currentColor"/></svg></div>
+        <h3 class="fb-title">Deal tracking</h3>
+        <p class="fb-desc">Log every deal as you close it. Your personal source of truth that lives outside your company's systems.</p>
+        <div class="fb-stat"><span class="fb-stat-num">30s</span><span class="fb-stat-label">to log a deal</span></div>
+      </div>
+      <div class="fb-card reveal" data-dir="up" data-delay="100">
+        <div class="fb-num">02</div>
+        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3 class="fb-title">Gap detection</h3>
+        <p class="fb-desc">Stackd compares what you're owed against what landed. Discrepancies surface instantly.</p>
+      </div>
+      <div class="fb-card fb-tall reveal" data-dir="up" data-delay="150">
+        <div class="fb-num">03</div>
+        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h6M8 17h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3 class="fb-title">AI dispute emails</h3>
+        <p class="fb-desc">One click. Claude writes a professional dispute email that gets results — not one that gets you fired.</p>
+        <div class="fb-lines"><div class="fb-line"></div><div class="fb-line short"></div><div class="fb-line medium"></div><div class="fb-line short"></div></div>
+      </div>
+      <div class="fb-card reveal" data-dir="up" data-delay="200">
+        <div class="fb-num">04</div>
+        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 5-6 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3 class="fb-title">Quota attainment</h3>
+        <p class="fb-desc">Always know where you stand. Never be surprised at review time.</p>
+      </div>
+      <div class="fb-card fb-large reveal" data-dir="right" data-delay="100">
+        <div class="fb-num">05</div>
+        <div class="fb-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M4 21c0-5 3.58-8 8-8s8 3 8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3 class="fb-title">Career coaching</h3>
+        <p class="fb-desc">Interview prep, STAR answers, LinkedIn rewrites, salary scripts. Your deal history becomes career ammunition.</p>
+        <div class="fb-badges"><span class="fb-badge">Interview coach</span><span class="fb-badge">STAR answers</span><span class="fb-badge">LinkedIn audit</span></div>
+      </div>
+    </div>
+    <div class="slide-indicator"><span class="slide-num">02</span><span class="slide-sep">/</span><span class="slide-total">04</span></div>
+  </section>
+
+  <!-- SLIDE 3: CALCULATOR -->
+  <section class="slide slide-calculator" id="slide-2">
+    <div class="calc-slide-left reveal" data-dir="left">
+      <div class="slide-section-tag">Live calculator</div>
+      <h2 class="slide-h2">How much are you<br><span class="text-orange">actually owed?</span></h2>
+      <p class="calc-sub">Type in your numbers. See the truth in real time.</p>
+      <div class="calc-inputs">
+        <div class="calc-field">
+          <label class="calc-label">Deal value</label>
+          <div class="calc-input-wrap"><span class="calc-prefix">$</span><input type="number" id="calc-value" class="calc-input" value="20000" oninput="updateCalc()"></div>
+        </div>
+        <div class="calc-field">
+          <label class="calc-label">Commission rate</label>
+          <div class="calc-input-wrap"><input type="number" id="calc-rate" class="calc-input" value="8" oninput="updateCalc()"><span class="calc-suffix">%</span></div>
+        </div>
+        <div class="calc-field">
+          <label class="calc-label">Deals per month</label>
+          <div class="calc-input-wrap"><input type="number" id="calc-deals" class="calc-input" value="4" oninput="updateCalc()"></div>
+        </div>
+      </div>
+    </div>
+    <div class="calc-slide-right reveal" data-dir="right">
+      <div class="calc-result-card">
+        <div class="calc-result-row"><span class="calc-result-label">Monthly expected</span><span class="calc-result-val hm-green" id="calc-monthly">$6,400</span></div>
+        <div class="calc-result-row"><span class="calc-result-label">Annual expected</span><span class="calc-result-val hm-green" id="calc-annual">$76,800</span></div>
+        <div class="calc-result-divider"></div>
+        <div class="calc-result-row"><span class="calc-result-label">Typical gap (8%)</span><span class="calc-result-val hm-orange" id="calc-gap-month">$512</span></div>
+        <div class="calc-result-row big"><span class="calc-result-label">You could be losing annually</span><span class="calc-result-val hm-orange big" id="calc-gap-year">$6,144</span></div>
+        <a href="app.html" class="calc-cta">Track it with Stackd — free</a>
+      </div>
+    </div>
+    <div class="slide-indicator"><span class="slide-num">03</span><span class="slide-sep">/</span><span class="slide-total">04</span></div>
+  </section>
+
+  <!-- SLIDE 4: FINAL CTA -->
+  <section class="slide slide-cta" id="slide-3">
+    <div class="final-cta-bg" aria-hidden="true">STACKD</div>
+    <div class="final-cta-content reveal" data-dir="up">
+      <div class="slide-section-tag">One last thing</div>
+      <h2 class="final-h2">Your company tracks<br>everything you do.</h2>
+      <p class="final-sub">It's time you tracked what they owe you.</p>
+      <a href="app.html" class="final-btn"><span>Start tracking — it's free</span><span class="final-btn-arrow">→</span></a>
+      <p class="final-proof">No credit card &nbsp;&middot;&nbsp; 7-day guarantee &nbsp;&middot;&nbsp; Cancel anytime</p>
+      <div class="final-links">
+        <a href="pricing.html" class="final-link">Pricing →</a>
+        <a href="support.html" class="final-link">Support →</a>
+        <a href="privacy.html" class="final-link">Privacy →</a>
+        <a href="terms.html" class="final-link">Terms →</a>
+        <a href="refund.html" class="final-link">Refund Policy →</a>
+      </div>
+    </div>
+    <div class="slide-indicator"><span class="slide-num">04</span><span class="slide-sep">/</span><span class="slide-total">04</span></div>
+  </section>
+
+</div><!-- end slide-track -->
+
+<button class="slide-nav slide-nav-prev" id="slide-prev" onclick="prevSlide()" aria-label="Previous">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="slide-nav slide-nav-next" id="slide-next" onclick="nextSlide()" aria-label="Next">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="slide-dots" id="slide-dots">
+  <button class="slide-dot active" onclick="goToSlide(0)"></button>
+  <button class="slide-dot" onclick="goToSlide(1)"></button>
+  <button class="slide-dot" onclick="goToSlide(2)"></button>
+  <button class="slide-dot" onclick="goToSlide(3)"></button>
 </div>
 
-<!-- FEATURES -->
-<section class="features-section" id="features">
-  <div class="features-head reveal" data-dir="up">
-    <div class="section-tag">What Stackd does</div>
-    <h2 class="section-h2">Every tool in your stack<br>was built for your manager.<br><em>This one's for you.</em></h2>
-  </div>
-  <div class="features-row">
-    <div class="feat-card feat-lg reveal" data-dir="left">
-      <div class="feat-num">01</div>
-      <svg class="feat-ico" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="13" width="4" height="8" rx="1" fill="currentColor" opacity=".4"/><rect x="10" y="8" width="4" height="13" rx="1" fill="currentColor" opacity=".7"/><rect x="18" y="2" width="4" height="19" rx="1" fill="currentColor"/></svg>
-      <h3 class="feat-title">Deal tracking</h3>
-      <p class="feat-desc">Log every deal as you close it. Value, client, commission rate. Your personal source of truth outside your company's systems.</p>
-      <div class="feat-stat"><span class="feat-stat-n">30s</span><span class="feat-stat-l">to log a deal</span></div>
-    </div>
-    <div class="feat-card reveal" data-dir="up" data-delay="80">
-      <div class="feat-num">02</div>
-      <svg class="feat-ico" width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <h3 class="feat-title">Gap detection</h3>
-      <p class="feat-desc">Stackd compares what you're owed against what landed in your account. Discrepancies surface instantly — before payday.</p>
-    </div>
-    <div class="feat-card feat-tall reveal" data-dir="up" data-delay="120">
-      <div class="feat-num">03</div>
-      <svg class="feat-ico" width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 8h10M7 12h7M7 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <h3 class="feat-title">AI dispute emails</h3>
-      <p class="feat-desc">One click. Claude reads your gap and writes a professional, measured message — factual, not emotional. Gets results without burning bridges.</p>
-      <div class="feat-lines"><div class="fl"></div><div class="fl short"></div><div class="fl med"></div><div class="fl short"></div></div>
-    </div>
-    <div class="feat-card reveal" data-dir="up" data-delay="160">
-      <div class="feat-num">04</div>
-      <svg class="feat-ico" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 18l5-5 4 4 5-6 4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <h3 class="feat-title">Quota attainment</h3>
-      <p class="feat-desc">Always know where you stand. Never be surprised at review time.</p>
-    </div>
-    <div class="feat-card feat-lg reveal" data-dir="right" data-delay="80">
-      <div class="feat-num">05</div>
-      <svg class="feat-ico" width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <h3 class="feat-title">Career coaching</h3>
-      <p class="feat-desc">Interview prep, STAR answers, LinkedIn rewrites, salary negotiation scripts. Your deal history becomes your career ammunition.</p>
-      <div class="feat-badges">
-        <span class="fbadge">Interview coach</span>
-        <span class="fbadge">STAR answers</span>
-        <span class="fbadge">LinkedIn audit</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CALCULATOR -->
-<section class="calc-section" id="calculator">
-  <div class="calc-inner">
-    <div class="calc-left reveal" data-dir="left">
-      <div class="section-tag">Live calculator</div>
-      <h2 class="section-h2 left">How much are<br>you <span class="text-orange">actually owed?</span></h2>
-      <p class="calc-sub">Type your numbers. See the truth instantly.</p>
-      <div class="calc-fields">
-        <div class="cfield">
-          <label class="clabel">Deal value</label>
-          <div class="cinput-wrap"><span class="cpre">$</span><input type="number" id="cv" class="cinput" value="20000" oninput="calcUpdate()"></div>
-        </div>
-        <div class="cfield">
-          <label class="clabel">Commission rate</label>
-          <div class="cinput-wrap"><input type="number" id="cr" class="cinput" value="8" oninput="calcUpdate()"><span class="csuf">%</span></div>
-        </div>
-        <div class="cfield">
-          <label class="clabel">Deals per month</label>
-          <div class="cinput-wrap"><input type="number" id="cd" class="cinput" value="4" oninput="calcUpdate()"></div>
-        </div>
-      </div>
-    </div>
-    <div class="calc-right reveal" data-dir="right">
-      <div class="calc-result">
-        <div class="cr-row"><span class="cr-lbl">Monthly expected</span><span class="cr-val green" id="c-monthly">$6,400</span></div>
-        <div class="cr-row"><span class="cr-lbl">Annual expected</span><span class="cr-val green" id="c-annual">$76,800</span></div>
-        <div class="cr-divider"></div>
-        <div class="cr-row"><span class="cr-lbl">Typical gap (8%)</span><span class="cr-val orange" id="c-gapmo">$512</span></div>
-        <div class="cr-row big"><span class="cr-lbl">Potentially losing annually</span><span class="cr-val orange big" id="c-gapyr">$6,144</span></div>
-        <a href="app.html" class="calc-cta">Track it with Stackd — it's free</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how-section">
-  <div class="how-inner">
-    <div class="how-head reveal" data-dir="up">
-      <div class="section-tag">How it works</div>
-      <h2 class="section-h2">Four steps.<br><span class="text-green">Zero confusion.</span></h2>
-    </div>
-    <div class="how-steps">
-      <div class="hstep reveal" data-dir="left">
-        <div class="hstep-num">01</div>
-        <div class="hstep-body"><h3 class="hstep-title">Set up your comp plan</h3><p class="hstep-desc">Enter your commission rate and quota once. Stackd calculates everything from there. Under two minutes.</p></div>
-      </div>
-      <div class="hstep reveal" data-dir="right" data-delay="80">
-        <div class="hstep-num">02</div>
-        <div class="hstep-body"><h3 class="hstep-title">Log deals as you close them</h3><p class="hstep-desc">30 seconds per deal. Client, value, status. Separate from anything your company controls.</p></div>
-      </div>
-      <div class="hstep reveal" data-dir="left" data-delay="120">
-        <div class="hstep-num">03</div>
-        <div class="hstep-body"><h3 class="hstep-title">Watch for gaps</h3><p class="hstep-desc">Stackd flags the moment your received commission doesn't match what you're owed. You'll know before payday.</p></div>
-      </div>
-      <div class="hstep reveal" data-dir="right" data-delay="160">
-        <div class="hstep-num">04</div>
-        <div class="hstep-body"><h3 class="hstep-title">Act with confidence</h3><p class="hstep-desc">Walk into every payout conversation with receipts. Use the AI to draft your dispute. Own the room.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing-section" id="pricing">
-  <div class="pricing-inner">
-    <div class="pricing-head reveal" data-dir="up">
-      <div class="section-tag">Pricing</div>
-      <h2 class="section-h2">Straightforward.<br><span class="text-green">Like your commission should be.</span></h2>
-      <div class="guar-row reveal" data-dir="up" data-delay="80">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1L8 4.5h3.5L9 6.5l1 3.5-3.5-2-3.5 2 1-3.5L1.5 4.5H5z" stroke="currentColor" stroke-width="1" fill="none"/></svg>
-        7-day money back guarantee — no questions asked
-      </div>
-    </div>
-    <div class="plans">
-      <div class="plan reveal" data-dir="up" data-delay="80">
-        <div class="plan-name">Free</div>
-        <div class="plan-price">$0<span>/mo</span></div>
-        <p class="plan-desc">Get started and validate your numbers.</p>
-        <ul class="plan-feats">
-          <li><span class="pf-dot"></span>Up to 5 deals/month</li>
-          <li><span class="pf-dot"></span>Gap detection</li>
-          <li><span class="pf-dot"></span>Quota tracker</li>
-          <li><span class="pf-dot"></span>Basic dashboard</li>
-        </ul>
-        <a href="app.html" class="plan-btn plan-btn-out">Get started</a>
-      </div>
-      <div class="plan plan-feat reveal" data-dir="up" data-delay="140">
-        <div class="plan-glow"></div>
-        <div class="plan-badge">Most popular</div>
-        <div class="plan-name">Pro</div>
-        <div class="plan-price">$19<span>/mo</span></div>
-        <p class="plan-desc">For reps serious about every dollar they've earned.</p>
-        <ul class="plan-feats">
-          <li><span class="pf-dot green"></span>Unlimited deals</li>
-          <li><span class="pf-dot green"></span>AI dispute emails</li>
-          <li><span class="pf-dot green"></span>AI raise requests</li>
-          <li><span class="pf-dot green"></span>Performance reports</li>
-          <li><span class="pf-dot green"></span>CSV export</li>
-          <li><span class="pf-dot green"></span>Priority support</li>
-        </ul>
-        <a href="app.html" class="plan-btn plan-btn-green" onclick="localStorage.setItem('upgrade_intent','pro')">Subscribe to Pro</a>
-      </div>
-      <div class="plan reveal" data-dir="up" data-delay="200">
-        <div class="plan-name">Career</div>
-        <div class="plan-price">$29<span>/mo</span></div>
-        <p class="plan-desc">Everything in Pro plus tools to build your next move.</p>
-        <ul class="plan-feats">
-          <li><span class="pf-dot violet"></span>Everything in Pro</li>
-          <li><span class="pf-dot violet"></span>AI interview coach</li>
-          <li><span class="pf-dot violet"></span>STAR answer generator</li>
-          <li><span class="pf-dot violet"></span>LinkedIn profile audit</li>
-          <li><span class="pf-dot violet"></span>Salary negotiation scripts</li>
-        </ul>
-        <a href="app.html" class="plan-btn plan-btn-violet" onclick="localStorage.setItem('upgrade_intent','career')">Subscribe to Career</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="final-section">
-  <div class="final-bg-word" aria-hidden="true">STACKD</div>
-  <div class="final-content reveal" data-dir="up">
-    <div class="section-tag">One last thing</div>
-    <h2 class="final-h2">Your company tracks<br>everything you do.</h2>
-    <p class="final-sub">It's time you tracked what they owe you.</p>
-    <a href="app.html" class="final-btn">
-      <span>Start tracking — it's free</span>
-      <span class="final-arr">→</span>
-    </a>
-    <p class="final-proof">No credit card &nbsp;&middot;&nbsp; 7-day guarantee &nbsp;&middot;&nbsp; Cancel anytime</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
+<footer class="footer" id="page-footer">
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="index.html" class="logo">stack<span>d</span></a>
-      <p class="footer-tag">Built for the rep.</p>
+      <p class="footer-tagline">Built for the rep.</p>
       <p class="footer-made">Made with honesty, in Amman.</p>
     </div>
     <div class="footer-cols">
-      <div class="fcol"><div class="fcol-title">Product</div><a href="#features" class="flink">Features</a><a href="#pricing" class="flink">Pricing</a><a href="#calculator" class="flink">Calculator</a><a href="app.html" class="flink">Sign in</a></div>
-      <div class="fcol"><div class="fcol-title">Company</div><a href="support.html" class="flink">Support</a><a href="privacy.html" class="flink">Privacy</a><a href="terms.html" class="flink">Terms</a></div>
+      <div class="footer-col">
+        <div class="footer-col-title">Product</div>
+        <a href="#" onclick="goToSlide(1)" class="footer-link">Features</a>
+        <a href="pricing.html" class="footer-link">Pricing</a>
+        <a href="#" onclick="goToSlide(2)" class="footer-link">Calculator</a>
+        <a href="app.html" class="footer-link">Sign in</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Company</div>
+        <a href="support.html" class="footer-link">Support</a>
+        <a href="privacy.html" class="footer-link">Privacy</a>
+        <a href="terms.html" class="footer-link">Terms</a>
+        <a href="refund.html" class="footer-link">Refund Policy</a>
+      </div>
     </div>
   </div>
   <div class="footer-bottom">
@@ -332,242 +248,277 @@
 </div>
 
 <script>
-try {
-// CURSOR
-const dot = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
-let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-(function tick() {
-  dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
-  rx += (mx-rx)*0.1; ry += (my-ry)*0.1;
-  ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
-  requestAnimationFrame(tick);
-})();
-document.querySelectorAll('a,button,input').forEach(el => {
-  el.addEventListener('mouseenter', () => { ring.classList.add('ring-hover'); dot.classList.add('dot-hover'); });
-  el.addEventListener('mouseleave', () => { ring.classList.remove('ring-hover'); dot.classList.remove('dot-hover'); });
-});
+/* SLIDE SYSTEM */
+let currentSlide = 0
+const totalSlides = 4
 
-// CANVAS — fixed, viewport only, no scroll dependency
-const canvas = document.getElementById('bg-canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-window.addEventListener('resize', () => { canvas.width = innerWidth; canvas.height = innerHeight; });
-
-const NPTS = 130;
-const pts = Array.from({length: NPTS}, () => ({
-  x: Math.random() * innerWidth,
-  y: Math.random() * innerHeight,
-  vx: (Math.random()-.5)*.35,
-  vy: -(Math.random()*.4+.1),
-  r: Math.random()*1.6+.3,
-  phase: Math.random()*Math.PI*2,
-  green: Math.random()>.65,
-  orange: Math.random()>.92
-}));
-
-let t = 0;
-(function frame() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  const W = canvas.width, H = canvas.height;
-  const cell = 54;
-  ctx.lineWidth = .5;
-  // Grid
-  for (let x=0; x<W; x+=cell) {
-    ctx.strokeStyle = (x%(cell*4)<1) ? 'rgba(0,216,127,0.055)' : 'rgba(255,255,255,0.04)';
-    ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke();
-  }
-  for (let y=0; y<H; y+=cell) {
-    ctx.strokeStyle = (y%(cell*4)<1) ? 'rgba(0,216,127,0.055)' : 'rgba(255,255,255,0.04)';
-    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
-  }
-  // Intersection dots
-  ctx.fillStyle = 'rgba(0,216,127,0.09)';
-  for (let x=0; x<W; x+=cell*4) for (let y=0; y<H; y+=cell*4) { ctx.beginPath(); ctx.arc(x,y,1.6,0,Math.PI*2); ctx.fill(); }
-  // Particles
-  pts.forEach(p => {
-    p.x+=p.vx; p.y+=p.vy; p.phase+=.015;
-    if(p.y<-10){ p.y=H+5; p.x=Math.random()*W; }
-    if(p.x<-10||p.x>W+10) p.x=Math.random()*W;
-    const op = (Math.sin(p.phase)*.18+.3)*(p.green?1:.4);
-    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle = p.orange?`rgba(255,107,53,${op})`:p.green?`rgba(0,216,127,${op})`:`rgba(255,255,255,${op})`;
-    ctx.fill();
-  });
-  // Multi-layer vignette — no hard edges
-  // Layer 1: radial center-out, very large radius
-  const g = ctx.createRadialGradient(W*.5,H*.5,H*.05,W*.5,H*.5,W*1.1);
-  g.addColorStop(0,   'rgba(10,9,9,0)');
-  g.addColorStop(0.45,'rgba(10,9,9,0)');
-  g.addColorStop(0.72,'rgba(10,9,9,0.18)');
-  g.addColorStop(0.88,'rgba(10,9,9,0.52)');
-  g.addColorStop(1,   'rgba(10,9,9,0.82)');
-  ctx.fillStyle = g;
-  ctx.fillRect(0,0,W,H);
-  // Layer 2: top edge fade
-  const gt = ctx.createLinearGradient(0,0,0,H*0.18);
-  gt.addColorStop(0,'rgba(10,9,9,0.65)');
-  gt.addColorStop(1,'rgba(10,9,9,0)');
-  ctx.fillStyle = gt; ctx.fillRect(0,0,W,H*0.18);
-  // Layer 3: bottom edge fade
-  const gb = ctx.createLinearGradient(0,H*0.82,0,H);
-  gb.addColorStop(0,'rgba(10,9,9,0)');
-  gb.addColorStop(1,'rgba(10,9,9,0.75)');
-  ctx.fillStyle = gb; ctx.fillRect(0,H*0.82,W,H*0.18);
-  // Layer 4: left edge fade
-  const gl = ctx.createLinearGradient(0,0,W*0.14,0);
-  gl.addColorStop(0,'rgba(10,9,9,0.7)');
-  gl.addColorStop(1,'rgba(10,9,9,0)');
-  ctx.fillStyle = gl; ctx.fillRect(0,0,W*0.14,H);
-  // Layer 5: right edge fade
-  const gr = ctx.createLinearGradient(W*0.86,0,W,0);
-  gr.addColorStop(0,'rgba(10,9,9,0)');
-  gr.addColorStop(1,'rgba(10,9,9,0.7)');
-  ctx.fillStyle = gr; ctx.fillRect(W*0.86,0,W*0.14,H);
-  t+=.01;
-  requestAnimationFrame(frame);
-})();
-
-// QUOTA BAR
-setTimeout(() => { const b = document.getElementById('dq-fill'); if(b) b.style.width='68%'; }, 800);
-
-// COUNTER
-function animCount(el) {
-  const target = parseInt(el.dataset.count);
-  const fmt = el.dataset.format;
-  const dur = 1600, s = Date.now();
-  (function run() {
-    const p = Math.min((Date.now()-s)/dur,1);
-    const e = 1-Math.pow(1-p,3);
-    const v = Math.floor(e*target);
-    if(fmt==='money') el.textContent = v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+v.toLocaleString();
-    else if(fmt==='pct') el.textContent = v+'%';
-    else if(fmt==='sec') el.textContent = v+'s';
-    else el.textContent = v;
-    if(p<1) requestAnimationFrame(run);
-  })();
+function goToSlide(index, animate) {
+  if(animate===undefined) animate=true
+  const track = document.getElementById('slide-track')
+  const footer = document.getElementById('page-footer')
+  if(!track) return
+  currentSlide = Math.max(0, Math.min(index, totalSlides-1))
+  track.style.transition = animate ? 'transform 0.75s cubic-bezier(0.77,0,0.175,1)' : 'none'
+  track.style.transform = 'translateX(-' + (currentSlide * 100) + 'vw)'
+  document.querySelectorAll('.slide-dot').forEach(function(d,i){ d.classList.toggle('active', i===currentSlide) })
+  var prev = document.getElementById('slide-prev')
+  var next = document.getElementById('slide-next')
+  if(prev){ prev.style.opacity = currentSlide===0?'0':'1'; prev.style.pointerEvents = currentSlide===0?'none':'auto' }
+  if(next){ next.style.opacity = currentSlide===totalSlides-1?'0':'1'; next.style.pointerEvents = currentSlide===totalSlides-1?'none':'auto' }
+  if(footer) footer.style.display = currentSlide===totalSlides-1 ? 'block' : 'none'
+  var nav = document.getElementById('main-nav')
+  if(nav) nav.classList.toggle('scrolled', currentSlide>0)
+  setTimeout(function(){ triggerReveals(currentSlide) }, animate ? 400 : 50)
 }
-const cobs = new IntersectionObserver(ents => {
-  ents.forEach(e => { if(e.isIntersecting) { e.target.querySelectorAll('[data-count]').forEach(animCount); cobs.unobserve(e.target); }});
-},{threshold:.3});
-document.querySelectorAll('.stats-bar,.dash-metrics').forEach(el=>cobs.observe(el));
 
-// BIDIRECTIONAL REVEAL
-const robs = new IntersectionObserver(ents => {
-  ents.forEach(e => {
-    if(e.isIntersecting) {
-      const d = parseInt(e.target.dataset.delay||0);
-      setTimeout(()=>e.target.classList.add('visible'),d);
-      e.target.classList.remove('was-visible');
-    } else {
-      const rect = e.target.getBoundingClientRect();
-      if(rect.top < 0) { // scrolled past going up — retract
-        e.target.classList.remove('visible');
-        e.target.classList.add('was-visible');
-      } else { // not yet visible coming down
-        e.target.classList.remove('visible');
-        e.target.classList.remove('was-visible');
-      }
-    }
-  });
-},{threshold:.1, rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>robs.observe(el));
+function nextSlide() { goToSlide(currentSlide+1) }
+function prevSlide() { goToSlide(currentSlide-1) }
 
-// CALCULATOR
-function calcUpdate() {
-  const v = parseFloat(document.getElementById('cv').value)||0;
-  const r = parseFloat(document.getElementById('cr').value)||0;
-  const d = parseFloat(document.getElementById('cd').value)||0;
-  const mo = v*(r/100)*d, yr = mo*12, gmo = mo*.08, gyr = gmo*12;
-  const fmt = n => '$'+Math.round(n).toLocaleString();
-  document.getElementById('c-monthly').textContent = fmt(mo);
-  document.getElementById('c-annual').textContent = fmt(yr);
-  document.getElementById('c-gapmo').textContent = fmt(gmo);
-  document.getElementById('c-gapyr').textContent = fmt(gyr);
-}
-calcUpdate();
-
-// RIPPLE
-document.querySelectorAll('a,button').forEach(el => {
-  el.addEventListener('click', e => {
-    const s = window.getComputedStyle(el);
-    if(s.position==='static') el.style.position='relative';
-    el.style.overflow='hidden';
-    const rip = document.createElement('span');
-    rip.className = 'ripple';
-    const rect = el.getBoundingClientRect();
-    const sz = Math.max(rect.width,rect.height)*2.2;
-    rip.style.cssText=`width:${sz}px;height:${sz}px;left:${e.clientX-rect.left-sz/2}px;top:${e.clientY-rect.top-sz/2}px`;
-    el.appendChild(rip);
-    setTimeout(()=>rip.remove(),650);
-  });
-  el.addEventListener('mousedown',()=>{ el.style.transform='scale(0.96)'; });
-  el.addEventListener('mouseup',()=>{ el.style.transform=''; });
-  el.addEventListener('mouseleave',()=>{ el.style.transform=''; });
-});
-
-// NAV
-window.addEventListener('scroll',()=>{ document.getElementById('main-nav').classList.toggle('scrolled',scrollY>30); });
 function toggleNav() {
-  document.getElementById('nav-links').classList.toggle('open');
-  document.getElementById('nav-right').classList.toggle('open');
-  document.getElementById('nav-toggle').classList.toggle('open');
+  document.getElementById('nav-links').classList.toggle('open')
+  document.getElementById('nav-right').classList.toggle('open')
+  document.getElementById('nav-toggle').classList.toggle('open')
 }
 function closeNav() {
-  ['nav-links','nav-right','nav-toggle'].forEach(id=>document.getElementById(id).classList.remove('open'));
+  document.getElementById('nav-links').classList.remove('open')
+  document.getElementById('nav-right').classList.remove('open')
+  document.getElementById('nav-toggle').classList.remove('open')
 }
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
-  });
-});
+function acceptCookies() {
+  document.getElementById('cookie-bar').style.display='none'
+  localStorage.setItem('stackd-cookies','1')
+}
 
-// FEATURE CARD 3D TILT + GLOW + Z-LIFT
+/* CURSOR */
+const dot = document.getElementById('cursor-dot')
+const ring = document.getElementById('cursor-ring')
+let mx = window.innerWidth/2, my = window.innerHeight/2
+let rx = mx, ry = my
+
+if(dot && ring) {
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY })
+  function animateCursor() {
+    dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`
+    rx += (mx-rx)*0.1; ry += (my-ry)*0.1
+    ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`
+    requestAnimationFrame(animateCursor)
+  }
+  animateCursor()
+  document.querySelectorAll('a,button,input').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.classList.add('ring-hover'); dot.classList.add('dot-hover') })
+    el.addEventListener('mouseleave', () => { ring.classList.remove('ring-hover'); dot.classList.remove('dot-hover') })
+  })
+}
+
+try {
+
+/* CANVAS */
+const canvas = document.getElementById('bg-canvas')
+const ctx = canvas.getContext('2d')
+let W = window.innerWidth, H = window.innerHeight
+
+function resizeCanvas() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight }
+resizeCanvas()
+window.addEventListener('resize', () => { resizeCanvas(); goToSlide(currentSlide, false) })
+
+const PTS = 140
+const pts = Array.from({length:PTS}, () => ({
+  x: Math.random()*W*4, y: Math.random()*H,
+  vx: (Math.random()-0.5)*0.35, vy: -(Math.random()*0.4+0.1),
+  r: Math.random()*1.6+0.3, a: Math.random(),
+  phase: Math.random()*Math.PI*2,
+  green: Math.random()>0.65, orange: Math.random()>0.92
+}))
+
+const FLOW_LINES = Array.from({length:5}, (_,i) => ({
+  y: H * (0.15 + i*0.18), amp: 30+Math.random()*50,
+  speed: 0.0003+Math.random()*0.0004, phase: i*Math.PI*0.4, green: i%3===0
+}))
+
+let t = 0
+
+function drawBg() {
+  ctx.clearRect(0,0,W,H)
+  t += 0.01
+  const cell = 54
+  ctx.lineWidth = 0.5
+  for(let x=0; x<W; x+=cell) {
+    ctx.strokeStyle = x%(cell*4)===0 ? 'rgba(0,216,127,0.055)' : 'rgba(255,255,255,0.042)'
+    ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke()
+  }
+  for(let y=0; y<H; y+=cell) {
+    ctx.strokeStyle = y%(cell*4)===0 ? 'rgba(0,216,127,0.055)' : 'rgba(255,255,255,0.042)'
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke()
+  }
+  for(let x=0; x<W; x+=cell*4) {
+    for(let y=0; y<H; y+=cell*4) {
+      ctx.beginPath(); ctx.arc(x,y,1.6,0,Math.PI*2)
+      ctx.fillStyle='rgba(0,216,127,0.09)'; ctx.fill()
+    }
+  }
+  FLOW_LINES.forEach(line => {
+    ctx.beginPath()
+    for(let x=0; x<=W; x+=16) {
+      const y = line.y + Math.sin(x*0.006 + t*line.speed*1000 + line.phase)*line.amp
+      x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y)
+    }
+    ctx.strokeStyle = line.green ? 'rgba(0,216,127,0.045)' : 'rgba(255,107,53,0.03)'
+    ctx.lineWidth = 1; ctx.stroke()
+  })
+  const slideOffset = currentSlide * W
+  pts.forEach(p => {
+    const screenX = ((p.x - slideOffset) % (W*4) + W*4) % (W*4)
+    if(screenX < 0 || screenX > W) { p.x += p.vx; p.y += p.vy; return }
+    p.x += p.vx; p.y += p.vy; p.phase += 0.015
+    if(p.y < -10) p.y = H+10
+    if(p.y > H+10) p.y = -10
+    const opacity = (Math.sin(p.phase)*0.2+0.3)*p.a
+    ctx.beginPath(); ctx.arc(screenX,p.y,p.r,0,Math.PI*2)
+    ctx.fillStyle = p.orange ? `rgba(255,107,53,${opacity})` : p.green ? `rgba(0,216,127,${opacity})` : `rgba(255,255,255,${opacity*0.4})`
+    ctx.fill()
+  })
+  // Multi-layer vignette — NO hard edges
+  const g = ctx.createRadialGradient(W*.5,H*.5,H*.05,W*.5,H*.5,W*1.1)
+  g.addColorStop(0,   'rgba(10,9,9,0)')
+  g.addColorStop(0.45,'rgba(10,9,9,0)')
+  g.addColorStop(0.72,'rgba(10,9,9,0.18)')
+  g.addColorStop(0.88,'rgba(10,9,9,0.52)')
+  g.addColorStop(1,   'rgba(10,9,9,0.82)')
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H)
+  // Edge fades
+  const gt = ctx.createLinearGradient(0,0,0,H*0.18)
+  gt.addColorStop(0,'rgba(10,9,9,0.65)'); gt.addColorStop(1,'rgba(10,9,9,0)')
+  ctx.fillStyle=gt; ctx.fillRect(0,0,W,H*0.18)
+  const gb = ctx.createLinearGradient(0,H*0.82,0,H)
+  gb.addColorStop(0,'rgba(10,9,9,0)'); gb.addColorStop(1,'rgba(10,9,9,0.75)')
+  ctx.fillStyle=gb; ctx.fillRect(0,H*0.82,W,H*0.18)
+  const gl = ctx.createLinearGradient(0,0,W*0.14,0)
+  gl.addColorStop(0,'rgba(10,9,9,0.7)'); gl.addColorStop(1,'rgba(10,9,9,0)')
+  ctx.fillStyle=gl; ctx.fillRect(0,0,W*0.14,H)
+  const gr = ctx.createLinearGradient(W*0.86,0,W,0)
+  gr.addColorStop(0,'rgba(10,9,9,0)'); gr.addColorStop(1,'rgba(10,9,9,0.7)')
+  ctx.fillStyle=gr; ctx.fillRect(W*0.86,0,W*0.14,H)
+  requestAnimationFrame(drawBg)
+}
+drawBg()
+
+/* SLIDE INIT */
+;(function(){
+  var track = document.getElementById('slide-track')
+  if(!track) return
+  track.style.width = '400vw'
+  track.style.height = '100vh'
+  track.querySelectorAll('.slide').forEach(function(s){ s.style.width='100vw'; s.style.minHeight='100vh' })
+  goToSlide(0, false)
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown') nextSlide()
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp') prevSlide()
+  })
+  var touchStartX = 0
+  document.addEventListener('touchstart', function(e){ touchStartX=e.touches[0].clientX },{passive:true})
+  document.addEventListener('touchend', function(e){
+    var diff = touchStartX - e.changedTouches[0].clientX
+    if(Math.abs(diff)>60) diff>0 ? nextSlide() : prevSlide()
+  },{passive:true})
+  var wheelLocked = false
+  document.addEventListener('wheel', function(e){
+    if(wheelLocked) return
+    wheelLocked = true
+    setTimeout(function(){wheelLocked=false},900)
+    if(e.deltaY>30) nextSlide()
+    else if(e.deltaY<-30) prevSlide()
+  },{passive:true})
+})()
+
+/* REVEAL */
+const revealed = new Set()
+function triggerReveals(slideIndex) {
+  const slide = document.getElementById('slide-'+slideIndex)
+  if(!slide) return
+  slide.querySelectorAll('.reveal').forEach((el, i) => {
+    const key = slideIndex+'-'+i
+    if(revealed.has(key)) return
+    const delay = parseInt(el.dataset.delay||0)
+    setTimeout(() => { el.classList.add('visible'); revealed.add(key) }, delay)
+  })
+  if(slideIndex === 1) setTimeout(initFeatureTilt, 500)
+}
+setTimeout(() => triggerReveals(0), 200)
+
+/* CALCULATOR */
+function updateCalc() {
+  const val = parseFloat(document.getElementById('calc-value')?.value)||0
+  const rate = parseFloat(document.getElementById('calc-rate')?.value)||0
+  const deals = parseFloat(document.getElementById('calc-deals')?.value)||0
+  const monthly = val*(rate/100)*deals, annual = monthly*12
+  const gapM = monthly*0.08, gapY = gapM*12
+  animNum('calc-monthly', monthly)
+  animNum('calc-annual', annual)
+  animNum('calc-gap-month', gapM)
+  animNum('calc-gap-year', gapY)
+}
+function animNum(id, target) {
+  const el = document.getElementById(id)
+  if(!el) return
+  const start = parseFloat(el.dataset.current||0)
+  el.dataset.current = target
+  const duration = 350, startTime = Date.now()
+  function update() {
+    const progress = Math.min((Date.now()-startTime)/duration, 1)
+    const eased = 1-Math.pow(1-progress, 3)
+    el.textContent = '$'+Math.round(start+(target-start)*eased).toLocaleString()
+    if(progress<1) requestAnimationFrame(update)
+  }
+  update()
+}
+updateCalc()
+
+/* RIPPLE */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('a,button')
+  if(!btn) return
+  const pos = window.getComputedStyle(btn).position
+  if(pos==='static') btn.style.position='relative'
+  btn.style.overflow='hidden'
+  const r = document.createElement('span')
+  r.className='ripple'
+  const rect = btn.getBoundingClientRect()
+  const size = Math.max(rect.width,rect.height)*2.2
+  r.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`
+  btn.appendChild(r)
+  setTimeout(()=>r.remove(), 700)
+})
+
+/* FEATURE CARD 3D TILT */
 function initFeatureTilt() {
   document.querySelectorAll('.fb-card').forEach(card => {
-    if(card._tiltBound) return;
-    card._tiltBound = true;
-
+    if(card._tiltBound) return
+    card._tiltBound = true
     card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const cx = rect.width / 2;
-      const cy = rect.height / 2;
-      // Tilt — max 12 degrees
-      const rotX = ((y - cy) / cy) * -10;
-      const rotY = ((x - cx) / cx) * 10;
-      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(28px) scale(1.03)`;
-      // Glow follows cursor
-      card.style.setProperty('--mx', `${(x / rect.width) * 100}%`);
-      card.style.setProperty('--my', `${(y / rect.height) * 100}%`);
-    });
-
+      const rect = card.getBoundingClientRect()
+      const x = e.clientX - rect.left, y = e.clientY - rect.top
+      const rotX = ((y - rect.height/2) / (rect.height/2)) * -10
+      const rotY = ((x - rect.width/2) / (rect.width/2)) * 10
+      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(28px) scale(1.03)`
+      card.style.setProperty('--mx', `${(x/rect.width)*100}%`)
+      card.style.setProperty('--my', `${(y/rect.height)*100}%`)
+      card.style.zIndex = '10'
+    })
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)';
-    });
+      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)'
+      card.style.zIndex = '1'
+    })
+  })
+}
+initFeatureTilt()
+setTimeout(initFeatureTilt, 1500)
 
-    card.addEventListener('mouseenter', () => {
-      // Lift above siblings
-      card.style.zIndex = '10';
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.zIndex = '1';
-      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)';
-    });
-  });
+if(!localStorage.getItem('stackd-cookies')) {
+  document.getElementById('cookie-bar').style.display='flex'
 }
 
-// Init immediately and re-init when features slide becomes visible
-initFeatureTilt();
-setTimeout(initFeatureTilt, 800);
-setTimeout(initFeatureTilt, 2000);
-
-} catch(err){ console.error('Stackd error:',err); }
+} catch(e) { console.error('Stackd landing error:', e) }
 </script>
+<script src="cards3d.js"></script>
 </body>
 </html>
