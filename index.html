@@ -579,6 +579,28 @@ function initPulseStrip() {
 }
 setTimeout(initPulseStrip, 800)
 
+/* PULSE CARD TILT + GLOW */
+function initPulseTilt() {
+  document.querySelectorAll('.pulse-card').forEach(card => {
+    if(card._tiltBound) return
+    card._tiltBound = true
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      const rotX = ((y - rect.height/2) / (rect.height/2)) * -10
+      const rotY = ((x - rect.width/2) / (rect.width/2)) * 10
+      card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(12px) scale(1.04)`
+      card.style.setProperty('--mx', `${(x/rect.width)*100}%`)
+      card.style.setProperty('--my', `${(y/rect.height)*100}%`)
+    })
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = ''
+    })
+  })
+}
+setTimeout(initPulseTilt, 1200)
+
 } catch(e) { console.error('Stackd landing error:', e) }
 </script>
 <script src="cards3d.js"></script>
