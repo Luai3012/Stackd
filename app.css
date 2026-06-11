@@ -1352,8 +1352,30 @@ select option { background: var(--bg-3); }
 }
 .btn-danger:hover { background: var(--orange-2); }
 
-.btn-sm { padding: 6px 12px; font-size: 12px; }
-.btn-sm .ms { font-size: 14px; }
+.btn-career {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  background: var(--violet);
+  color: #000;
+  border: none;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-d);
+  transition: background 0.15s, box-shadow 0.15s, transform 0.15s var(--spring);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 0 3px rgba(167,139,250,0.2), 0 0 16px rgba(167,139,250,0.15);
+}
+.btn-career:hover {
+  background: #C4B5FD;
+  box-shadow: 0 0 0 3px rgba(167,139,250,0.4), 0 0 32px rgba(167,139,250,0.35);
+  transform: translateY(-1px);
+}
+.btn-career.btn-sm { padding: 6px 12px; font-size: 12px; }
 
 /* ============================================ TOAST */
 .toast {
