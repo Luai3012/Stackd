@@ -230,8 +230,16 @@
     .plan-btn.free:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
     .plan-btn.pro { background: var(--green); color: #000; }
     .plan-btn.pro:hover { background: #00F090; box-shadow: 0 0 28px rgba(0,216,127,0.4); }
-    .plan-btn.career { background: var(--violet); color: #000; }
-    .plan-btn.career:hover { background: #C4B5FD; box-shadow: 0 0 28px rgba(167,139,250,0.4); }
+    .plan-btn.career {
+      background: var(--violet);
+      color: #000;
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.2), 0 0 20px rgba(167,139,250,0.15);
+    }
+    .plan-btn.career:hover {
+      background: #C4B5FD;
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.4), 0 0 40px rgba(167,139,250,0.35);
+      transform: translateY(-2px);
+    }
 
     /* COMPARISON TABLE */
     .comparison-section {
