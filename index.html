@@ -287,7 +287,10 @@
 let currentSlide = 0
 const totalSlides = 4
 
+function isMobile() { return window.innerWidth <= 768 }
+
 function goToSlide(index, animate) {
+  if(isMobile()) return  // mobile uses native scroll, no JS transform
   if(animate===undefined) animate=true
   const track = document.getElementById('slide-track')
   const footer = document.getElementById('page-footer')
@@ -306,8 +309,31 @@ function goToSlide(index, animate) {
   setTimeout(function(){ triggerReveals(currentSlide) }, animate ? 400 : 50)
 }
 
-function nextSlide() { goToSlide(currentSlide+1) }
-function prevSlide() { goToSlide(currentSlide-1) }
+function nextSlide() { if(!isMobile()) goToSlide(currentSlide+1) }
+function prevSlide() { if(!isMobile()) goToSlide(currentSlide-1) }
+
+function setupMobile() {
+  const track = document.getElementById('slide-track')
+  const footer = document.getElementById('page-footer')
+  if(!track) return
+  // Kill any transform, let it be a normal block flow
+  track.style.transform = 'none'
+  track.style.transition = 'none'
+  track.style.width = 'auto'
+  track.style.height = 'auto'
+  track.style.display = 'block'
+  // Show footer always on mobile
+  if(footer) footer.style.display = 'block'
+  // Reveal all slides immediately
+  for(let i=0; i<totalSlides; i++) triggerReveals(i)
+  // Hide arrows/dots
+  var prev = document.getElementById('slide-prev')
+  var next = document.getElementById('slide-next')
+  var dots = document.getElementById('slide-dots')
+  if(prev) prev.style.display = 'none'
+  if(next) next.style.display = 'none'
+  if(dots) dots.style.display = 'none'
+}
 
 function toggleNav() {
   document.getElementById('nav-links').classList.toggle('open')
@@ -439,6 +465,10 @@ drawBg()
 
 /* SLIDE INIT */
 ;(function(){
+  if(isMobile()) {
+    setupMobile()
+    return
+  }
   var track = document.getElementById('slide-track')
   if(!track) return
   track.style.width = '400vw'
@@ -463,6 +493,11 @@ drawBg()
     if(e.deltaY>30) nextSlide()
     else if(e.deltaY<-30) prevSlide()
   },{passive:true})
+  // Re-check on resize
+  window.addEventListener('resize', function(){
+    if(isMobile()) { setupMobile() }
+    else { goToSlide(currentSlide, false) }
+  })
 })()
 
 /* REVEAL */
