@@ -1285,10 +1285,13 @@ function escHtml(str) {
 /* ============================================ 3D TILT CARDS */
 function initTiltCards() {
   const cards = document.querySelectorAll(
-    '.metric-card, .bento-card, .settings-block, .accel-card, .plan-card, .perf-top-card, .timeline-content, .fb-card'
+    '.metric-card, .bento-card, .settings-block, .accel-card, .perf-top-card, .timeline-content'
   )
 
   cards.forEach(card => {
+    if(card._tiltBound) return
+    card._tiltBound = true
+
     card.addEventListener('mousemove', e => {
       const rect = card.getBoundingClientRect()
       const x = e.clientX - rect.left
@@ -1297,8 +1300,7 @@ function initTiltCards() {
       const cy = rect.height / 2
       const rotX = ((y - cy) / cy) * -8
       const rotY = ((x - cx) / cx) * 8
-
-      card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`
+      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(6px)`
       card.style.setProperty('--mx', `${(x / rect.width) * 100}%`)
       card.style.setProperty('--my', `${(y / rect.height) * 100}%`)
     })
