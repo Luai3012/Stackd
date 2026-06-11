@@ -131,14 +131,33 @@
       gap: 0;
       position: relative;
       overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.12s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
     }
-    .plan-card:hover { transform: translateY(-4px); }
+    /* Cursor-following glow */
+    .plan-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,216,127,0.11) 0%, transparent 58%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .plan-card:hover::before { opacity: 1; }
+    .plan-card > * { position: relative; z-index: 1; }
+    .plan-card:hover {
+      transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(16px) scale(1.02);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 30px rgba(0,216,127,0.1);
+    }
 
     .plan-card.plan-pro { border-color: rgba(0,216,127,0.3); background: linear-gradient(135deg, var(--bg-2) 0%, rgba(0,216,127,0.04) 100%); }
-    .plan-card.plan-pro:hover { border-color: rgba(0,216,127,0.55); }
+    .plan-card.plan-pro:hover { border-color: rgba(0,216,127,0.6); box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 40px rgba(0,216,127,0.15); }
     .plan-card.plan-career { border-color: rgba(167,139,250,0.25); background: linear-gradient(135deg, var(--bg-2) 0%, rgba(167,139,250,0.04) 100%); }
-    .plan-card.plan-career:hover { border-color: rgba(167,139,250,0.5); }
+    .plan-card.plan-career::before { background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(167,139,250,0.1) 0%, transparent 58%); }
+    .plan-card.plan-career:hover { border-color: rgba(167,139,250,0.6); box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 40px rgba(167,139,250,0.12); }
 
     .plan-glow {
       position: absolute;
@@ -592,6 +611,23 @@ window.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
   (function tick(){d.style.left=mx+'px';d.style.top=my+'px';rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(tick);})();
   document.querySelectorAll('a,button').forEach(function(el){el.addEventListener('mouseenter',function(){r.classList.add('ring-hover');d.classList.add('dot-hover');});el.addEventListener('mouseleave',function(){r.classList.remove('ring-hover');d.classList.remove('dot-hover');});});
+
+  // Plan card 3D tilt + glow
+  document.querySelectorAll('.plan-card').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var rotX = ((y - rect.height/2) / (rect.height/2)) * -8;
+      var rotY = ((x - rect.width/2) / (rect.width/2)) * 8;
+      card.style.transform = 'perspective(900px) rotateX('+rotX+'deg) rotateY('+rotY+'deg) translateZ(20px) scale(1.02)';
+      card.style.setProperty('--mx', (x/rect.width*100)+'%');
+      card.style.setProperty('--my', (y/rect.height*100)+'%');
+    });
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = '';
+    });
+  });
 });
 </script>
 </body>
