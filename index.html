@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="landing.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
@@ -94,76 +95,7 @@
     </div>
 
     <div class="hero-visual reveal" data-dir="right" data-delay="200">
-      <div class="pay-slip">
-
-        <!-- Top: who this is for -->
-        <div class="ps-header">
-          <div class="ps-header-left">
-            <div class="ps-name" id="ps-name">Alex M.</div>
-            <div class="ps-role">BD Associate · Q3 2026</div>
-          </div>
-          <div class="ps-live">
-            <div class="ps-live-dot"></div>
-            tracking live
-          </div>
-        </div>
-
-        <!-- The number that matters -->
-        <div class="ps-main">
-          <div class="ps-main-label">You are owed</div>
-          <div class="ps-main-amount" id="ps-amount">$0</div>
-          <div class="ps-main-sub">
-            across <span class="ps-accent" id="ps-deals">4 deals</span> this month
-          </div>
-        </div>
-
-        <!-- Breakdown lines — like a real payslip -->
-        <div class="ps-lines">
-          <div class="ps-line">
-            <div class="ps-line-left">
-              <div class="ps-line-dot green"></div>
-              <span>Acme Corp renewal</span>
-            </div>
-            <span class="ps-line-amount green">$3,200</span>
-          </div>
-          <div class="ps-line">
-            <div class="ps-line-left">
-              <div class="ps-line-dot green"></div>
-              <span>Marriott MENA Q3</span>
-            </div>
-            <span class="ps-line-amount green">$1,480</span>
-          </div>
-          <div class="ps-line ps-line-gap">
-            <div class="ps-line-left">
-              <div class="ps-line-dot orange"></div>
-              <span>F&amp;B Partnership Q2</span>
-            </div>
-            <div class="ps-line-right">
-              <span class="ps-line-amount orange">−$320</span>
-              <span class="ps-line-tag">gap</span>
-            </div>
-          </div>
-          <div class="ps-line ps-line-pending">
-            <div class="ps-line-left">
-              <div class="ps-line-dot muted"></div>
-              <span>Corporate travel block</span>
-            </div>
-            <span class="ps-line-amount muted">$640 pending</span>
-          </div>
-        </div>
-
-        <!-- Bottom bar: the gap truth -->
-        <div class="ps-footer">
-          <div class="ps-footer-track">
-            <div class="ps-footer-fill" id="ps-fill"></div>
-          </div>
-          <div class="ps-footer-row">
-            <span class="ps-footer-label">Quota — <span class="green" id="ps-quota-pct">68%</span> attained</span>
-            <span class="ps-footer-gap">$320 gap · <button class="ps-draft-btn">draft dispute</button></span>
-          </div>
-        </div>
-
-      </div>
+      <div id="hero-3d-canvas" class="hero-3d-canvas"></div>
     </div>
 
     <!-- Slide indicator -->
@@ -587,22 +519,8 @@ function triggerReveals(slideIndex) {
 setTimeout(() => triggerReveals(0), 200)
 
 /* ============================================
-   PAY SLIP ANIMATION
+   PAY SLIP ANIMATION — removed, replaced by Three.js
 ============================================ */
-setTimeout(function() {
-  var el = document.getElementById('ps-amount')
-  if(el) {
-    var target = 4820, duration = 1600, start = Date.now()
-    ;(function update(){
-      var progress = Math.min((Date.now()-start)/duration, 1)
-      var eased = 1-Math.pow(1-progress, 3)
-      el.textContent = '$'+Math.round(eased*target).toLocaleString()
-      if(progress<1) requestAnimationFrame(update)
-    })()
-  }
-  var fill = document.getElementById('ps-fill')
-  if(fill) fill.style.width = '68%'
-}, 600)
 
 /* ============================================
    COUNTER ANIMATION
@@ -718,5 +636,6 @@ if(!localStorage.getItem('stackd-cookies')) {
 
 } catch(e) { console.error('Stackd landing error:', e) }
 </script>
+<script src="cards3d.js"></script>
 </body>
 </html>
