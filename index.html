@@ -78,7 +78,7 @@
       <div class="hero-proof reveal" data-dir="up" data-delay="500">
         <div class="proof-item">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M10 3L5 9 2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          7-day guarantee
+          14-day guarantee
         </div>
         <div class="proof-divider"></div>
         <div class="proof-item">
@@ -219,7 +219,7 @@
       <h2 class="final-h2">Your company tracks<br>everything you do.</h2>
       <p class="final-sub">It's time you tracked what they owe you.</p>
       <a href="app.html" class="final-btn"><span>Start tracking — it's free</span><span class="final-btn-arrow">→</span></a>
-      <p class="final-proof">No credit card &nbsp;&middot;&nbsp; 7-day guarantee &nbsp;&middot;&nbsp; Cancel anytime</p>
+      <p class="final-proof">No credit card &nbsp;&middot;&nbsp; 14-day guarantee &nbsp;&middot;&nbsp; Cancel anytime</p>
       <div class="final-links">
         <a href="pricing.html" class="final-link">Pricing →</a>
         <a href="support.html" class="final-link">Support →</a>
@@ -324,8 +324,12 @@ function setupMobile() {
   track.style.display = 'block'
   // Show footer always on mobile
   if(footer) footer.style.display = 'block'
-  // Reveal all slides immediately
-  for(let i=0; i<totalSlides; i++) triggerReveals(i)
+  // Force ALL reveal elements visible immediately — no waiting
+  document.querySelectorAll('.reveal').forEach(el => {
+    el.classList.add('visible')
+    el.style.opacity = '1'
+    el.style.transform = 'none'
+  })
   // Hide arrows/dots
   var prev = document.getElementById('slide-prev')
   var next = document.getElementById('slide-next')
