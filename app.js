@@ -185,7 +185,6 @@ async function loadApp() {
   await loadSubscription()
   await loadCompPlan()
   await loadDeals()
-  reinitTilt()
 }
 
 /* ============================================ TAB NAVIGATION */
@@ -200,7 +199,6 @@ function showTab(tab) {
   if(tab==='commission') renderCommissionTab()
   if(tab==='performance') renderPerformanceTab()
   if(tab==='workspace') renderWorkspaceTab()
-  reinitTilt()
 }
 
 function toggleSidebar() {
