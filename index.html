@@ -92,6 +92,41 @@
         </div>
       </div>
     </div>
+
+    <!-- HERO MID — LIVE PULSE STRIP -->
+    <div class="hero-mid">
+      <div class="pulse-strip">
+
+        <div class="pulse-item" id="pulse-0">
+          <div class="pulse-node"><div class="pulse-node-dot"></div></div>
+          <div class="pulse-card">
+            <div class="pulse-label">Avg. gap found</div>
+            <div class="pulse-value" id="pulse-val-0">$0</div>
+            <div class="pulse-sub">per rep, per month</div>
+          </div>
+        </div>
+
+        <div class="pulse-item" id="pulse-1">
+          <div class="pulse-node"><div class="pulse-node-dot"></div></div>
+          <div class="pulse-card">
+            <div class="pulse-label">Time to dispute</div>
+            <div class="pulse-value" id="pulse-val-1">0s</div>
+            <div class="pulse-sub">from gap to email sent</div>
+          </div>
+        </div>
+
+        <div class="pulse-item" id="pulse-2">
+          <div class="pulse-node"><div class="pulse-node-dot"></div></div>
+          <div class="pulse-card">
+            <div class="pulse-label">Quota visibility</div>
+            <div class="pulse-value" id="pulse-val-2">0%</div>
+            <div class="pulse-sub">always. not just at review</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <div class="hero-visual reveal" data-dir="right" data-delay="200">
       <div id="hero-3d-canvas" class="hero-3d-canvas"></div>
     </div>
@@ -516,6 +551,33 @@ setTimeout(initFeatureTilt, 1500)
 if(!localStorage.getItem('stackd-cookies')) {
   document.getElementById('cookie-bar').style.display='flex'
 }
+
+/* PULSE STRIP — staggered reveal + count-up */
+function initPulseStrip() {
+  const items = [
+    { id: 'pulse-0', valId: 'pulse-val-0', target: 480, prefix: '$', suffix: '', duration: 1800 },
+    { id: 'pulse-1', valId: 'pulse-val-1', target: 60,  prefix: '',  suffix: 's', duration: 1200 },
+    { id: 'pulse-2', valId: 'pulse-val-2', target: 100, prefix: '',  suffix: '%', duration: 1500 },
+  ]
+  items.forEach((item, i) => {
+    setTimeout(() => {
+      const el = document.getElementById(item.id)
+      if(el) el.classList.add('visible')
+      const val = document.getElementById(item.valId)
+      if(!val) return
+      const start = Date.now()
+      function tick() {
+        const p = Math.min((Date.now()-start)/item.duration, 1)
+        const eased = 1 - Math.pow(1-p, 3)
+        const current = Math.round(item.target * eased)
+        val.textContent = item.prefix + current.toLocaleString() + item.suffix
+        if(p < 1) requestAnimationFrame(tick)
+      }
+      tick()
+    }, 600 + i * 250)
+  })
+}
+setTimeout(initPulseStrip, 800)
 
 } catch(e) { console.error('Stackd landing error:', e) }
 </script>
