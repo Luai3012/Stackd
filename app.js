@@ -106,11 +106,13 @@ async function signUp() {
   const name = document.getElementById('signup-name').value.trim()
   const email = document.getElementById('signup-email').value.trim()
   const password = document.getElementById('signup-password').value
+  const consent = document.getElementById('signup-consent')?.checked
   const errorEl = document.getElementById('auth-error')
   const successEl = document.getElementById('auth-success')
   errorEl.textContent = ''; successEl.textContent = ''
   if(!name||!email||!password){errorEl.textContent='Please fill in all fields.';return}
   if(password.length<6){errorEl.textContent='Password must be at least 6 characters.';return}
+  if(!consent){errorEl.textContent='Please agree to the Terms of Service and Privacy Policy to continue.';return}
   const {error} = await db.auth.signUp({email, password, options:{data:{full_name:name}}})
   if(error){errorEl.textContent=error.message}
   else{successEl.textContent='Account created! Sign in below.';showAuthTab('login')}
@@ -183,6 +185,7 @@ async function loadApp() {
   await loadSubscription()
   await loadCompPlan()
   await loadDeals()
+  reinitTilt()
 }
 
 /* ============================================ TAB NAVIGATION */
@@ -197,6 +200,7 @@ function showTab(tab) {
   if(tab==='commission') renderCommissionTab()
   if(tab==='performance') renderPerformanceTab()
   if(tab==='workspace') renderWorkspaceTab()
+  reinitTilt()
 }
 
 function toggleSidebar() {
@@ -1278,6 +1282,38 @@ function showToast(msg, type='') {
 
 function escHtml(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+}
+
+/* ============================================ 3D TILT CARDS */
+function initTiltCards() {
+  const cards = document.querySelectorAll(
+    '.metric-card, .bento-card, .settings-block, .accel-card, .plan-card, .perf-top-card, .timeline-content, .fb-card'
+  )
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      const cx = rect.width / 2
+      const cy = rect.height / 2
+      const rotX = ((y - cy) / cy) * -8
+      const rotY = ((x - cx) / cx) * 8
+
+      card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`
+      card.style.setProperty('--mx', `${(x / rect.width) * 100}%`)
+      card.style.setProperty('--my', `${(y / rect.height) * 100}%`)
+    })
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = ''
+    })
+  })
+}
+
+// Init on load and re-init when tabs switch (new cards render)
+function reinitTilt() {
+  setTimeout(initTiltCards, 100)
 }
 
 function dismissDisclaimer() {
