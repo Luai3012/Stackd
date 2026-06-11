@@ -173,10 +173,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   display: flex;
   flex-direction: column;
   gap: 3px;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s ease-out;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
-.pulse-card:hover { border-color: rgba(0,216,127,0.25); }
-.pulse-item:nth-child(2) .pulse-card:hover { border-color: rgba(255,107,53,0.25); }
+.pulse-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,216,127,0.18) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+  z-index: 0;
+}
+.pulse-card:hover { border-color: rgba(0,216,127,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 16px rgba(0,216,127,0.1); }
+.pulse-card:hover::before { opacity: 1; }
+.pulse-card > * { position: relative; z-index: 1; }
+.pulse-item:nth-child(2) .pulse-card::before { background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,107,53,0.18) 0%, transparent 65%); }
+.pulse-item:nth-child(2) .pulse-card:hover { border-color: rgba(255,107,53,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 16px rgba(255,107,53,0.1); }
 
 .pulse-label {
   font-family: var(--font-m);
