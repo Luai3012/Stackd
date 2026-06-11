@@ -269,11 +269,36 @@
     back.rotation.y = Math.PI
     group.add(back)
 
-    // No halo plane — glow is edge-only to avoid rectangular cutoff artifact
+    // Inner glow — radial gradient plane, sits just in front of face
+    const igcv = document.createElement('canvas')
+    igcv.width = 256; igcv.height = 256
+    const igctx = igcv.getContext('2d')
+    const igg = igctx.createRadialGradient(128, 128, 20, 128, 128, 128)
+    const ihex = '#' + glowHex.toString(16).padStart(6,'0')
+    igg.addColorStop(0,    ihex + 'CC')
+    igg.addColorStop(0.35, ihex + '77')
+    igg.addColorStop(0.65, ihex + '22')
+    igg.addColorStop(1,    ihex + '00')
+    igctx.fillStyle = igg; igctx.fillRect(0,0,256,256)
+    const innerGlowMat = new THREE.MeshBasicMaterial({
+      map: new THREE.CanvasTexture(igcv),
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      depthTest: false,
+    })
+    const innerGlow = new THREE.Mesh(new THREE.PlaneGeometry(cw, ch), innerGlowMat)
+    innerGlow.position.z = depth / 2 + 0.005
+    innerGlow.renderOrder = 1
+    group.add(innerGlow)
+
+    // No external halo — glow stays inside card bounds
 
     group._face = face
     group._faceMat = face.material
-    group._haloMat = null  // no halo plane
+    group._innerGlowMat = innerGlowMat
+    group._haloMat = null
     group._edgeMats = group.children.slice(1, 5).map(c => c.material)
     group._hovered = 0
     group._baseZ = 0
@@ -358,6 +383,9 @@
       card._edgeMats.forEach(m => {
         m.opacity = 0.3 + h * 0.7
       })
+
+      // Inner glow — fades in on hover, stays within card bounds
+      card._innerGlowMat.opacity = h * 0.55
 
       // Face — very slightly brighter/more opaque on hover
       card._faceMat.opacity = 0.95 + h * 0.04
