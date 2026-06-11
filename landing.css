@@ -206,6 +206,13 @@ html, body {
   padding: 80px 5vw 80px;
 }
 
+/* First slide — hero canvas glow needs to bleed */
+.slide:first-child {
+  overflow: visible;
+  /* Still clip horizontally so adjacent slides don't show */
+  clip-path: inset(0 0 0 0);
+}
+
 /* ============================================
    SLIDE NAVIGATION
 ============================================ */
@@ -325,9 +332,14 @@ html, body {
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+  overflow: visible;
 }
 
-.hero-bg-text {
+.hero-visual {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
   position: absolute;
   bottom: -60px; left: -40px;
   font-family: var(--font-d);
@@ -433,25 +445,24 @@ html, body {
    3D GLASS CARD CANVAS
 ============================================ */
 .hero-3d-canvas {
-  width: 100%;
-  height: 520px;
+  width: 120%;
+  margin-left: -10%;
+  height: 580px;
   position: relative;
-  border-radius: 24px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .hero-3d-canvas canvas {
   width: 100% !important;
   height: 100% !important;
-  border-radius: 24px;
 }
 
 @media (max-width: 900px) {
-  .hero-3d-canvas { height: 380px; }
+  .hero-3d-canvas { width: 100%; margin-left: 0; height: 400px; }
 }
 
 @media (max-width: 640px) {
-  .hero-3d-canvas { height: 320px; }
+  .hero-3d-canvas { height: 340px; }
 }
 
 .ps-header {
