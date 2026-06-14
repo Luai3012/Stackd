@@ -1234,6 +1234,20 @@ body {
 .plan-info-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
 .plan-info-name { font-family: var(--font-d); font-size: 16px; font-weight: 700; }
 .plan-info-desc { font-size: 13px; color: var(--text-2); margin-top: 3px; }
+.coming-soon-app-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.02);
+  border: 0.5px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+.coming-soon-app-note strong { color: var(--text-2); font-weight: 500; }
 .plan-upgrade-btns { display: flex; gap: 8px; flex-wrap: wrap; }
 
 .guarantee-note {
