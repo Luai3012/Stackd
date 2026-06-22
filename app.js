@@ -7,7 +7,7 @@
 const SUPABASE_URL = 'https://vklkrgzizqjxpwqskyjh.supabase.co'
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrbGtyZ3ppenFqeHB3cXNreWpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5OTg2NTUsImV4cCI6MjA5NjU3NDY1NX0.cPV8iCRxhOZ8aML1y6GGRhrvz8QDjDHw9tkqKIo709A'
 const PADDLE_CLIENT_TOKEN = 'live_056052c80b254a9355e68c3b0a5'
-const PADDLE_PRICES = { pro: 'pri_01ktpq347vsgkzx5w53r1f1fph', career: 'pri_01ktpq7py8m99rq5gyseg87086' }
+const PADDLE_PRICES = { pro: 'pri_01kvq10w9q97vs9mqntz74zb4d', career: 'pri_01ktpq7py8m99rq5gyseg87086' }
 
 const { createClient } = supabase
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
